@@ -1,0 +1,13 @@
+Package: gL0Learn
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2021-10-22
+Author: Tim Nonet
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: MIT License
+Imports: Rcpp (>= 1.0.5)
+Suggests: 
+    testthat (>= 3.0.0)
+LinkingTo: Rcpp, RcppArmadillo
