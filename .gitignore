@@ -33,6 +33,42 @@ vignettes/*.pdf
 
 # Temporary files created by R markdown
 *.utf8.md
+
+# Rcpp gitignore
+inst/lib
+.Rproj.user
+src/*.o
+src/*.so
+src/*.dll
+src/symbols.rds
+.Rhistory
+.RData
+.DS_Store
+
+## QtCreator
+Rcpp.pro
+Rcpp.pro.user
+*.autosave
+.#*
+
+*.tar.gz
+
+vignettes/*_cache
+
+## GNU global
+GPATH
+GRTAGS
+GTAGS
+
+##
+local/
+
+## docker helpers
+docker/*sh
+docker/*/*.sh
+
+## Emacs
+*~
 *.knit.md
 
 # R Environment Variables
