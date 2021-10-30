@@ -3,6 +3,7 @@
 #include "RcppArmadillo.h"
 #include "oracle.h"
 #include "fitmodel.h"
+#include "gap.h"
 // [[Rcpp::depends(RcppArmadillo)]]
 
 #include <chrono>
@@ -15,6 +16,8 @@ struct CDParams
     const double M; 
     const double atol;
     const double rtol;
+    const GapMethod gap_method;
+    const bool one_normalize;
     const size_t max_iter;
     const double l0;
     const double l1;
@@ -23,11 +26,14 @@ struct CDParams
     CDParams(const double M,
              const double atol,
              const double rtol,
+             const GapMethod gap_method,
+             const bool one_normalize,
              const size_t max_iter,
              const double l0,
              const double l1,
              const double l2) : 
-        M{M}, atol{atol}, rtol{rtol}, max_iter{max_iter}, l0{l0}, l1{l1}, l2{l2}
+        M{M}, atol{atol}, rtol{rtol}, gap_method{gap_method}, 
+        one_normalize{one_normalize}, max_iter{max_iter}, l0{l0}, l1{l1}, l2{l2}
     {
     };
 };
@@ -42,6 +48,7 @@ class CD
            coordinate_vector active_set): 
             Y{Y},  S_diag{arma::sum(arma::square(Y), 0)}, params{params}
         {
+            Rcpp::Rcout << "S_diag shape" << S_diag.size() << "\n";
             this->theta = theta;
             this->active_set = active_set;
             this->R = this->Y*this->theta;
@@ -100,9 +107,9 @@ void CD<TY, TR, TT>::inner_fit(){
         const auto old_theta_jj = this->theta(j, j);
         
         const auto a = this->S_diag(j)/old_theta_ii + this->S_diag(i)/old_theta_jj;
-        const auto b = ((2*arma::dot(this->Y.col(j), this->R.col(i)) - 2*old_theta_ij*this->S_diag(j))/old_theta_ii +
-                        (2*arma::dot(this->Y.col(i), this->R.col(j)) - 2*old_theta_ji*this->S_diag(i))/old_theta_jj);
-        const auto new_theta = Q_L0L2reg(a, b, this->params.l0, this->params.l2, this->params.M);
+        const auto b = 2*((arma::dot(this->Y.col(j), this->R.col(i)) - old_theta_ji*this->S_diag(j))/old_theta_ii +
+                          (arma::dot(this->Y.col(i), this->R.col(j)) - old_theta_ij*this->S_diag(i))/old_theta_jj);
+        const auto new_theta = overleaf_Q_L0L2reg(a, b, this->params.l0, this->params.l2);
         
         this->theta(i, j) = new_theta;
         this->theta(j, i) = new_theta;
@@ -114,17 +121,26 @@ void CD<TY, TR, TT>::inner_fit(){
         
     for (auto i=0; i < p; i++){
         this->R.col(i) -= this->theta(i, i)*this->Y.col(i);
-        this->theta(i, i) = R_nl(this->S_diag(i), arma::dot(this->R.col(i), this->R.col(i)));
+        // this->theta(i, i) = R_nl(this->S_diag(i), arma::dot(this->R.col(i), this->R.col(i)));
+        this->theta(i, i) = R_nl(this->S_diag(i), arma::norm(this->R.col(i) - this->theta(i, i)*this->Y.col(i)));
         this->R.col(i) += this->theta(i, i)*this->Y.col(i);
     }
 }
+
+// template<class TY, class TR, class TT>
+// bool inline CD<TY, TR, TT>::converged(const double old_objective,
+//                                       const double cur_objective,
+//                                       const size_t cur_iter){
+//     return ((cur_objective <= this->params.atol) 
+//                 || ((cur_iter > 1) && (std::abs(old_objective - cur_objective) < old_objective * this->params.rtol)));
+// };
+
 
 template<class TY, class TR, class TT>
 bool inline CD<TY, TR, TT>::converged(const double old_objective,
                                       const double cur_objective,
                                       const size_t cur_iter){
-    return ((cur_objective <= this->params.atol) 
-                || ((cur_iter > 1) && (std::abs(old_objective - cur_objective) < old_objective * this->params.rtol)));
+    return ((cur_iter > 1) && (relative_gap(old_objective, cur_objective, this->params.gap_method, this->params.one_normalize) <= this->params.rtol));
 };
 
 

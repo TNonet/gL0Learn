@@ -29,13 +29,51 @@ double inline prox_L0L2reg(const double beta, const double l0, const double l2, 
     }
 }
 
-double inline Q_L0L2reg(const double a, const double b, const double l0, const double l2, const double M)
+
+double inline Q_L0L2reg(const double a,
+                        const double b,
+                        const double l0, 
+                        const double l2,
+                        const double M)
 {
     const auto inv_2a = 1/(2*a);
     const auto beta = -b * inv_2a;
     const auto l0_a = l0 * inv_2a;
     const auto l2_a = l2 * inv_2a;
     return prox_L0L2reg(beta, l0_a, l2_a, M);
+};
+
+
+double inline overleaf_prox_L0L2reg(const double beta,
+                                    const double l0,
+                                    const double l2)
+{
+    const auto two_l2_plus_1 = 2*l2 + 1;
+    const auto thresh = std::sqrt(2*l0*two_l2_plus_1);
+    const auto max_val = beta/two_l2_plus_1;
+    const auto abs_beta = std::abs(beta);
+    
+    
+    if (abs_beta > thresh){
+        return max_val;
+    } else if (abs_beta < thresh) {
+        return 0;
+    } else {
+        return max_val/2;
+    }
+}
+
+
+double inline overleaf_Q_L0L2reg(const double a,
+                                 const double b,
+                                 const double l0,
+                                 const double l2)
+{
+    const auto inv_2a = 1/(2*a);
+    const auto beta = -b * inv_2a;
+    const auto l0_a = l0 * inv_2a;
+    const auto l2_a = l2 * inv_2a;
+    return overleaf_prox_L0L2reg(beta, l0_a, l2_a);
 };
 
 

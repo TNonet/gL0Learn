@@ -22,7 +22,7 @@ Rcpp::List gL0Learn_fit(const arma::mat& Y,
         }
     }
     
-    const CDParams params = CDParams(M, atol, rtol, max_iter, l0, l1, l2);
+    const CDParams params = CDParams(M, atol, rtol, GapMethod::both, true, max_iter, l0, l1, l2);
     
     CD<arma::mat, arma::mat, arma::mat> x = CD<arma::mat, arma::mat, arma::mat>(Y, theta_init, params, active_set);
     const fitmodel l = x.fit();
