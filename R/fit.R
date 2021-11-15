@@ -16,7 +16,17 @@
 #' local copy of x.
 #' 
 #' @export
-gL0Learn.gfit <- function(x, theta_init=NULL, atol=1e-6, rtol=1e-6, m=0, l0=0, l1=0, l2=0,max_iter=100, scale_x=FALSE){
+gL0Learn.gfit <- function(x,
+                          theta_init=NULL,
+                          atol=1e-6,
+                          rtol=1e-6,
+                          m=0, l0=0,
+                          l1=0,
+                          l2=0,
+                          max_iter=100,
+                          algorithm="CD",
+                          swap_iters=NULL,
+                          scale_x=FALSE){
     
     x_dims = dim(x)
     if (length(x_dims) != 2){
@@ -36,7 +46,12 @@ gL0Learn.gfit <- function(x, theta_init=NULL, atol=1e-6, rtol=1e-6, m=0, l0=0, l
         theta_init = diag(p)
     }
     
+    if (algorithm == "CD"){
+        return(.Call('_gL0Learn_gL0Learn_fit', PACKAGE = 'gL0Learn', y, theta_init, atol, rtol, m, l0, l1, l2, max_iter))
+    } else {
+        return(.Call('_gL0Learn_gL0Learn_psifit', PACKAGE = 'gL0Learn', Y, theta_init, atol, rtol, m, l0, l1, l2, max_iter))
+    }
     
-    return(.Call('_gL0Learn_gL0Learn_fit', PACKAGE = 'gL0Learn', y, theta_init, atol, rtol, m, l0, l1, l2, max_iter))
+
 }
     

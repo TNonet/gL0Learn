@@ -5,3 +5,7 @@ gL0Learn_fit <- function(Y, theta_init, atol, rtol, M, l0, l1, l2, max_iter) {
     .Call(`_gL0Learn_gL0Learn_fit`, Y, theta_init, atol, rtol, M, l0, l1, l2, max_iter)
 }
 
+gL0Learn_psifit <- function(Y, theta_init, atol, rtol, M, l0, l1, l2, max_iter) {
+    .Call(`_gL0Learn_gL0Learn_psifit`, Y, theta_init, atol, rtol, M, l0, l1, l2, max_iter)
+}
+

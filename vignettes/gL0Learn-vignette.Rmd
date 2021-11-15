@@ -53,8 +53,10 @@ library("gL0Learn")
 
 
 ```{r}
-data <- gL0Learn.generate_synthetic(1000,
-                                    10,
+n = 1000
+p = 50
+data <- gL0Learn.generate_synthetic(n,
+                                    p,
                                     "KR1",
                                     normalize = "covariance",
                                     seed = 1,
@@ -64,20 +66,28 @@ data <- gL0Learn.generate_synthetic(1000,
 ```
 
 ```{r}
-data$sigma
+data$theta
 
 ```
 
 ```{r}
-Y = data$X/sqrt(100)
-theta_init = diag(10)
+Y = data$X/sqrt(n)
+theta_init = diag(p)
 
 M = max(abs(data$theta*(1-theta_init)))
 ```
 
 ```{r}
 
-gL0Learn.gfit(Y, theta_init, m=M, l0=.1, l1=0, l2=0.5, scale_x = FALSE)
+fit <- gL0Learn.gfit(Y, theta_init, m=M, l0=0.01, l1=0, l2=0.01, scale_x = FALSE)
 ```
 
 
+```{r}
+
+fit$theta
+```
+```{r}
+fit <- gL0Learn.gfit(Y, theta_init, m=M, l0=.5, l1=0, l2=0.1, scale_x = FALSE, algorithm = "CDPSI")
+
+```

@@ -25,9 +25,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// gL0Learn_psifit
+Rcpp::List gL0Learn_psifit(const arma::mat& Y, arma::mat& theta_init, const double atol, const double rtol, const double M, const double l0, const double l1, const double l2, const size_t max_iter);
+RcppExport SEXP _gL0Learn_gL0Learn_psifit(SEXP YSEXP, SEXP theta_initSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP MSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP max_iterSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type theta_init(theta_initSEXP);
+    Rcpp::traits::input_parameter< const double >::type atol(atolSEXP);
+    Rcpp::traits::input_parameter< const double >::type rtol(rtolSEXP);
+    Rcpp::traits::input_parameter< const double >::type M(MSEXP);
+    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const size_t >::type max_iter(max_iterSEXP);
+    rcpp_result_gen = Rcpp::wrap(gL0Learn_psifit(Y, theta_init, atol, rtol, M, l0, l1, l2, max_iter));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gL0Learn_gL0Learn_fit", (DL_FUNC) &_gL0Learn_gL0Learn_fit, 9},
+    {"_gL0Learn_gL0Learn_psifit", (DL_FUNC) &_gL0Learn_gL0Learn_psifit, 9},
     {NULL, NULL, 0}
 };
 
