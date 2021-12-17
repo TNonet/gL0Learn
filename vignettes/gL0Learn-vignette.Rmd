@@ -54,7 +54,7 @@ library("gL0Learn")
 
 ```{r}
 n = 1000
-p = 50
+p = 100
 data <- gL0Learn.generate_synthetic(n,
                                     p,
                                     "KR1",
@@ -66,20 +66,20 @@ data <- gL0Learn.generate_synthetic(n,
 ```
 
 ```{r}
-data$theta
+data$theta[0:5, 0:5]
 
 ```
 
 ```{r}
 Y = data$X/sqrt(n)
-theta_init = diag(p)
-
-M = max(abs(data$theta*(1-theta_init)))
+theta_init = data$theta
+theta_init[1, 2] = 0
+theta_init[1, 3] = -0.6667
 ```
 
 ```{r}
 
-fit <- gL0Learn.gfit(Y, theta_init, m=M, l0=0.01, l1=0, l2=0.01, scale_x = FALSE)
+fit <- gL0Learn.gfit(Y, theta_init, l0=0.1, l1=0.01, l2=0.1, scale_x = FALSE, algorithm = "CD")
 ```
 
 

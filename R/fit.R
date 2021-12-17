@@ -20,7 +20,7 @@ gL0Learn.gfit <- function(x,
                           theta_init=NULL,
                           atol=1e-6,
                           rtol=1e-6,
-                          m=0, l0=0,
+                          l0=0,
                           l1=0,
                           l2=0,
                           max_iter=100,
@@ -46,10 +46,12 @@ gL0Learn.gfit <- function(x,
         theta_init = diag(p)
     }
     
+    ## TODO Check the diagonals of theta_init are non-zero and non negative
+    
     if (algorithm == "CD"){
-        return(.Call('_gL0Learn_gL0Learn_fit', PACKAGE = 'gL0Learn', y, theta_init, atol, rtol, m, l0, l1, l2, max_iter))
+        return(.Call('_gL0Learn_gL0Learn_fit', PACKAGE = 'gL0Learn', y, theta_init, atol, rtol, l0, l1, l2, max_iter))
     } else {
-        return(.Call('_gL0Learn_gL0Learn_psifit', PACKAGE = 'gL0Learn', Y, theta_init, atol, rtol, m, l0, l1, l2, max_iter))
+        return(.Call('_gL0Learn_gL0Learn_psifit', PACKAGE = 'gL0Learn', Y, theta_init, atol, rtol, l0, l1, l2, max_iter))
     }
     
 

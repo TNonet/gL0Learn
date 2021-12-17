@@ -50,7 +50,6 @@ double inline R_nl(const double a, const double b){
 //     const auto l2_a = l2 * inv_2a;
 //     return prox_L0L2reg(beta, l0_a, l2_a, M);
 // };
-
 template <class T>
 T inline overleaf_prox_L0L2reg(const T beta,
                                const T l0,
@@ -71,6 +70,69 @@ T inline overleaf_prox_L0L2reg(const T beta,
     // Rcpp::Rcout << "retrurn vec \n";
     // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     return abs_gte_thresh%max_val;
+}
+
+template <class T>
+T inline hussein_prox_L0L1L2_bounds_reg(const T beta,
+                                        const T l0,
+                                        const T l1,
+                                        const T l2,
+                                        const double lb,
+                                        const double ub)
+{
+    // In theroy, we can make lb and ub templated classes as long as we handle arma::clamp properly. Double vs Vector 
+    const T two_l2_plus_1 = 2*l2 + 1;
+    const T two_l0 = 2*l0;
+    const T abs_beta_m_l1 = beta.abs() - l1;
+    const T ns_beta_opt_no_l0 = abs_beta_m_l1/two_l2_plus_1;
+    const T beta_opt_no_l0 = arma::sign(beta)%ns_beta_opt_no_l0;
+    const T beta_opt_bounds = arma::clamp(beta_opt_no_l0, lb, ub);
+    const T delta = arma::sqrt(arma::max(arma::pow(abs_beta_m_l1,2) - two_l0%two_l2_plus_1, 0.));
+    
+    const auto crit_1 = ns_beta_opt_no_l0 >= arma::sqrt(two_l0/two_l2_plus_1);
+    const auto crit_2 = (beta_opt_no_l0 - delta <= beta_opt_bounds) & (beta_opt_bounds <= beta_opt_no_l0 + delta);
+    
+    return beta_opt_bounds*(crit_1 || crit_2);
+    
+}
+
+template <typename T> 
+int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
+template <typename T>
+inline T clamp(T x, T low, T high) {
+    // -O3 Compiler should remove branches
+    if (x < low) 
+        x = low;
+    if (x > high) 
+        x = high;
+    return x;
+}
+
+template <>
+double inline hussein_prox_L0L1L2_bounds_reg(const double beta,
+                                             const double l0,
+                                             const double l1,
+                                             const double l2,
+                                             const double lb,
+                                             const double ub)
+{
+    
+    const double two_l2_plus_1 = 2*l2 + 1;
+    const double two_l0 = 2*l0;
+    const double abs_beta_m_l1 = std::fabs(beta) - l1;
+    const double ns_beta_opt_no_l0 = abs_beta_m_l1/two_l2_plus_1;
+    const double beta_opt_no_l0 = sgn(beta)*ns_beta_opt_no_l0;
+    const double beta_opt_bounds = clamp(beta_opt_no_l0, lb, ub);
+    const double delta = std::sqrt(std::max(std::pow(abs_beta_m_l1,2) - two_l0*two_l2_plus_1, 0.));
+    
+    const auto crit_1 = ns_beta_opt_no_l0 >= std::sqrt(two_l0/two_l2_plus_1);
+    const auto crit_2 = (beta_opt_no_l0 - delta <= beta_opt_bounds) & (beta_opt_bounds <= beta_opt_no_l0 + delta);
+    
+    return beta_opt_bounds*(crit_1 || crit_2);
+    
 }
 
 template <>

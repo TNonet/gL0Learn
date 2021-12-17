@@ -6,14 +6,14 @@ Rcpp::List gL0Learn_fit(const arma::mat& Y,
                         arma::mat& theta_init,
                         const double atol,
                         const double rtol,
-                        const double M,
-                        const double l0, 
-                        const double l1, 
+                        const double l0,
+                        const double l1,
                         const double l2,
                         const size_t max_iter) {
     Rcpp::Rcout << "CD test_fit  Start \n";
     //coordinate_vector active_set = {{1, 0}, {2, 0}, {2, 1}};
-    
+
+    // TODO, pass in active set
     coordinate_vector active_set = {};
     const auto p = Y.n_cols;
     for (arma::uword i=0; i<p; i++){
@@ -22,14 +22,28 @@ Rcpp::List gL0Learn_fit(const arma::mat& Y,
         }
     }
     
-    const CDParams params = CDParams(M, atol, rtol, GapMethod::both, true, max_iter, l0, l1, l2);
+    // TODO, Ensure active set is sorted;
+    if (!is_sorted(active_set.begin(), active_set.end())){
+        Rcpp::stop("active_set must be sorted lexigraphically, but is not");
+    }
     
-    CD<arma::mat, arma::mat, arma::mat> x = CD<arma::mat, arma::mat, arma::mat>(Y, theta_init, params, active_set);
+    const PenaltyL0L1L2<double> penalty(l0, l1, l2);
+
+    const CDParams<NoBounds, PenaltyL0L1L2, double> params = CDParams<NoBounds, PenaltyL0L1L2, double>(
+        atol,
+        rtol,
+        GapMethod::both,
+        true,
+        max_iter,
+        penalty,
+        NoBounds());
+
+    CD<const arma::mat, arma::mat, arma::mat, CDParams<NoBounds, PenaltyL0L1L2, double>> x = CD<const arma::mat, arma::mat, arma::mat, CDParams<NoBounds, PenaltyL0L1L2, double>>(Y, theta_init, params, active_set);
     const fitmodel l = x.fit();
-    
+
     Rcpp::Rcout << "fitmodel finished\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    
+
     return(Rcpp::List::create(Rcpp::Named("theta") = l.theta,
                               Rcpp::Named("R") = l.R));
 }
@@ -39,14 +53,13 @@ Rcpp::List gL0Learn_psifit(const arma::mat& Y,
                         arma::mat& theta_init,
                         const double atol,
                         const double rtol,
-                        const double M,
-                        const double l0, 
-                        const double l1, 
+                        const double l0,
+                        const double l1,
                         const double l2,
                         const size_t max_iter) {
     Rcpp::Rcout << "CD test_fit  Start \n";
     //coordinate_vector active_set = {{1, 0}, {2, 0}, {2, 1}};
-    
+
     coordinate_vector active_set = {};
     const auto p = Y.n_cols;
     for (arma::uword i=0; i<p; i++){
@@ -54,15 +67,24 @@ Rcpp::List gL0Learn_psifit(const arma::mat& Y,
             active_set.push_back({i, j});
         }
     }
+
+    const PenaltyL0L1L2<double> penalty(l0, l1, l2);
     
-    const CDParams params = CDParams(M, atol, rtol, GapMethod::both, true, max_iter, l0, l1, l2);
+    const CDParams<NoBounds, PenaltyL0L1L2, double> params = CDParams<NoBounds, PenaltyL0L1L2, double>(
+        atol,
+        rtol,
+        GapMethod::both,
+        true,
+        max_iter,
+        penalty,
+        NoBounds());
     
-    CD<arma::mat, arma::mat, arma::mat> x = CD<arma::mat, arma::mat, arma::mat>(Y, theta_init, params, active_set);
+    CD<const arma::mat, arma::mat, arma::mat, CDParams<NoBounds, PenaltyL0L1L2, double>> x = CD<const arma::mat, arma::mat, arma::mat, CDParams<NoBounds, PenaltyL0L1L2, double>>(Y, theta_init, params, active_set);
     const fitmodel l = x.fitpsi();
-    
+
     Rcpp::Rcout << "fitmodel finished\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    
+
     return(Rcpp::List::create(Rcpp::Named("theta") = l.theta,
                               Rcpp::Named("R") = l.R));
 }
