@@ -111,3 +111,6 @@ docker/*/*.sh
 
 # Ignore hypthosis testing files
 .hypothesis/
+
+# Ignore ipynb checkpoints
+.ipynb_checkpoints/
