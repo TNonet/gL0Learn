@@ -44,7 +44,7 @@ gL0Learn.resolve_func_name <- function(theta,
     
     for (param_name in names(params)){
         param <- params[[param_name]]
-        if (!(is.real_scalar(param) || is.real_vector(param))){
+        if (!(gL0Learn.is.real_scalar(param) || gL0Learn.is.real_vector(param))){
             stop(sprintf("expected %s to be a scalar or a vector of scalars but isn't", param_name))
         }
     }
@@ -112,8 +112,18 @@ gL0Learn.resolve_func_name <- function(theta,
 #' @examples
 #' MISSING
 #' @export
-is.real_scalar <- function(x) {is.atomic(x) && length(x) == 1L && !is.character(x) && Im(x)==0}
+gL0Learn.is.real_scalar <- function(x) {is.atomic(x) && length(x) == 1L && !is.character(x)}
 
+#' @title is.scalar
+#'
+#' @description Determine if a value is a real matrix with dim `dims`
+#' Source: # https://stackoverflow.com/questions/38088392/how-do-you-check-for-a-scalar-in-r/38088874
+#' @param x The value to check for "scalar"-ness
+
+#' @examples
+#' MISSING
+#' @export
+gL0Learn.is.real_matrix <- function(x, dims) {is.matrix(x) && is.atomic(x) && identical(dim(x) == dims)}
 
 #' @title is.real_vector
 #'
@@ -124,5 +134,16 @@ is.real_scalar <- function(x) {is.atomic(x) && length(x) == 1L && !is.character(
 #' @examples
 #' MISSING
 #' @export
-is.real_vector <- function(x) {is.atomic(x) && is.vector(x) && length(x) > 1L  && all(sapply(x, is.real_scalar))}
+gL0Learn.is.real_vector <- function(x) {is.atomic(x) && is.vector(x) && length(x) > 1L  && all(sapply(x, is.real_scalar))}
+
+
+#' @title is.sympd
+#'
+#' @description 
+#' @param x 
+
+#' @examples
+#' MISSING
+#' @export
+gL0Learn.is.sympd <- function(x) {gL0Learn::is_sympd(x)}
 

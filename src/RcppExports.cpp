@@ -6,298 +6,59 @@
 
 using namespace Rcpp;
 
-// test_OracleScalarL0L2NoBounds_prox_double
-double test_OracleScalarL0L2NoBounds_prox_double(const double theta, const double l0, const double l2);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L2NoBounds_prox_double(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP) {
+// test_Oracle_prox
+SEXP test_Oracle_prox(const SEXP& theta, const SEXP& l0, const SEXP& l1, const SEXP& l2, const SEXP& lows, const SEXP& highs);
+RcppExport SEXP _gL0Learn_test_Oracle_prox(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L2NoBounds_prox_double(theta, l0, l2));
+    Rcpp::traits::input_parameter< const SEXP& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type lows(lowsSEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type highs(highsSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_Oracle_prox(theta, l0, l1, l2, lows, highs));
     return rcpp_result_gen;
 END_RCPP
 }
-// test_OracleScalarL0L2NoBounds_prox_vec
-arma::vec test_OracleScalarL0L2NoBounds_prox_vec(const arma::vec theta, const double l0, const double l2);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L2NoBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP) {
+// is_sympd
+bool is_sympd(const arma::mat& x);
+RcppExport SEXP _gL0Learn_is_sympd(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L2NoBounds_prox_vec(theta, l0, l2));
+    Rcpp::traits::input_parameter< const arma::mat& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_sympd(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// test_OracleVectorL0L2NoBounds_prox_vec
-arma::vec test_OracleVectorL0L2NoBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l2);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L2NoBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L2NoBounds_prox_vec(theta, l0, l2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L1L2NoBounds_prox_double
-double test_OracleScalarL0L1L2NoBounds_prox_double(const double theta, const double l0, const double l1, const double l2);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_double(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L1L2NoBounds_prox_double(theta, l0, l1, l2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L1L2NoBounds_prox_vec
-arma::vec test_OracleScalarL0L1L2NoBounds_prox_vec(const arma::vec theta, const double l0, const double l1, const double l2);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L1L2NoBounds_prox_vec(theta, l0, l1, l2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleVectorL0L1L2NoBounds_prox_vec
-arma::vec test_OracleVectorL0L1L2NoBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l1, const arma::vec l2);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L1L2NoBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L1L2NoBounds_prox_vec(theta, l0, l1, l2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L2ScalarBounds_prox_double
-double test_OracleScalarL0L2ScalarBounds_prox_double(const double theta, const double l0, const double l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_double(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L2ScalarBounds_prox_double(theta, l0, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L2ScalarBounds_prox_vec
-arma::vec test_OracleScalarL0L2ScalarBounds_prox_vec(const arma::vec theta, const double l0, const double l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L2ScalarBounds_prox_vec(theta, l0, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleVectorL0L2ScalarBounds_prox_vec
-arma::vec test_OracleVectorL0L2ScalarBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L2ScalarBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L2ScalarBounds_prox_vec(theta, l0, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L1L2ScalarBounds_prox_double
-double test_OracleScalarL0L1L2ScalarBounds_prox_double(const double theta, const double l0, const double l1, const double l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_double(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L1L2ScalarBounds_prox_double(theta, l0, l1, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L1L2ScalarBounds_prox_vec
-arma::vec test_OracleScalarL0L1L2ScalarBounds_prox_vec(const arma::vec theta, const double l0, const double l1, const double l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L1L2ScalarBounds_prox_vec(theta, l0, l1, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleVectorL0L1L2ScalarBounds_prox_vec
-arma::vec test_OracleVectorL0L1L2ScalarBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l1, const arma::vec l2, const double lows, const double highs);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L1L2ScalarBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const double >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const double >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L1L2ScalarBounds_prox_vec(theta, l0, l1, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L2VectorBounds_prox_vec
-arma::vec test_OracleScalarL0L2VectorBounds_prox_vec(const arma::vec theta, const double l0, const double l2, const arma::vec lows, const arma::vec highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L2VectorBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L2VectorBounds_prox_vec(theta, l0, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleVectorL0L2VectorBounds_prox_vec
-arma::vec test_OracleVectorL0L2VectorBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l2, const arma::vec lows, const arma::vec highs);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L2VectorBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L2VectorBounds_prox_vec(theta, l0, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleScalarL0L1L2VectorBounds_prox_vec
-arma::vec test_OracleScalarL0L1L2VectorBounds_prox_vec(const arma::vec theta, const double l0, const double l1, const double l2, const arma::vec lows, const arma::vec highs);
-RcppExport SEXP _gL0Learn_test_OracleScalarL0L1L2VectorBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleScalarL0L1L2VectorBounds_prox_vec(theta, l0, l1, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_OracleVectorL0L1L2VectorBounds_prox_vec
-arma::vec test_OracleVectorL0L1L2VectorBounds_prox_vec(const arma::vec theta, const arma::vec l0, const arma::vec l1, const arma::vec l2, const arma::vec lows, const arma::vec highs);
-RcppExport SEXP _gL0Learn_test_OracleVectorL0L1L2VectorBounds_prox_vec(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type lows(lowsSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type highs(highsSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_OracleVectorL0L1L2VectorBounds_prox_vec(theta, l0, l1, l2, lows, highs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// gL0Learn_fit
-Rcpp::List gL0Learn_fit(const arma::mat& Y, arma::mat& theta_init, const double atol, const double rtol, const double l0, const double l1, const double l2, const size_t max_iter);
-RcppExport SEXP _gL0Learn_gL0Learn_fit(SEXP YSEXP, SEXP theta_initSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP max_iterSEXP) {
+// gL0Learn_fit_R
+Rcpp::List gL0Learn_fit_R(const arma::mat& Y, const arma::mat& theta_init, const SEXP l0, const SEXP l1, const SEXP l2, const std::string algorithm, const SEXP lows, const SEXP highs, const double atol, const double rtol, const size_t max_iter);
+RcppExport SEXP _gL0Learn_gL0Learn_fit_R(SEXP YSEXP, SEXP theta_initSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP algorithmSEXP, SEXP lowsSEXP, SEXP highsSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP max_iterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type theta_init(theta_initSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type theta_init(theta_initSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const std::string >::type algorithm(algorithmSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type lows(lowsSEXP);
+    Rcpp::traits::input_parameter< const SEXP >::type highs(highsSEXP);
     Rcpp::traits::input_parameter< const double >::type atol(atolSEXP);
     Rcpp::traits::input_parameter< const double >::type rtol(rtolSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
     Rcpp::traits::input_parameter< const size_t >::type max_iter(max_iterSEXP);
-    rcpp_result_gen = Rcpp::wrap(gL0Learn_fit(Y, theta_init, atol, rtol, l0, l1, l2, max_iter));
-    return rcpp_result_gen;
-END_RCPP
-}
-// gL0Learn_psifit
-Rcpp::List gL0Learn_psifit(const arma::mat& Y, arma::mat& theta_init, const double atol, const double rtol, const double l0, const double l1, const double l2, const size_t max_iter);
-RcppExport SEXP _gL0Learn_gL0Learn_psifit(SEXP YSEXP, SEXP theta_initSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP max_iterSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type theta_init(theta_initSEXP);
-    Rcpp::traits::input_parameter< const double >::type atol(atolSEXP);
-    Rcpp::traits::input_parameter< const double >::type rtol(rtolSEXP);
-    Rcpp::traits::input_parameter< const double >::type l0(l0SEXP);
-    Rcpp::traits::input_parameter< const double >::type l1(l1SEXP);
-    Rcpp::traits::input_parameter< const double >::type l2(l2SEXP);
-    Rcpp::traits::input_parameter< const size_t >::type max_iter(max_iterSEXP);
-    rcpp_result_gen = Rcpp::wrap(gL0Learn_psifit(Y, theta_init, atol, rtol, l0, l1, l2, max_iter));
+    rcpp_result_gen = Rcpp::wrap(gL0Learn_fit_R(Y, theta_init, l0, l1, l2, algorithm, lows, highs, atol, rtol, max_iter));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_gL0Learn_test_OracleScalarL0L2NoBounds_prox_double", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L2NoBounds_prox_double, 3},
-    {"_gL0Learn_test_OracleScalarL0L2NoBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L2NoBounds_prox_vec, 3},
-    {"_gL0Learn_test_OracleVectorL0L2NoBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L2NoBounds_prox_vec, 3},
-    {"_gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_double", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_double, 4},
-    {"_gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L1L2NoBounds_prox_vec, 4},
-    {"_gL0Learn_test_OracleVectorL0L1L2NoBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L1L2NoBounds_prox_vec, 4},
-    {"_gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_double", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_double, 5},
-    {"_gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L2ScalarBounds_prox_vec, 5},
-    {"_gL0Learn_test_OracleVectorL0L2ScalarBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L2ScalarBounds_prox_vec, 5},
-    {"_gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_double", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_double, 6},
-    {"_gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L1L2ScalarBounds_prox_vec, 6},
-    {"_gL0Learn_test_OracleVectorL0L1L2ScalarBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L1L2ScalarBounds_prox_vec, 6},
-    {"_gL0Learn_test_OracleScalarL0L2VectorBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L2VectorBounds_prox_vec, 5},
-    {"_gL0Learn_test_OracleVectorL0L2VectorBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L2VectorBounds_prox_vec, 5},
-    {"_gL0Learn_test_OracleScalarL0L1L2VectorBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleScalarL0L1L2VectorBounds_prox_vec, 6},
-    {"_gL0Learn_test_OracleVectorL0L1L2VectorBounds_prox_vec", (DL_FUNC) &_gL0Learn_test_OracleVectorL0L1L2VectorBounds_prox_vec, 6},
-    {"_gL0Learn_gL0Learn_fit", (DL_FUNC) &_gL0Learn_gL0Learn_fit, 8},
-    {"_gL0Learn_gL0Learn_psifit", (DL_FUNC) &_gL0Learn_gL0Learn_psifit, 8},
+    {"_gL0Learn_test_Oracle_prox", (DL_FUNC) &_gL0Learn_test_Oracle_prox, 6},
+    {"_gL0Learn_is_sympd", (DL_FUNC) &_gL0Learn_is_sympd, 1},
+    {"_gL0Learn_gL0Learn_fit_R", (DL_FUNC) &_gL0Learn_gL0Learn_fit_R, 11},
     {NULL, NULL, 0}
 };
 
