@@ -1,0 +1,5015 @@
+      [,1] [,2]
+ [1,]    6   14
+ [2,]    6   17
+ [3,]    6   49
+ [4,]    6   64
+ [5,]   10   44
+ [6,]   14   36
+ [7,]   14   75
+ [8,]   19   96
+ [9,]   20   49
+[10,]   30   84
+[11,]   30   96
+[12,]   30   97
+[13,]   32   96
+[14,]   34   49
+[15,]   35   74
+[16,]   35   75
+[17,]   38   74
+[18,]   42   75
+[19,]   42   93
+[20,]   44   48
+[21,]   44   49
+[22,]   48   97
+[23,]   49   53
+[24,]   49   61
+[25,]   49   78
+[26,]   49   84
+[27,]   60   70
+[28,]   62   74
+[29,]   62   77
+[30,]   75   96
+[31,]   81   93
+[32,]   84   96
+[33,]   89   96
+        [,1] [,2]
+   [1,]    0    2
+   [2,]    0    5
+   [3,]    0    7
+   [4,]    0   14
+   [5,]    0   16
+   [6,]    0   20
+   [7,]    0   21
+   [8,]    0   30
+   [9,]    0   31
+  [10,]    0   32
+  [11,]    0   35
+  [12,]    0   41
+  [13,]    0   42
+  [14,]    0   44
+  [15,]    0   45
+  [16,]    0   47
+  [17,]    0   48
+  [18,]    0   49
+  [19,]    0   52
+  [20,]    0   59
+  [21,]    0   75
+  [22,]    0   78
+  [23,]    0   81
+  [24,]    0   84
+  [25,]    0   85
+  [26,]    0   93
+  [27,]    0   96
+  [28,]    1    2
+  [29,]    1    5
+  [30,]    1    6
+  [31,]    1   14
+  [32,]    1   16
+  [33,]    1   17
+  [34,]    1   19
+  [35,]    1   21
+  [36,]    1   22
+  [37,]    1   23
+  [38,]    1   24
+  [39,]    1   27
+  [40,]    1   29
+  [41,]    1   32
+  [42,]    1   33
+  [43,]    1   36
+  [44,]    1   40
+  [45,]    1   42
+  [46,]    1   44
+  [47,]    1   51
+  [48,]    1   53
+  [49,]    1   55
+  [50,]    1   58
+  [51,]    1   61
+  [52,]    1   62
+  [53,]    1   63
+  [54,]    1   64
+  [55,]    1   66
+  [56,]    1   69
+  [57,]    1   71
+  [58,]    1   73
+  [59,]    1   74
+  [60,]    1   75
+  [61,]    1   77
+  [62,]    1   79
+  [63,]    1   80
+  [64,]    1   85
+  [65,]    1   87
+  [66,]    1   91
+  [67,]    1   92
+  [68,]    1   93
+  [69,]    1   96
+  [70,]    1   99
+  [71,]    2    5
+  [72,]    2    8
+  [73,]    2   13
+  [74,]    2   15
+  [75,]    2   18
+  [76,]    2   21
+  [77,]    2   23
+  [78,]    2   24
+  [79,]    2   27
+  [80,]    2   31
+  [81,]    2   32
+  [82,]    2   33
+  [83,]    2   35
+  [84,]    2   41
+  [85,]    2   42
+  [86,]    2   45
+  [87,]    2   48
+  [88,]    2   49
+  [89,]    2   51
+  [90,]    2   58
+  [91,]    2   61
+  [92,]    2   62
+  [93,]    2   67
+  [94,]    2   68
+  [95,]    2   74
+  [96,]    2   75
+  [97,]    2   77
+  [98,]    2   80
+  [99,]    2   81
+ [100,]    2   85
+ [101,]    2   86
+ [102,]    2   92
+ [103,]    2   93
+ [104,]    2   94
+ [105,]    2   96
+ [106,]    3    6
+ [107,]    3    9
+ [108,]    3   14
+ [109,]    3   17
+ [110,]    3   18
+ [111,]    3   20
+ [112,]    3   28
+ [113,]    3   29
+ [114,]    3   34
+ [115,]    3   36
+ [116,]    3   43
+ [117,]    3   48
+ [118,]    3   49
+ [119,]    3   53
+ [120,]    3   54
+ [121,]    3   57
+ [122,]    3   59
+ [123,]    3   60
+ [124,]    3   61
+ [125,]    3   64
+ [126,]    3   66
+ [127,]    3   68
+ [128,]    3   70
+ [129,]    3   71
+ [130,]    3   72
+ [131,]    3   83
+ [132,]    3   88
+ [133,]    3   97
+ [134,]    4    5
+ [135,]    4   21
+ [136,]    4   26
+ [137,]    4   34
+ [138,]    4   42
+ [139,]    4   48
+ [140,]    4   49
+ [141,]    4   50
+ [142,]    4   61
+ [143,]    4   62
+ [144,]    4   65
+ [145,]    4   69
+ [146,]    4   74
+ [147,]    4   75
+ [148,]    4   77
+ [149,]    4   84
+ [150,]    4   86
+ [151,]    4   93
+ [152,]    4   94
+ [153,]    5    8
+ [154,]    5   14
+ [155,]    5   15
+ [156,]    5   16
+ [157,]    5   19
+ [158,]    5   21
+ [159,]    5   22
+ [160,]    5   25
+ [161,]    5   26
+ [162,]    5   30
+ [163,]    5   34
+ [164,]    5   35
+ [165,]    5   42
+ [166,]    5   44
+ [167,]    5   48
+ [168,]    5   50
+ [169,]    5   52
+ [170,]    5   61
+ [171,]    5   63
+ [172,]    5   65
+ [173,]    5   66
+ [174,]    5   70
+ [175,]    5   71
+ [176,]    5   74
+ [177,]    5   75
+ [178,]    5   77
+ [179,]    5   79
+ [180,]    5   81
+ [181,]    5   86
+ [182,]    5   93
+ [183,]    5   94
+ [184,]    5   96
+ [185,]    5   97
+ [186,]    6   14
+ [187,]    6   17
+ [188,]    6   18
+ [189,]    6   19
+ [190,]    6   20
+ [191,]    6   22
+ [192,]    6   23
+ [193,]    6   24
+ [194,]    6   25
+ [195,]    6   27
+ [196,]    6   28
+ [197,]    6   30
+ [198,]    6   31
+ [199,]    6   32
+ [200,]    6   33
+ [201,]    6   34
+ [202,]    6   35
+ [203,]    6   36
+ [204,]    6   42
+ [205,]    6   43
+ [206,]    6   44
+ [207,]    6   46
+ [208,]    6   47
+ [209,]    6   49
+ [210,]    6   53
+ [211,]    6   55
+ [212,]    6   57
+ [213,]    6   58
+ [214,]    6   61
+ [215,]    6   64
+ [216,]    6   66
+ [217,]    6   67
+ [218,]    6   68
+ [219,]    6   69
+ [220,]    6   70
+ [221,]    6   71
+ [222,]    6   72
+ [223,]    6   73
+ [224,]    6   75
+ [225,]    6   78
+ [226,]    6   82
+ [227,]    6   83
+ [228,]    6   84
+ [229,]    6   87
+ [230,]    6   90
+ [231,]    6   91
+ [232,]    6   92
+ [233,]    6   94
+ [234,]    6   96
+ [235,]    6   98
+ [236,]    7   20
+ [237,]    7   42
+ [238,]    7   43
+ [239,]    7   45
+ [240,]    7   49
+ [241,]    7   53
+ [242,]    7   59
+ [243,]    7   68
+ [244,]    7   72
+ [245,]    7   78
+ [246,]    7   80
+ [247,]    7   84
+ [248,]    7   91
+ [249,]    7   97
+ [250,]    8   18
+ [251,]    8   21
+ [252,]    8   27
+ [253,]    8   29
+ [254,]    8   30
+ [255,]    8   38
+ [256,]    8   41
+ [257,]    8   44
+ [258,]    8   55
+ [259,]    8   61
+ [260,]    8   64
+ [261,]    8   65
+ [262,]    8   69
+ [263,]    8   74
+ [264,]    8   81
+ [265,]    8   83
+ [266,]    8   84
+ [267,]    8   90
+ [268,]    8   93
+ [269,]    8   96
+ [270,]    9   10
+ [271,]    9   15
+ [272,]    9   17
+ [273,]    9   19
+ [274,]    9   23
+ [275,]    9   25
+ [276,]    9   26
+ [277,]    9   27
+ [278,]    9   30
+ [279,]    9   34
+ [280,]    9   35
+ [281,]    9   37
+ [282,]    9   38
+ [283,]    9   44
+ [284,]    9   45
+ [285,]    9   46
+ [286,]    9   48
+ [287,]    9   49
+ [288,]    9   54
+ [289,]    9   55
+ [290,]    9   57
+ [291,]    9   58
+ [292,]    9   61
+ [293,]    9   63
+ [294,]    9   66
+ [295,]    9   68
+ [296,]    9   71
+ [297,]    9   74
+ [298,]    9   75
+ [299,]    9   79
+ [300,]    9   82
+ [301,]    9   87
+ [302,]    9   88
+ [303,]    9   89
+ [304,]    9   96
+ [305,]    9   97
+ [306,]    9   99
+ [307,]   10   13
+ [308,]   10   17
+ [309,]   10   20
+ [310,]   10   22
+ [311,]   10   24
+ [312,]   10   26
+ [313,]   10   27
+ [314,]   10   35
+ [315,]   10   37
+ [316,]   10   38
+ [317,]   10   41
+ [318,]   10   43
+ [319,]   10   44
+ [320,]   10   49
+ [321,]   10   51
+ [322,]   10   55
+ [323,]   10   56
+ [324,]   10   61
+ [325,]   10   64
+ [326,]   10   65
+ [327,]   10   66
+ [328,]   10   67
+ [329,]   10   76
+ [330,]   10   85
+ [331,]   10   88
+ [332,]   10   89
+ [333,]   10   94
+ [334,]   10   95
+ [335,]   10   99
+ [336,]   11   27
+ [337,]   11   59
+ [338,]   11   64
+ [339,]   11   65
+ [340,]   11   72
+ [341,]   11   74
+ [342,]   11   76
+ [343,]   11   80
+ [344,]   11   96
+ [345,]   12   14
+ [346,]   12   20
+ [347,]   12   23
+ [348,]   12   34
+ [349,]   12   36
+ [350,]   12   47
+ [351,]   12   57
+ [352,]   12   62
+ [353,]   12   68
+ [354,]   12   74
+ [355,]   12   77
+ [356,]   12   81
+ [357,]   12   83
+ [358,]   12   84
+ [359,]   12   93
+ [360,]   13   15
+ [361,]   13   16
+ [362,]   13   20
+ [363,]   13   24
+ [364,]   13   27
+ [365,]   13   45
+ [366,]   13   46
+ [367,]   13   58
+ [368,]   13   61
+ [369,]   13   64
+ [370,]   13   65
+ [371,]   13   67
+ [372,]   13   71
+ [373,]   13   76
+ [374,]   13   84
+ [375,]   13   85
+ [376,]   13   88
+ [377,]   13   89
+ [378,]   13   94
+ [379,]   13   96
+ [380,]   14   15
+ [381,]   14   16
+ [382,]   14   17
+ [383,]   14   18
+ [384,]   14   19
+ [385,]   14   22
+ [386,]   14   25
+ [387,]   14   26
+ [388,]   14   27
+ [389,]   14   28
+ [390,]   14   30
+ [391,]   14   35
+ [392,]   14   36
+ [393,]   14   42
+ [394,]   14   43
+ [395,]   14   44
+ [396,]   14   46
+ [397,]   14   49
+ [398,]   14   50
+ [399,]   14   51
+ [400,]   14   52
+ [401,]   14   55
+ [402,]   14   57
+ [403,]   14   60
+ [404,]   14   62
+ [405,]   14   63
+ [406,]   14   64
+ [407,]   14   67
+ [408,]   14   68
+ [409,]   14   69
+ [410,]   14   72
+ [411,]   14   73
+ [412,]   14   75
+ [413,]   14   76
+ [414,]   14   78
+ [415,]   14   79
+ [416,]   14   83
+ [417,]   14   84
+ [418,]   14   85
+ [419,]   14   90
+ [420,]   14   91
+ [421,]   14   96
+ [422,]   14   97
+ [423,]   14   98
+ [424,]   15   19
+ [425,]   15   24
+ [426,]   15   25
+ [427,]   15   26
+ [428,]   15   34
+ [429,]   15   37
+ [430,]   15   39
+ [431,]   15   41
+ [432,]   15   44
+ [433,]   15   45
+ [434,]   15   49
+ [435,]   15   50
+ [436,]   15   53
+ [437,]   15   55
+ [438,]   15   58
+ [439,]   15   60
+ [440,]   15   63
+ [441,]   15   64
+ [442,]   15   65
+ [443,]   15   66
+ [444,]   15   68
+ [445,]   15   69
+ [446,]   15   71
+ [447,]   15   74
+ [448,]   15   76
+ [449,]   15   77
+ [450,]   15   79
+ [451,]   15   80
+ [452,]   15   81
+ [453,]   15   84
+ [454,]   15   85
+ [455,]   15   88
+ [456,]   15   96
+ [457,]   15   97
+ [458,]   16   20
+ [459,]   16   22
+ [460,]   16   24
+ [461,]   16   27
+ [462,]   16   29
+ [463,]   16   30
+ [464,]   16   42
+ [465,]   16   43
+ [466,]   16   44
+ [467,]   16   47
+ [468,]   16   48
+ [469,]   16   49
+ [470,]   16   52
+ [471,]   16   53
+ [472,]   16   55
+ [473,]   16   56
+ [474,]   16   58
+ [475,]   16   59
+ [476,]   16   65
+ [477,]   16   67
+ [478,]   16   71
+ [479,]   16   73
+ [480,]   16   75
+ [481,]   16   78
+ [482,]   16   81
+ [483,]   16   84
+ [484,]   16   85
+ [485,]   16   86
+ [486,]   16   90
+ [487,]   16   91
+ [488,]   16   93
+ [489,]   16   97
+ [490,]   17   18
+ [491,]   17   20
+ [492,]   17   21
+ [493,]   17   22
+ [494,]   17   23
+ [495,]   17   28
+ [496,]   17   32
+ [497,]   17   34
+ [498,]   17   36
+ [499,]   17   39
+ [500,]   17   43
+ [ reached getOption("max.print") -- omitted 1321 rows ]
+fitpsi called 
+current_iter: 1 cur_objective = 74.1106
+current_iter: 2 cur_objective = 70.7281
+current_iter: 3 cur_objective = 69.565
+current_iter: 4 cur_objective = 69.0043
+current_iter: 5 cur_objective = 68.7139
+current_iter: 6 cur_objective = 68.5536
+current_iter: 7 cur_objective = 68.4496
+current_iter: 8 cur_objective = 68.3902
+current_iter: 9 cur_objective = 68.36
+current_iter: 10 cur_objective = 68.3434
+current_iter: 11 cur_objective = 68.3341
+current_iter: 12 cur_objective = 68.3289
+current_iter: 13 cur_objective = 68.326
+current_iter: 14 cur_objective = 68.3243
+current_iter: 15 cur_objective = 68.3233
+current_iter: 16 cur_objective = 68.3228
+current_iter: 17 cur_objective = 68.3225
+current_iter: 18 cur_objective = 68.3223
+current_iter: 19 cur_objective = 68.3222
+current_iter: 20 cur_objective = 68.3221
+current_iter: 21 cur_objective = 22.2213
+current_iter: 22 cur_objective = 3.85364
+current_iter: 23 cur_objective = -7.96319
+current_iter: 24 cur_objective = -15.4984
+current_iter: 25 cur_objective = -20.136
+current_iter: 26 cur_objective = -23.563
+current_iter: 27 cur_objective = -25.5486
+current_iter: 28 cur_objective = -26.8275
+current_iter: 29 cur_objective = -27.6776
+current_iter: 30 cur_objective = -28.315
+current_iter: 31 cur_objective = -28.6625
+current_iter: 32 cur_objective = -28.8345
+current_iter: 33 cur_objective = -28.9294
+current_iter: 34 cur_objective = -28.9842
+current_iter: 35 cur_objective = -29.0167
+current_iter: 36 cur_objective = -29.0357
+current_iter: 37 cur_objective = -29.047
+current_iter: 38 cur_objective = -29.0538
+current_iter: 39 cur_objective = -29.0579
+current_iter: 40 cur_objective = -29.0603
+current_iter: 41 cur_objective = -29.0617
+current_iter: 42 cur_objective = -29.0626
+current_iter: 43 cur_objective = -29.0632
+current_iter: 44 cur_objective = -29.0635
+current_iter: 45 cur_objective = -29.0637
+current_iter: 46 cur_objective = -29.0638
+current_iter: 47 cur_objective = -29.0639
+current_iter: 48 cur_objective = -29.0639
+current_iter: 49 cur_objective = -29.064
+current_iter: 50 cur_objective = -29.5246
+current_iter: 51 cur_objective = -29.7471
+current_iter: 52 cur_objective = -29.906
+current_iter: 53 cur_objective = -29.9903
+current_iter: 54 cur_objective = -30.0839
+current_iter: 55 cur_objective = -30.1506
+current_iter: 56 cur_objective = -30.173
+current_iter: 57 cur_objective = -30.182
+current_iter: 58 cur_objective = -30.1857
+current_iter: 59 cur_objective = -30.1872
+current_iter: 60 cur_objective = -30.1879
+current_iter: 61 cur_objective = -30.1882
+current_iter: 62 cur_objective = -30.1884
+current_iter: 63 cur_objective = -30.1884
+current_iter: 64 cur_objective = -30.1885
+current_iter: 65 cur_objective = -30.1885
+current_iter: 66 cur_objective = -30.2091
+current_iter: 67 cur_objective = -30.3472
+current_iter: 68 cur_objective = -30.3782
+current_iter: 69 cur_objective = -30.4277
+current_iter: 70 cur_objective = -30.4408
+current_iter: 71 cur_objective = -30.4419
+current_iter: 72 cur_objective = -30.4422
+current_iter: 73 cur_objective = -30.4423
+current_iter: 74 cur_objective = -30.4423
+current_iter: 75 cur_objective = -30.4423
+current_iter: 76 cur_objective = -30.4663
+current_iter: 77 cur_objective = -30.4834
+current_iter: 78 cur_objective = -30.4863
+current_iter: 79 cur_objective = -30.4871
+current_iter: 80 cur_objective = -30.4873
+current_iter: 81 cur_objective = -30.4874
+current_iter: 82 cur_objective = -30.4875
+current_iter: 83 cur_objective = -30.4875
+Pre psi cost: -30.4875 
+PSI iter: 0 
+PSI iter: 0 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 0 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 0 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 0 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 0 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 0 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 0 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 0 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 72) 
+No swap for (7, 80) 
+PSI iter: 0 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 0 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 0 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 0 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 0 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 0 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 0 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 0 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 0 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 0 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 0 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 0 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 0 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 0 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 0 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 86) 
+PSI iter: 0 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 0 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 0 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 0 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 0 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 0 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 0 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 0 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 0 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+PSI iter: 0 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 0 Swapping row: 33
+psi_row_fit 
+No swap for (33, 46) 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 0 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 0 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 0 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 53) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 0 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 0 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 0 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 0 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 0 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 0 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 0 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 0 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 0 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 0 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+Swap for (46, 33) with (46, 92)
+AS before insert:
+ AS(loc-1)= {46, 70}
+ AS(loc)= {47, 77}
+ AS(loc+1)= {47, 79}
+AS after insert:
+ AS(loc-1)= {46, 70} AS(loc)= {46, 92} AS(loc+1)= {47, 77}PSI iter: 0 Post Swap cost: -30.5784 
+current_iter: 1 cur_objective = -30.6171
+current_iter: 2 cur_objective = -30.6249
+current_iter: 3 cur_objective = -30.6275
+current_iter: 4 cur_objective = -30.6283
+current_iter: 5 cur_objective = -30.6286
+current_iter: 6 cur_objective = -30.6287
+current_iter: 7 cur_objective = -30.6288
+current_iter: 8 cur_objective = -30.6288
+PSI iter: 0 Post Swap Fit cost: -30.6288 
+PSI iter: 1 
+PSI iter: 1 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 1 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 1 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 1 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 1 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 1 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 1 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 1 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 72) 
+No swap for (7, 80) 
+PSI iter: 1 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 1 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 1 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 1 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 1 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 1 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 1 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 1 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 1 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 1 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 1 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 1 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 1 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 1 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 1 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 86) 
+PSI iter: 1 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 1 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 1 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 1 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 1 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 1 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 1 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 1 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 1 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+PSI iter: 1 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 1 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 1 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 1 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 1 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 53) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 1 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 1 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 1 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 1 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 1 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 1 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 1 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 1 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 1 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 1 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 1 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 1 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 1 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 73) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 1 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 1 Swapping row: 51
+psi_row_fit 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 1 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 1 Swapping row: 53
+psi_row_fit 
+Swap for (53, 36) with (53, 26)
+AS before insert:
+ AS(loc-1)= {52, 84}
+ AS(loc)= {53, 90}
+ AS(loc+1)= {53, 96}
+AS after insert:
+ AS(loc-1)= {52, 84} AS(loc)= {53, 26} AS(loc+1)= {53, 90}PSI iter: 1 Post Swap cost: -30.6697 
+current_iter: 1 cur_objective = -30.7213
+current_iter: 2 cur_objective = -30.7304
+current_iter: 3 cur_objective = -30.733
+current_iter: 4 cur_objective = -30.7339
+current_iter: 5 cur_objective = -30.7343
+current_iter: 6 cur_objective = -30.7345
+current_iter: 7 cur_objective = -30.7346
+current_iter: 8 cur_objective = -30.7346
+current_iter: 9 cur_objective = -30.7346
+PSI iter: 1 Post Swap Fit cost: -30.7346 
+PSI iter: 2 
+PSI iter: 2 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 2 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 2 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 2 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 2 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 2 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 2 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 2 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 72) 
+No swap for (7, 80) 
+PSI iter: 2 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 2 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 2 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 2 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 2 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 2 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 2 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 2 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 2 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 2 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 2 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 2 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 2 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 2 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 2 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 86) 
+PSI iter: 2 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 2 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 2 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 2 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 2 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 2 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 2 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 2 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 2 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+PSI iter: 2 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 2 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 2 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 2 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 2 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 2 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 2 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 2 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 2 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 2 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 2 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 2 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 2 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 2 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 2 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 2 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 2 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 2 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 73) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 2 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 2 Swapping row: 51
+psi_row_fit 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 2 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 2 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 2 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 2 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 2 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 2 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 2 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 66) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 2 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 26) 
+No swap for (59, 91) 
+PSI iter: 2 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 2 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 2 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 2 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 2 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 2 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 2 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 37) 
+Swap for (66, 58) with (66, 31)
+AS before insert:
+ AS(loc-1)= {65, 86}
+ AS(loc)= {66, 69}
+ AS(loc+1)= {66, 70}
+AS after insert:
+ AS(loc-1)= {65, 86} AS(loc)= {66, 31} AS(loc+1)= {66, 69}PSI iter: 2 Post Swap cost: -30.7858 
+current_iter: 1 cur_objective = -30.8551
+current_iter: 2 cur_objective = -30.8664
+current_iter: 3 cur_objective = -30.869
+current_iter: 4 cur_objective = -30.8699
+current_iter: 5 cur_objective = -30.8702
+current_iter: 6 cur_objective = -30.8703
+current_iter: 7 cur_objective = -30.8704
+current_iter: 8 cur_objective = -30.8704
+current_iter: 9 cur_objective = -30.8705
+PSI iter: 2 Post Swap Fit cost: -30.8705 
+PSI iter: 3 
+PSI iter: 3 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 3 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 3 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 3 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 3 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 3 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 3 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 3 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 72) 
+No swap for (7, 80) 
+PSI iter: 3 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 3 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 3 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 3 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 3 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 3 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 3 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 3 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 3 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 3 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 3 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 3 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 3 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 3 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 3 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 86) 
+PSI iter: 3 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 3 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 3 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 3 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 3 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 3 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 3 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 3 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 3 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+No swap for (31, 66) 
+PSI iter: 3 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 3 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 3 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 3 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 3 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 3 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 3 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 3 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 3 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 3 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 3 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 3 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 3 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 3 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 3 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 3 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 3 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 3 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 73) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 3 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 3 Swapping row: 51
+psi_row_fit 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 3 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 3 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 3 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 3 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 3 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 3 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 3 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 3 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 26) 
+No swap for (59, 91) 
+PSI iter: 3 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 3 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 3 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 3 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 3 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 3 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 3 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 31) 
+No swap for (66, 37) 
+No swap for (66, 69) 
+No swap for (66, 70) 
+PSI iter: 3 Swapping row: 67
+psi_row_fit 
+No swap for (67, 16) 
+No swap for (67, 17) 
+No swap for (67, 33) 
+No swap for (67, 44) 
+No swap for (67, 85) 
+No swap for (67, 90) 
+PSI iter: 3 Swapping row: 68
+psi_row_fit 
+No swap for (68, 3) 
+No swap for (68, 41) 
+No swap for (68, 43) 
+No swap for (68, 72) 
+No swap for (68, 75) 
+No swap for (68, 79) 
+PSI iter: 3 Swapping row: 69
+psi_row_fit 
+No swap for (69, 1) 
+No swap for (69, 8) 
+No swap for (69, 50) 
+No swap for (69, 55) 
+No swap for (69, 66) 
+PSI iter: 3 Swapping row: 70
+psi_row_fit 
+No swap for (70, 30) 
+No swap for (70, 46) 
+No swap for (70, 60) 
+No swap for (70, 66) 
+No swap for (70, 95) 
+PSI iter: 3 Swapping row: 71
+psi_row_fit 
+No swap for (71, 15) 
+No swap for (71, 16) 
+No swap for (71, 17) 
+No swap for (71, 33) 
+No swap for (71, 52) 
+PSI iter: 3 Swapping row: 72
+psi_row_fit 
+Swap for (72, 7) with (72, 59)
+AS before insert:
+ AS(loc-1)= {70, 95}
+ AS(loc)= {72, 96}
+ AS(loc+1)= {73, 89}
+AS after insert:
+ AS(loc-1)= {70, 95} AS(loc)= {72, 59} AS(loc+1)= {72, 96}PSI iter: 3 Post Swap cost: -31.0181 
+current_iter: 1 cur_objective = -31.059
+current_iter: 2 cur_objective = -31.0644
+current_iter: 3 cur_objective = -31.0659
+current_iter: 4 cur_objective = -31.0664
+current_iter: 5 cur_objective = -31.0666
+current_iter: 6 cur_objective = -31.0667
+current_iter: 7 cur_objective = -31.0667
+current_iter: 8 cur_objective = -31.0667
+current_iter: 9 cur_objective = -31.1545
+current_iter: 10 cur_objective = -31.1704
+current_iter: 11 cur_objective = -31.1746
+current_iter: 12 cur_objective = -31.176
+current_iter: 13 cur_objective = -31.1765
+current_iter: 14 cur_objective = -31.1767
+current_iter: 15 cur_objective = -31.1768
+current_iter: 16 cur_objective = -31.1769
+current_iter: 17 cur_objective = -31.1769
+PSI iter: 3 Post Swap Fit cost: -31.1769 
+PSI iter: 4 
+PSI iter: 4 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 4 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 4 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 4 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 4 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 4 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 4 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 4 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 80) 
+PSI iter: 4 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 4 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 4 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 4 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 4 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 4 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 4 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 4 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 4 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 4 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 4 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 4 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 4 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 4 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 4 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 59) 
+No swap for (22, 86) 
+PSI iter: 4 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 4 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 4 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 4 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 4 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 4 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 4 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 4 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 4 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+No swap for (31, 66) 
+PSI iter: 4 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 4 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 4 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 4 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 4 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 4 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 4 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 4 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 4 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 4 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 4 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 4 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 4 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 4 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 4 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 4 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 4 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 4 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 73) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 4 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 4 Swapping row: 51
+psi_row_fit 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 4 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 4 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 4 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 4 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 4 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 4 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 4 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 4 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 22) 
+No swap for (59, 26) 
+No swap for (59, 72) 
+No swap for (59, 91) 
+PSI iter: 4 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 4 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 4 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 4 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 4 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 4 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 4 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 31) 
+No swap for (66, 37) 
+No swap for (66, 69) 
+No swap for (66, 70) 
+PSI iter: 4 Swapping row: 67
+psi_row_fit 
+No swap for (67, 16) 
+No swap for (67, 17) 
+No swap for (67, 33) 
+No swap for (67, 44) 
+No swap for (67, 85) 
+No swap for (67, 90) 
+PSI iter: 4 Swapping row: 68
+psi_row_fit 
+No swap for (68, 3) 
+No swap for (68, 41) 
+No swap for (68, 43) 
+No swap for (68, 72) 
+No swap for (68, 75) 
+No swap for (68, 79) 
+PSI iter: 4 Swapping row: 69
+psi_row_fit 
+No swap for (69, 1) 
+No swap for (69, 8) 
+No swap for (69, 50) 
+No swap for (69, 55) 
+No swap for (69, 66) 
+PSI iter: 4 Swapping row: 70
+psi_row_fit 
+No swap for (70, 30) 
+No swap for (70, 46) 
+No swap for (70, 60) 
+No swap for (70, 66) 
+No swap for (70, 95) 
+PSI iter: 4 Swapping row: 71
+psi_row_fit 
+No swap for (71, 15) 
+No swap for (71, 16) 
+No swap for (71, 17) 
+No swap for (71, 33) 
+No swap for (71, 52) 
+PSI iter: 4 Swapping row: 72
+psi_row_fit 
+No swap for (72, 11) 
+No swap for (72, 18) 
+No swap for (72, 59) 
+No swap for (72, 68) 
+No swap for (72, 96) 
+PSI iter: 4 Swapping row: 73
+psi_row_fit 
+No swap for (73, 27) 
+No swap for (73, 43) 
+Swap for (73, 49) with (73, 78)
+AS before insert:
+ AS(loc-1)= {72, 96}
+ AS(loc)= {73, 89}
+ AS(loc+1)= {73, 99}
+AS after insert:
+ AS(loc-1)= {72, 96} AS(loc)= {73, 78} AS(loc+1)= {73, 89}PSI iter: 4 Post Swap cost: -31.2615 
+current_iter: 1 cur_objective = -31.2907
+current_iter: 2 cur_objective = -31.2942
+current_iter: 3 cur_objective = -31.2951
+current_iter: 4 cur_objective = -31.2954
+current_iter: 5 cur_objective = -31.2955
+current_iter: 6 cur_objective = -31.2955
+current_iter: 7 cur_objective = -31.2955
+PSI iter: 4 Post Swap Fit cost: -31.2955 
+PSI iter: 5 
+PSI iter: 5 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 5 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 5 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+No swap for (2, 86) 
+PSI iter: 5 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 5 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 5 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 5 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 5 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 80) 
+PSI iter: 5 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 5 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 5 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 5 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 5 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 5 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 5 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 5 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 5 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 5 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 5 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 5 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 5 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 5 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 5 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 59) 
+No swap for (22, 86) 
+PSI iter: 5 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 5 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 5 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 5 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 5 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 5 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 5 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 5 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 5 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+No swap for (31, 66) 
+PSI iter: 5 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 5 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 5 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 5 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 5 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 5 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 5 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 5 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 5 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 5 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 5 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 5 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 5 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 5 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 5 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 5 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 5 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 5 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 5 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 5 Swapping row: 51
+psi_row_fit 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 5 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 5 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 5 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 5 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 5 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 5 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 5 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 5 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 22) 
+No swap for (59, 26) 
+No swap for (59, 72) 
+No swap for (59, 91) 
+PSI iter: 5 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 5 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 5 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 5 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 5 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 5 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 5 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 31) 
+No swap for (66, 37) 
+No swap for (66, 69) 
+No swap for (66, 70) 
+PSI iter: 5 Swapping row: 67
+psi_row_fit 
+No swap for (67, 16) 
+No swap for (67, 17) 
+No swap for (67, 33) 
+No swap for (67, 44) 
+No swap for (67, 85) 
+No swap for (67, 90) 
+PSI iter: 5 Swapping row: 68
+psi_row_fit 
+No swap for (68, 3) 
+No swap for (68, 41) 
+No swap for (68, 43) 
+No swap for (68, 72) 
+No swap for (68, 75) 
+No swap for (68, 79) 
+PSI iter: 5 Swapping row: 69
+psi_row_fit 
+No swap for (69, 1) 
+No swap for (69, 8) 
+No swap for (69, 50) 
+No swap for (69, 55) 
+No swap for (69, 66) 
+PSI iter: 5 Swapping row: 70
+psi_row_fit 
+No swap for (70, 30) 
+No swap for (70, 46) 
+No swap for (70, 60) 
+No swap for (70, 66) 
+No swap for (70, 95) 
+PSI iter: 5 Swapping row: 71
+psi_row_fit 
+No swap for (71, 15) 
+No swap for (71, 16) 
+No swap for (71, 17) 
+No swap for (71, 33) 
+No swap for (71, 52) 
+PSI iter: 5 Swapping row: 72
+psi_row_fit 
+No swap for (72, 11) 
+No swap for (72, 18) 
+No swap for (72, 59) 
+No swap for (72, 68) 
+No swap for (72, 96) 
+PSI iter: 5 Swapping row: 73
+psi_row_fit 
+No swap for (73, 27) 
+No swap for (73, 43) 
+No swap for (73, 78) 
+No swap for (73, 89) 
+No swap for (73, 99) 
+PSI iter: 5 Swapping row: 74
+psi_row_fit 
+No swap for (74, 35) 
+No swap for (74, 38) 
+No swap for (74, 62) 
+No swap for (74, 76) 
+No swap for (74, 87) 
+PSI iter: 5 Swapping row: 75
+psi_row_fit 
+No swap for (75, 14) 
+No swap for (75, 16) 
+No swap for (75, 33) 
+No swap for (75, 35) 
+No swap for (75, 42) 
+No swap for (75, 68) 
+PSI iter: 5 Swapping row: 76
+psi_row_fit 
+No swap for (76, 10) 
+No swap for (76, 28) 
+No swap for (76, 36) 
+No swap for (76, 64) 
+No swap for (76, 74) 
+No swap for (76, 79) 
+PSI iter: 5 Swapping row: 77
+psi_row_fit 
+No swap for (77, 4) 
+No swap for (77, 25) 
+No swap for (77, 40) 
+No swap for (77, 47) 
+No swap for (77, 62) 
+PSI iter: 5 Swapping row: 78
+psi_row_fit 
+No swap for (78, 42) 
+No swap for (78, 44) 
+No swap for (78, 49) 
+No swap for (78, 73) 
+PSI iter: 5 Swapping row: 79
+psi_row_fit 
+No swap for (79, 5) 
+No swap for (79, 47) 
+No swap for (79, 54) 
+No swap for (79, 68) 
+No swap for (79, 76) 
+PSI iter: 5 Swapping row: 80
+psi_row_fit 
+No swap for (80, 7) 
+No swap for (80, 24) 
+No swap for (80, 37) 
+No swap for (80, 39) 
+No swap for (80, 49) 
+No swap for (80, 58) 
+No swap for (80, 86) 
+No swap for (80, 90) 
+PSI iter: 5 Swapping row: 81
+psi_row_fit 
+No swap for (81, 0) 
+No swap for (81, 18) 
+No swap for (81, 41) 
+No swap for (81, 52) 
+No swap for (81, 93) 
+PSI iter: 5 Swapping row: 82
+psi_row_fit 
+No swap for (82, 23) 
+No swap for (82, 27) 
+No swap for (82, 86) 
+No swap for (82, 88) 
+No swap for (82, 89) 
+PSI iter: 5 Swapping row: 83
+psi_row_fit 
+No swap for (83, 18) 
+No swap for (83, 55) 
+No swap for (83, 57) 
+No swap for (83, 93) 
+PSI iter: 5 Swapping row: 84
+psi_row_fit 
+No swap for (84, 13) 
+No swap for (84, 21) 
+No swap for (84, 30) 
+No swap for (84, 39) 
+No swap for (84, 49) 
+No swap for (84, 52) 
+No swap for (84, 98) 
+PSI iter: 5 Swapping row: 85
+psi_row_fit 
+No swap for (85, 2) 
+No swap for (85, 13) 
+No swap for (85, 58) 
+No swap for (85, 62) 
+No swap for (85, 67) 
+PSI iter: 5 Swapping row: 86
+psi_row_fit 
+Swap for (86, 2) with (86, 51)
+AS before insert:
+ AS(loc-1)= {84, 98}
+ AS(loc)= {89, 96}
+ AS(loc+1)= {91, 95}
+AS after insert:
+ AS(loc-1)= {84, 98} AS(loc)= {86, 51} AS(loc+1)= {89, 96}PSI iter: 5 Post Swap cost: -31.3747 
+current_iter: 1 cur_objective = -31.4338
+current_iter: 2 cur_objective = -31.4418
+current_iter: 3 cur_objective = -31.4441
+current_iter: 4 cur_objective = -31.4448
+current_iter: 5 cur_objective = -31.4451
+current_iter: 6 cur_objective = -31.4452
+current_iter: 7 cur_objective = -31.4452
+current_iter: 8 cur_objective = -31.4452
+current_iter: 9 cur_objective = -31.4928
+current_iter: 10 cur_objective = -31.5116
+current_iter: 11 cur_objective = -31.5166
+current_iter: 12 cur_objective = -31.5183
+current_iter: 13 cur_objective = -31.5189
+current_iter: 14 cur_objective = -31.5191
+current_iter: 15 cur_objective = -31.5192
+current_iter: 16 cur_objective = -31.5193
+current_iter: 17 cur_objective = -31.5193
+PSI iter: 5 Post Swap Fit cost: -31.5193 
+PSI iter: 6 
+PSI iter: 6 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 6 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 6 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+PSI iter: 6 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 6 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 6 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 6 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 6 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 80) 
+PSI iter: 6 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 6 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 6 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 51) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 6 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 6 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 6 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 6 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 6 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 6 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 6 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 6 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 6 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 6 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 6 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 6 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 59) 
+No swap for (22, 86) 
+PSI iter: 6 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 6 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 6 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 6 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+No swap for (26, 86) 
+PSI iter: 6 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 6 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 6 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 6 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 6 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+No swap for (31, 66) 
+PSI iter: 6 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 6 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 6 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 6 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 6 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 6 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 6 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+PSI iter: 6 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 6 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 6 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 6 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 6 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 6 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 6 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 6 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 6 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 6 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 6 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 6 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 6 Swapping row: 51
+psi_row_fit 
+No swap for (51, 10) 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 86) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 6 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 6 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 6 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 6 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 6 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 6 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 6 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 6 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 22) 
+No swap for (59, 26) 
+No swap for (59, 72) 
+No swap for (59, 91) 
+PSI iter: 6 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 6 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 6 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 6 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 6 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 6 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 6 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 31) 
+No swap for (66, 37) 
+No swap for (66, 69) 
+No swap for (66, 70) 
+PSI iter: 6 Swapping row: 67
+psi_row_fit 
+No swap for (67, 16) 
+No swap for (67, 17) 
+No swap for (67, 33) 
+No swap for (67, 44) 
+No swap for (67, 85) 
+No swap for (67, 90) 
+PSI iter: 6 Swapping row: 68
+psi_row_fit 
+No swap for (68, 3) 
+No swap for (68, 41) 
+No swap for (68, 43) 
+No swap for (68, 72) 
+No swap for (68, 75) 
+No swap for (68, 79) 
+PSI iter: 6 Swapping row: 69
+psi_row_fit 
+No swap for (69, 1) 
+No swap for (69, 8) 
+No swap for (69, 50) 
+No swap for (69, 55) 
+No swap for (69, 66) 
+PSI iter: 6 Swapping row: 70
+psi_row_fit 
+No swap for (70, 30) 
+No swap for (70, 46) 
+No swap for (70, 60) 
+No swap for (70, 66) 
+No swap for (70, 95) 
+PSI iter: 6 Swapping row: 71
+psi_row_fit 
+No swap for (71, 15) 
+No swap for (71, 16) 
+No swap for (71, 17) 
+No swap for (71, 33) 
+No swap for (71, 52) 
+PSI iter: 6 Swapping row: 72
+psi_row_fit 
+No swap for (72, 11) 
+No swap for (72, 18) 
+No swap for (72, 59) 
+No swap for (72, 68) 
+No swap for (72, 96) 
+PSI iter: 6 Swapping row: 73
+psi_row_fit 
+No swap for (73, 27) 
+No swap for (73, 43) 
+No swap for (73, 78) 
+No swap for (73, 89) 
+No swap for (73, 99) 
+PSI iter: 6 Swapping row: 74
+psi_row_fit 
+No swap for (74, 35) 
+No swap for (74, 38) 
+No swap for (74, 62) 
+No swap for (74, 76) 
+No swap for (74, 87) 
+PSI iter: 6 Swapping row: 75
+psi_row_fit 
+No swap for (75, 14) 
+No swap for (75, 16) 
+No swap for (75, 33) 
+No swap for (75, 35) 
+No swap for (75, 42) 
+No swap for (75, 68) 
+PSI iter: 6 Swapping row: 76
+psi_row_fit 
+No swap for (76, 10) 
+No swap for (76, 28) 
+No swap for (76, 36) 
+No swap for (76, 64) 
+No swap for (76, 74) 
+No swap for (76, 79) 
+PSI iter: 6 Swapping row: 77
+psi_row_fit 
+No swap for (77, 4) 
+No swap for (77, 25) 
+No swap for (77, 40) 
+No swap for (77, 47) 
+No swap for (77, 62) 
+PSI iter: 6 Swapping row: 78
+psi_row_fit 
+No swap for (78, 42) 
+No swap for (78, 44) 
+No swap for (78, 49) 
+No swap for (78, 73) 
+PSI iter: 6 Swapping row: 79
+psi_row_fit 
+No swap for (79, 5) 
+No swap for (79, 47) 
+No swap for (79, 54) 
+No swap for (79, 68) 
+No swap for (79, 76) 
+PSI iter: 6 Swapping row: 80
+psi_row_fit 
+No swap for (80, 7) 
+No swap for (80, 24) 
+No swap for (80, 37) 
+No swap for (80, 39) 
+No swap for (80, 49) 
+No swap for (80, 58) 
+No swap for (80, 86) 
+No swap for (80, 90) 
+PSI iter: 6 Swapping row: 81
+psi_row_fit 
+No swap for (81, 0) 
+No swap for (81, 18) 
+No swap for (81, 41) 
+No swap for (81, 52) 
+No swap for (81, 93) 
+PSI iter: 6 Swapping row: 82
+psi_row_fit 
+No swap for (82, 23) 
+No swap for (82, 27) 
+No swap for (82, 86) 
+No swap for (82, 88) 
+No swap for (82, 89) 
+PSI iter: 6 Swapping row: 83
+psi_row_fit 
+No swap for (83, 18) 
+No swap for (83, 55) 
+No swap for (83, 57) 
+No swap for (83, 93) 
+PSI iter: 6 Swapping row: 84
+psi_row_fit 
+No swap for (84, 13) 
+No swap for (84, 21) 
+No swap for (84, 30) 
+No swap for (84, 39) 
+No swap for (84, 49) 
+No swap for (84, 52) 
+No swap for (84, 98) 
+PSI iter: 6 Swapping row: 85
+psi_row_fit 
+No swap for (85, 2) 
+No swap for (85, 13) 
+No swap for (85, 58) 
+No swap for (85, 62) 
+No swap for (85, 67) 
+PSI iter: 6 Swapping row: 86
+psi_row_fit 
+No swap for (86, 21) 
+No swap for (86, 22) 
+Swap for (86, 26) with (86, 38)
+AS before insert:
+ AS(loc-1)= {84, 98}
+ AS(loc)= {86, 51}
+ AS(loc+1)= {89, 96}
+AS after insert:
+ AS(loc-1)= {84, 98} AS(loc)= {86, 38} AS(loc+1)= {86, 51}PSI iter: 6 Post Swap cost: -31.5574 
+current_iter: 1 cur_objective = -31.6063
+current_iter: 2 cur_objective = -31.6147
+current_iter: 3 cur_objective = -31.617
+current_iter: 4 cur_objective = -31.6178
+current_iter: 5 cur_objective = -31.6181
+current_iter: 6 cur_objective = -31.6182
+current_iter: 7 cur_objective = -31.6182
+current_iter: 8 cur_objective = -31.6182
+PSI iter: 6 Post Swap Fit cost: -31.6182 
+PSI iter: 7 
+PSI iter: 7 Swapping row: 0
+psi_row_fit 
+No swap for (0, 45) 
+No swap for (0, 59) 
+No swap for (0, 81) 
+No swap for (0, 96) 
+PSI iter: 7 Swapping row: 1
+psi_row_fit 
+No swap for (1, 27) 
+No swap for (1, 29) 
+No swap for (1, 58) 
+No swap for (1, 69) 
+No swap for (1, 91) 
+No swap for (1, 96) 
+No swap for (1, 99) 
+PSI iter: 7 Swapping row: 2
+psi_row_fit 
+No swap for (2, 32) 
+No swap for (2, 45) 
+No swap for (2, 61) 
+No swap for (2, 85) 
+PSI iter: 7 Swapping row: 3
+psi_row_fit 
+No swap for (3, 17) 
+No swap for (3, 20) 
+No swap for (3, 34) 
+No swap for (3, 43) 
+No swap for (3, 57) 
+No swap for (3, 68) 
+PSI iter: 7 Swapping row: 4
+psi_row_fit 
+No swap for (4, 34) 
+No swap for (4, 77) 
+No swap for (4, 93) 
+No swap for (4, 94) 
+PSI iter: 7 Swapping row: 5
+psi_row_fit 
+No swap for (5, 19) 
+No swap for (5, 21) 
+No swap for (5, 52) 
+No swap for (5, 63) 
+No swap for (5, 79) 
+PSI iter: 7 Swapping row: 6
+psi_row_fit 
+No swap for (6, 14) 
+No swap for (6, 28) 
+No swap for (6, 64) 
+No swap for (6, 66) 
+PSI iter: 7 Swapping row: 7
+psi_row_fit 
+No swap for (7, 43) 
+No swap for (7, 45) 
+No swap for (7, 59) 
+No swap for (7, 80) 
+PSI iter: 7 Swapping row: 8
+psi_row_fit 
+No swap for (8, 21) 
+No swap for (8, 29) 
+No swap for (8, 38) 
+No swap for (8, 69) 
+PSI iter: 7 Swapping row: 9
+psi_row_fit 
+No swap for (9, 34) 
+No swap for (9, 35) 
+No swap for (9, 58) 
+No swap for (9, 87) 
+PSI iter: 7 Swapping row: 10
+psi_row_fit 
+No swap for (10, 37) 
+No swap for (10, 44) 
+No swap for (10, 51) 
+No swap for (10, 76) 
+No swap for (10, 88) 
+No swap for (10, 89) 
+No swap for (10, 94) 
+PSI iter: 7 Swapping row: 11
+psi_row_fit 
+No swap for (11, 27) 
+No swap for (11, 64) 
+No swap for (11, 72) 
+PSI iter: 7 Swapping row: 12
+psi_row_fit 
+No swap for (12, 23) 
+No swap for (12, 36) 
+No swap for (12, 47) 
+PSI iter: 7 Swapping row: 13
+psi_row_fit 
+No swap for (13, 61) 
+No swap for (13, 64) 
+No swap for (13, 65) 
+No swap for (13, 84) 
+No swap for (13, 85) 
+PSI iter: 7 Swapping row: 14
+psi_row_fit 
+No swap for (14, 6) 
+No swap for (14, 25) 
+No swap for (14, 36) 
+No swap for (14, 62) 
+No swap for (14, 63) 
+No swap for (14, 75) 
+No swap for (14, 98) 
+PSI iter: 7 Swapping row: 15
+psi_row_fit 
+No swap for (15, 37) 
+No swap for (15, 45) 
+No swap for (15, 50) 
+No swap for (15, 60) 
+No swap for (15, 71) 
+PSI iter: 7 Swapping row: 16
+psi_row_fit 
+No swap for (16, 29) 
+No swap for (16, 55) 
+No swap for (16, 67) 
+No swap for (16, 71) 
+No swap for (16, 75) 
+PSI iter: 7 Swapping row: 17
+psi_row_fit 
+No swap for (17, 3) 
+No swap for (17, 22) 
+No swap for (17, 67) 
+No swap for (17, 71) 
+No swap for (17, 94) 
+No swap for (17, 99) 
+PSI iter: 7 Swapping row: 18
+psi_row_fit 
+No swap for (18, 72) 
+No swap for (18, 81) 
+No swap for (18, 83) 
+No swap for (18, 90) 
+No swap for (18, 98) 
+PSI iter: 7 Swapping row: 19
+psi_row_fit 
+No swap for (19, 5) 
+No swap for (19, 55) 
+No swap for (19, 88) 
+No swap for (19, 96) 
+PSI iter: 7 Swapping row: 20
+psi_row_fit 
+No swap for (20, 3) 
+No swap for (20, 24) 
+No swap for (20, 46) 
+No swap for (20, 47) 
+No swap for (20, 55) 
+No swap for (20, 94) 
+PSI iter: 7 Swapping row: 21
+psi_row_fit 
+No swap for (21, 5) 
+No swap for (21, 8) 
+No swap for (21, 84) 
+No swap for (21, 86) 
+PSI iter: 7 Swapping row: 22
+psi_row_fit 
+No swap for (22, 17) 
+No swap for (22, 35) 
+No swap for (22, 37) 
+No swap for (22, 50) 
+No swap for (22, 56) 
+No swap for (22, 59) 
+No swap for (22, 86) 
+PSI iter: 7 Swapping row: 23
+psi_row_fit 
+No swap for (23, 12) 
+No swap for (23, 32) 
+No swap for (23, 39) 
+No swap for (23, 40) 
+No swap for (23, 82) 
+PSI iter: 7 Swapping row: 24
+psi_row_fit 
+No swap for (24, 20) 
+No swap for (24, 65) 
+No swap for (24, 80) 
+No swap for (24, 92) 
+PSI iter: 7 Swapping row: 25
+psi_row_fit 
+No swap for (25, 14) 
+No swap for (25, 34) 
+No swap for (25, 39) 
+No swap for (25, 64) 
+No swap for (25, 77) 
+PSI iter: 7 Swapping row: 26
+psi_row_fit 
+No swap for (26, 35) 
+No swap for (26, 41) 
+No swap for (26, 53) 
+No swap for (26, 59) 
+No swap for (26, 61) 
+No swap for (26, 66) 
+PSI iter: 7 Swapping row: 27
+psi_row_fit 
+No swap for (27, 1) 
+No swap for (27, 11) 
+No swap for (27, 73) 
+No swap for (27, 82) 
+No swap for (27, 98) 
+PSI iter: 7 Swapping row: 28
+psi_row_fit 
+No swap for (28, 6) 
+No swap for (28, 34) 
+No swap for (28, 48) 
+No swap for (28, 76) 
+No swap for (28, 96) 
+PSI iter: 7 Swapping row: 29
+psi_row_fit 
+No swap for (29, 1) 
+No swap for (29, 8) 
+No swap for (29, 16) 
+No swap for (29, 57) 
+PSI iter: 7 Swapping row: 30
+psi_row_fit 
+No swap for (30, 44) 
+No swap for (30, 70) 
+No swap for (30, 84) 
+No swap for (30, 96) 
+No swap for (30, 97) 
+PSI iter: 7 Swapping row: 31
+psi_row_fit 
+No swap for (31, 35) 
+No swap for (31, 42) 
+No swap for (31, 47) 
+No swap for (31, 60) 
+No swap for (31, 66) 
+PSI iter: 7 Swapping row: 32
+psi_row_fit 
+No swap for (32, 2) 
+No swap for (32, 23) 
+No swap for (32, 96) 
+PSI iter: 7 Swapping row: 33
+psi_row_fit 
+No swap for (33, 67) 
+No swap for (33, 71) 
+No swap for (33, 75) 
+No swap for (33, 92) 
+PSI iter: 7 Swapping row: 34
+psi_row_fit 
+No swap for (34, 3) 
+No swap for (34, 4) 
+No swap for (34, 9) 
+No swap for (34, 25) 
+No swap for (34, 28) 
+No swap for (34, 37) 
+No swap for (34, 88) 
+PSI iter: 7 Swapping row: 35
+psi_row_fit 
+No swap for (35, 9) 
+No swap for (35, 22) 
+No swap for (35, 26) 
+No swap for (35, 31) 
+No swap for (35, 54) 
+No swap for (35, 74) 
+No swap for (35, 75) 
+PSI iter: 7 Swapping row: 36
+psi_row_fit 
+No swap for (36, 12) 
+No swap for (36, 14) 
+No swap for (36, 58) 
+No swap for (36, 64) 
+No swap for (36, 76) 
+PSI iter: 7 Swapping row: 37
+psi_row_fit 
+No swap for (37, 10) 
+No swap for (37, 15) 
+No swap for (37, 22) 
+No swap for (37, 34) 
+No swap for (37, 66) 
+No swap for (37, 80) 
+PSI iter: 7 Swapping row: 38
+psi_row_fit 
+No swap for (38, 8) 
+No swap for (38, 44) 
+No swap for (38, 54) 
+No swap for (38, 55) 
+No swap for (38, 74) 
+No swap for (38, 86) 
+PSI iter: 7 Swapping row: 39
+psi_row_fit 
+No swap for (39, 23) 
+No swap for (39, 25) 
+No swap for (39, 42) 
+No swap for (39, 51) 
+No swap for (39, 80) 
+No swap for (39, 84) 
+PSI iter: 7 Swapping row: 40
+psi_row_fit 
+No swap for (40, 23) 
+No swap for (40, 54) 
+No swap for (40, 56) 
+No swap for (40, 77) 
+No swap for (40, 89) 
+No swap for (40, 92) 
+PSI iter: 7 Swapping row: 41
+psi_row_fit 
+No swap for (41, 26) 
+No swap for (41, 50) 
+No swap for (41, 56) 
+No swap for (41, 68) 
+No swap for (41, 81) 
+PSI iter: 7 Swapping row: 42
+psi_row_fit 
+No swap for (42, 31) 
+No swap for (42, 39) 
+No swap for (42, 75) 
+No swap for (42, 78) 
+No swap for (42, 93) 
+No swap for (42, 94) 
+PSI iter: 7 Swapping row: 43
+psi_row_fit 
+No swap for (43, 3) 
+No swap for (43, 7) 
+No swap for (43, 51) 
+No swap for (43, 63) 
+No swap for (43, 68) 
+No swap for (43, 73) 
+PSI iter: 7 Swapping row: 44
+psi_row_fit 
+No swap for (44, 10) 
+No swap for (44, 30) 
+No swap for (44, 38) 
+No swap for (44, 48) 
+No swap for (44, 67) 
+No swap for (44, 78) 
+No swap for (44, 99) 
+PSI iter: 7 Swapping row: 45
+psi_row_fit 
+No swap for (45, 0) 
+No swap for (45, 2) 
+No swap for (45, 7) 
+No swap for (45, 15) 
+No swap for (45, 46) 
+No swap for (45, 53) 
+No swap for (45, 96) 
+PSI iter: 7 Swapping row: 46
+psi_row_fit 
+No swap for (46, 20) 
+No swap for (46, 45) 
+No swap for (46, 58) 
+No swap for (46, 70) 
+No swap for (46, 92) 
+PSI iter: 7 Swapping row: 47
+psi_row_fit 
+No swap for (47, 12) 
+No swap for (47, 20) 
+No swap for (47, 31) 
+No swap for (47, 77) 
+No swap for (47, 79) 
+No swap for (47, 90) 
+PSI iter: 7 Swapping row: 48
+psi_row_fit 
+No swap for (48, 28) 
+No swap for (48, 44) 
+No swap for (48, 61) 
+No swap for (48, 97) 
+PSI iter: 7 Swapping row: 49
+psi_row_fit 
+No swap for (49, 53) 
+No swap for (49, 61) 
+No swap for (49, 63) 
+No swap for (49, 78) 
+No swap for (49, 80) 
+No swap for (49, 84) 
+No swap for (49, 97) 
+PSI iter: 7 Swapping row: 50
+psi_row_fit 
+No swap for (50, 15) 
+No swap for (50, 22) 
+No swap for (50, 41) 
+No swap for (50, 65) 
+No swap for (50, 69) 
+No swap for (50, 93) 
+PSI iter: 7 Swapping row: 51
+psi_row_fit 
+No swap for (51, 10) 
+No swap for (51, 39) 
+No swap for (51, 43) 
+No swap for (51, 63) 
+No swap for (51, 86) 
+No swap for (51, 87) 
+No swap for (51, 95) 
+PSI iter: 7 Swapping row: 52
+psi_row_fit 
+No swap for (52, 5) 
+No swap for (52, 53) 
+No swap for (52, 71) 
+No swap for (52, 81) 
+No swap for (52, 84) 
+PSI iter: 7 Swapping row: 53
+psi_row_fit 
+No swap for (53, 26) 
+No swap for (53, 45) 
+No swap for (53, 49) 
+No swap for (53, 52) 
+No swap for (53, 90) 
+No swap for (53, 96) 
+PSI iter: 7 Swapping row: 54
+psi_row_fit 
+No swap for (54, 35) 
+No swap for (54, 38) 
+No swap for (54, 40) 
+No swap for (54, 57) 
+No swap for (54, 79) 
+PSI iter: 7 Swapping row: 55
+psi_row_fit 
+No swap for (55, 16) 
+No swap for (55, 19) 
+No swap for (55, 20) 
+No swap for (55, 38) 
+No swap for (55, 69) 
+No swap for (55, 83) 
+PSI iter: 7 Swapping row: 56
+psi_row_fit 
+No swap for (56, 22) 
+No swap for (56, 40) 
+No swap for (56, 41) 
+No swap for (56, 96) 
+PSI iter: 7 Swapping row: 57
+psi_row_fit 
+No swap for (57, 3) 
+No swap for (57, 29) 
+No swap for (57, 54) 
+No swap for (57, 83) 
+No swap for (57, 89) 
+No swap for (57, 94) 
+PSI iter: 7 Swapping row: 58
+psi_row_fit 
+No swap for (58, 1) 
+No swap for (58, 9) 
+No swap for (58, 36) 
+No swap for (58, 46) 
+No swap for (58, 80) 
+No swap for (58, 85) 
+PSI iter: 7 Swapping row: 59
+psi_row_fit 
+No swap for (59, 0) 
+No swap for (59, 7) 
+No swap for (59, 22) 
+No swap for (59, 26) 
+No swap for (59, 72) 
+No swap for (59, 91) 
+PSI iter: 7 Swapping row: 60
+psi_row_fit 
+No swap for (60, 15) 
+No swap for (60, 31) 
+No swap for (60, 70) 
+No swap for (60, 92) 
+PSI iter: 7 Swapping row: 61
+psi_row_fit 
+No swap for (61, 2) 
+No swap for (61, 13) 
+No swap for (61, 26) 
+No swap for (61, 48) 
+No swap for (61, 49) 
+PSI iter: 7 Swapping row: 62
+psi_row_fit 
+No swap for (62, 14) 
+No swap for (62, 65) 
+No swap for (62, 74) 
+No swap for (62, 77) 
+No swap for (62, 85) 
+No swap for (62, 97) 
+PSI iter: 7 Swapping row: 63
+psi_row_fit 
+No swap for (63, 5) 
+No swap for (63, 14) 
+No swap for (63, 43) 
+No swap for (63, 49) 
+No swap for (63, 51) 
+PSI iter: 7 Swapping row: 64
+psi_row_fit 
+No swap for (64, 6) 
+No swap for (64, 11) 
+No swap for (64, 13) 
+No swap for (64, 25) 
+No swap for (64, 36) 
+No swap for (64, 76) 
+No swap for (64, 87) 
+PSI iter: 7 Swapping row: 65
+psi_row_fit 
+No swap for (65, 13) 
+No swap for (65, 24) 
+No swap for (65, 50) 
+No swap for (65, 62) 
+No swap for (65, 86) 
+PSI iter: 7 Swapping row: 66
+psi_row_fit 
+No swap for (66, 6) 
+No swap for (66, 26) 
+No swap for (66, 31) 
+No swap for (66, 37) 
+No swap for (66, 69) 
+No swap for (66, 70) 
+PSI iter: 7 Swapping row: 67
+psi_row_fit 
+No swap for (67, 16) 
+No swap for (67, 17) 
+No swap for (67, 33) 
+No swap for (67, 44) 
+No swap for (67, 85) 
+No swap for (67, 90) 
+PSI iter: 7 Swapping row: 68
+psi_row_fit 
+No swap for (68, 3) 
+No swap for (68, 41) 
+No swap for (68, 43) 
+No swap for (68, 72) 
+No swap for (68, 75) 
+No swap for (68, 79) 
+PSI iter: 7 Swapping row: 69
+psi_row_fit 
+No swap for (69, 1) 
+No swap for (69, 8) 
+No swap for (69, 50) 
+No swap for (69, 55) 
+No swap for (69, 66) 
+PSI iter: 7 Swapping row: 70
+psi_row_fit 
+No swap for (70, 30) 
+No swap for (70, 46) 
+No swap for (70, 60) 
+No swap for (70, 66) 
+No swap for (70, 95) 
+PSI iter: 7 Swapping row: 71
+psi_row_fit 
+No swap for (71, 15) 
+No swap for (71, 16) 
+No swap for (71, 17) 
+No swap for (71, 33) 
+No swap for (71, 52) 
+PSI iter: 7 Swapping row: 72
+psi_row_fit 
+No swap for (72, 11) 
+No swap for (72, 18) 
+No swap for (72, 59) 
+No swap for (72, 68) 
+No swap for (72, 96) 
+PSI iter: 7 Swapping row: 73
+psi_row_fit 
+No swap for (73, 27) 
+No swap for (73, 43) 
+No swap for (73, 78) 
+No swap for (73, 89) 
+No swap for (73, 99) 
+PSI iter: 7 Swapping row: 74
+psi_row_fit 
+No swap for (74, 35) 
+No swap for (74, 38) 
+No swap for (74, 62) 
+No swap for (74, 76) 
+No swap for (74, 87) 
+PSI iter: 7 Swapping row: 75
+psi_row_fit 
+No swap for (75, 14) 
+No swap for (75, 16) 
+No swap for (75, 33) 
+No swap for (75, 35) 
+No swap for (75, 42) 
+No swap for (75, 68) 
+PSI iter: 7 Swapping row: 76
+psi_row_fit 
+No swap for (76, 10) 
+No swap for (76, 28) 
+No swap for (76, 36) 
+No swap for (76, 64) 
+No swap for (76, 74) 
+No swap for (76, 79) 
+PSI iter: 7 Swapping row: 77
+psi_row_fit 
+No swap for (77, 4) 
+No swap for (77, 25) 
+No swap for (77, 40) 
+No swap for (77, 47) 
+No swap for (77, 62) 
+PSI iter: 7 Swapping row: 78
+psi_row_fit 
+No swap for (78, 42) 
+No swap for (78, 44) 
+No swap for (78, 49) 
+No swap for (78, 73) 
+PSI iter: 7 Swapping row: 79
+psi_row_fit 
+No swap for (79, 5) 
+No swap for (79, 47) 
+No swap for (79, 54) 
+No swap for (79, 68) 
+No swap for (79, 76) 
+PSI iter: 7 Swapping row: 80
+psi_row_fit 
+No swap for (80, 7) 
+No swap for (80, 24) 
+No swap for (80, 37) 
+No swap for (80, 39) 
+No swap for (80, 49) 
+No swap for (80, 58) 
+No swap for (80, 86) 
+No swap for (80, 90) 
+PSI iter: 7 Swapping row: 81
+psi_row_fit 
+No swap for (81, 0) 
+No swap for (81, 18) 
+No swap for (81, 41) 
+No swap for (81, 52) 
+No swap for (81, 93) 
+PSI iter: 7 Swapping row: 82
+psi_row_fit 
+No swap for (82, 23) 
+No swap for (82, 27) 
+No swap for (82, 86) 
+No swap for (82, 88) 
+No swap for (82, 89) 
+PSI iter: 7 Swapping row: 83
+psi_row_fit 
+No swap for (83, 18) 
+No swap for (83, 55) 
+No swap for (83, 57) 
+No swap for (83, 93) 
+PSI iter: 7 Swapping row: 84
+psi_row_fit 
+No swap for (84, 13) 
+No swap for (84, 21) 
+No swap for (84, 30) 
+No swap for (84, 39) 
+No swap for (84, 49) 
+No swap for (84, 52) 
+No swap for (84, 98) 
+PSI iter: 7 Swapping row: 85
+psi_row_fit 
+No swap for (85, 2) 
+No swap for (85, 13) 
+No swap for (85, 58) 
+No swap for (85, 62) 
+No swap for (85, 67) 
+PSI iter: 7 Swapping row: 86
+psi_row_fit 
+No swap for (86, 21) 
+No swap for (86, 22) 
+No swap for (86, 38) 
+No swap for (86, 51) 
+No swap for (86, 65) 
+No swap for (86, 80) 
+No swap for (86, 82) 
+PSI iter: 7 Swapping row: 87
+psi_row_fit 
+No swap for (87, 9) 
+No swap for (87, 51) 
+No swap for (87, 64) 
+No swap for (87, 74) 
+PSI iter: 7 Swapping row: 88
+psi_row_fit 
+No swap for (88, 10) 
+No swap for (88, 19) 
+No swap for (88, 34) 
+No swap for (88, 82) 
+PSI iter: 7 Swapping row: 89
+psi_row_fit 
+No swap for (89, 10) 
+No swap for (89, 40) 
+No swap for (89, 57) 
+No swap for (89, 73) 
+No swap for (89, 82) 
+No swap for (89, 96) 
+PSI iter: 7 Swapping row: 90
+psi_row_fit 
+No swap for (90, 18) 
+No swap for (90, 47) 
+No swap for (90, 53) 
+No swap for (90, 67) 
+No swap for (90, 80) 
+PSI iter: 7 Swapping row: 91
+psi_row_fit 
+No swap for (91, 1) 
+No swap for (91, 59) 
+No swap for (91, 95) 
+PSI iter: 7 Swapping row: 92
+psi_row_fit 
+No swap for (92, 24) 
+No swap for (92, 33) 
+No swap for (92, 40) 
+No swap for (92, 46) 
+No swap for (92, 60) 
+No swap for (92, 93) 
+PSI iter: 7 Swapping row: 93
+psi_row_fit 
+No swap for (93, 4) 
+No swap for (93, 42) 
+No swap for (93, 50) 
+No swap for (93, 81) 
+No swap for (93, 83) 
+No swap for (93, 92) 
+PSI iter: 7 Swapping row: 94
+psi_row_fit 
+No swap for (94, 4) 
+No swap for (94, 10) 
+No swap for (94, 17) 
+No swap for (94, 20) 
+No swap for (94, 42) 
+No swap for (94, 57) 
+PSI iter: 7 Swapping row: 95
+psi_row_fit 
+No swap for (95, 51) 
+No swap for (95, 70) 
+No swap for (95, 91) 
+PSI iter: 7 Swapping row: 96
+psi_row_fit 
+No swap for (96, 0) 
+No swap for (96, 1) 
+No swap for (96, 19) 
+No swap for (96, 28) 
+No swap for (96, 30) 
+No swap for (96, 32) 
+No swap for (96, 45) 
+No swap for (96, 53) 
+No swap for (96, 56) 
+No swap for (96, 72) 
+No swap for (96, 89) 
+PSI iter: 7 Swapping row: 97
+psi_row_fit 
+No swap for (97, 30) 
+No swap for (97, 48) 
+No swap for (97, 49) 
+No swap for (97, 62) 
+No swap for (97, 99) 
+PSI iter: 7 Swapping row: 98
+psi_row_fit 
+No swap for (98, 14) 
+No swap for (98, 18) 
+No swap for (98, 27) 
+No swap for (98, 84) 
+PSI iter: 7 Swapping row: 99
+psi_row_fit 
+No swap for (99, 1) 
+No swap for (99, 17) 
+No swap for (99, 44) 
+No swap for (99, 73) 
+No swap for (99, 97) 

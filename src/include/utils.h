@@ -9,27 +9,6 @@ inline bool is_double_SEXP(const SEXP& x){
     return Rf_isVectorAtomic(x) && Rf_isReal(x) && Rf_length(x) == 1L;
 }
 
-// inline bool is_2D_matrix_SEXP(const SEXP& x){
-//     // {is.atomic(x) && length(x) == 1L && !is.character(x)
-//     return Rf_isMatrix(x) && (x->nrow() * x->ncol()) > std::max(x->nrow(), x->ncol());
-// }
-
-typedef std::tuple<arma::uword, arma::uword> coordinate;
-typedef std::vector<coordinate> coordinate_vector;
-
-inline coordinate inc(const coordinate c, const arma::uword p){
-    const double i = std::get<0>(c);
-    const double j = std::get<1>(c);
-    if (std::get<1>(c) < p - 1){
-        return {i, j+1};
-    } else if (std::get<0>(c) < p - 1){
-        return {i+1, 0};
-    } else {
-        Rcpp::Rcout << "Cannot increment coordinate (" << i << ", " << j << ")as it is already at maximium";
-        Rcpp::stop("Error in coordinate inc");
-    }
-};
-
 
 inline arma::vec row_elem(const arma::mat& a, const arma::uword row, const arma::uvec& indices){
     const arma::vec a_row = a.row(row);

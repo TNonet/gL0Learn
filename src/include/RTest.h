@@ -4,6 +4,7 @@
 #include "RcppArmadillo.h"
 #include "oracle.h"
 #include "utils.h"
+#include "active_set.h"
 
 typedef Bounds<double> ScalarBounds;
 typedef Bounds<arma::vec> VectorBounds;

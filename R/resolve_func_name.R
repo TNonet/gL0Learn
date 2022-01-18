@@ -123,7 +123,7 @@ gL0Learn.is.real_scalar <- function(x) {is.atomic(x) && length(x) == 1L && !is.c
 #' @examples
 #' MISSING
 #' @export
-gL0Learn.is.real_matrix <- function(x, dims) {is.matrix(x) && is.atomic(x) && identical(dim(x) == dims)}
+gL0Learn.is.real_matrix <- function(x, dims) {is.matrix(x) && is.atomic(x) && identical(dim(x), dims)}
 
 #' @title is.real_vector
 #'

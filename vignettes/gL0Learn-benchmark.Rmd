@@ -49,15 +49,16 @@ knit_hooks$set(output = function(x, options) {
 
 ```{r}
 library("gL0Learn")
+library("rbenchmark")
 ```
 
 
 ```{r}
-n = 100
-p = 100
+n = 10000
+p = 80
 data <- gL0Learn.generate_synthetic(n,
                                     p,
-                                    "independent",
+                                    "KR1",
                                     normalize = "covariance",
                                     seed = 1,
                                     rho=0.5)
@@ -66,7 +67,7 @@ data <- gL0Learn.generate_synthetic(n,
 ```
 
 ```{r}
-data$theta[0:min(10, p), 0:min(10, p)]
+data$theta[0:min(5, p), 0:min(5, p)]
 
 ```
 
@@ -77,19 +78,16 @@ theta_init = data$theta
 
 ```{r}
 
-fit <- gL0Learn.gfit(Y, theta_init, l0=0.2, l1=, l2=.1, scale_x = FALSE, algorithm = "CD", max_iter=100)
+benchmark(gL0Learn.gfit(Y, theta_init, l0=0.14), replications = 100)
 ```
 
 
 ```{r}
-fit$theta[0:min(10, p), 0:min(10, p)]
-
-sum(abs(fit$theta) > 1e-12)
+benchmark(gL0Learn.gfit(Y, theta_init, l0=0.14, lows=-100, highs=100), replications = 100)
 ```
 
 
 ```{r}
-#sink('swap_test6.text')
-fit <- gL0Learn.gfit(Y, theta_init, l0=0.2, l1=0, l2=0.01, scale_x = FALSE, algorithm = "CDPSI", max_iter=100)
-#sink()
+benchmark(gL0Learn.gfit(Y, theta_init, l0=0.14, lows=-100*matrix(1, p, p), highs=100*matrix(1, p, p)), replications = 100)
+
 ```

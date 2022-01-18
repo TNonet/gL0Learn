@@ -5,11 +5,51 @@ test_Oracle_prox <- function(theta, l0, l1, l2, lows, highs) {
     .Call(`_gL0Learn_test_Oracle_prox`, theta, l0, l1, l2, lows, highs)
 }
 
+test_union_of_correlated_features <- function(x, threshold) {
+    .Call(`_gL0Learn_test_union_of_correlated_features`, x, threshold)
+}
+
+test_union_of_correlated_features2 <- function(x, threshold) {
+    .Call(`_gL0Learn_test_union_of_correlated_features2`, x, threshold)
+}
+
+test_sorted_vector_difference <- function(larger, smaller) {
+    .Call(`_gL0Learn_test_sorted_vector_difference`, larger, smaller)
+}
+
+test_sorted_vector_difference2 <- function(larger, smaller) {
+    .Call(`_gL0Learn_test_sorted_vector_difference2`, larger, smaller)
+}
+
+test_insert_sorted_vector_into_sorted_vector <- function(x1, x2) {
+    .Call(`_gL0Learn_test_insert_sorted_vector_into_sorted_vector`, x1, x2)
+}
+
+test_coordinate_matrix_to_vector_to_matrix <- function(coords_ma) {
+    .Call(`_gL0Learn_test_coordinate_matrix_to_vector_to_matrix`, coords_ma)
+}
+
+test_unravel_indices <- function(indices, p) {
+    .Call(`_gL0Learn_test_unravel_indices`, indices, p)
+}
+
 is_sympd <- function(x) {
     .Call(`_gL0Learn_is_sympd`, x)
 }
 
-gL0Learn_fit_R <- function(Y, theta_init, l0, l1, l2, algorithm, lows, highs, atol, rtol, max_iter) {
-    .Call(`_gL0Learn_gL0Learn_fit_R`, Y, theta_init, l0, l1, l2, algorithm, lows, highs, atol, rtol, max_iter)
+upper_triangluar_coords <- function(p) {
+    .Call(`_gL0Learn_upper_triangluar_coords`, p)
+}
+
+check_coordinate_matrix_is_valid <- function(coords_ma, for_order = TRUE, for_upper_triangle = TRUE) {
+    .Call(`_gL0Learn_check_coordinate_matrix_is_valid`, coords_ma, for_order, for_upper_triangle)
+}
+
+check_is_valid_coordinate_subset <- function(larger_coord_set, smaller_coord_set) {
+    .Call(`_gL0Learn_check_is_valid_coordinate_subset`, larger_coord_set, smaller_coord_set)
+}
+
+gL0Learn_fit_R <- function(Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_iter) {
+    .Call(`_gL0Learn_gL0Learn_fit_R`, Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_iter)
 }
 
