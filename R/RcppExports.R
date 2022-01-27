@@ -5,6 +5,18 @@ test_Oracle_prox <- function(theta, l0, l1, l2, lows, highs) {
     .Call(`_gL0Learn_test_Oracle_prox`, theta, l0, l1, l2, lows, highs)
 }
 
+test_oracle_L0 <- function(theta, l0, l1, l2, lows, highs) {
+    .Call(`_gL0Learn_test_oracle_L0`, theta, l0, l1, l2, lows, highs)
+}
+
+test_oracle_L0L2 <- function(theta, l0, l1, l2, lows, highs) {
+    .Call(`_gL0Learn_test_oracle_L0L2`, theta, l0, l1, l2, lows, highs)
+}
+
+test_oracle_L0L1L2 <- function(theta, l0, l1, l2, lows, highs) {
+    .Call(`_gL0Learn_test_oracle_L0L1L2`, theta, l0, l1, l2, lows, highs)
+}
+
 test_union_of_correlated_features <- function(x, threshold) {
     .Call(`_gL0Learn_test_union_of_correlated_features`, x, threshold)
 }

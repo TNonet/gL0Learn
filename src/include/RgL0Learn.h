@@ -1,5 +1,5 @@
-#ifndef RINTERFACE_H
-#define RINTERFACE_H
+#ifndef RGL0LEARN_H
+#define RGL0LEARN_H
 #include <algorithm>
 #include "RcppArmadillo.h"
 #include "gL0Learn.h"
@@ -20,23 +20,20 @@ fitmodel gL0Learn_fit_sub_penalty(const arma::mat& Y,
                                   const size_t max_iter) {
     if (Rf_isNull(lows) && Rf_isNull(highs)){
         return gL0LearnFit(Y, theta_init,
-                           penalty,
-                           NoBounds(),
+                           Oracle<P<E>, NoBounds>(penalty, NoBounds()),
                            algorithm,
                            initial_active_set, super_active_set,
                            atol, rtol, max_iter);
     } else {
         if (is_double_SEXP(lows) && is_double_SEXP(highs)){
             return gL0LearnFit(Y, theta_init,
-                               penalty,
-                               Bounds<double>(Rcpp::as<double>(lows), Rcpp::as<double>(highs)),
+                               Oracle<P<E>, Bounds<double>>(penalty, Bounds<double>(Rcpp::as<double>(lows), Rcpp::as<double>(highs))),
                                algorithm,
                                initial_active_set, super_active_set,
                                atol, rtol, max_iter);
         } else {
             return gL0LearnFit(Y, theta_init,
-                               penalty,
-                               Bounds<arma::mat>(Rcpp::as<arma::mat>(lows), Rcpp::as<arma::mat>(highs)),
+                               Oracle<P<E>, Bounds<arma::mat>>(penalty, Bounds<arma::mat>(Rcpp::as<arma::mat>(lows), Rcpp::as<arma::mat>(highs))),
                                algorithm,
                                initial_active_set, super_active_set,
                                atol, rtol, max_iter);
@@ -93,7 +90,4 @@ fitmodel gL0Learn_fit_C(const arma::mat& Y,
 }
 
 
-
-
-
-#endif
+#endif // RGL0LEARN_H

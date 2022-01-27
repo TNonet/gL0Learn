@@ -22,6 +22,54 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test_oracle_L0
+Rcpp::List test_oracle_L0(const arma::mat& theta, const arma::mat& l0, const arma::mat& l1, const arma::mat& l2, const arma::mat& lows, const arma::mat& highs);
+RcppExport SEXP _gL0Learn_test_oracle_L0(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type lows(lowsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type highs(highsSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_oracle_L0(theta, l0, l1, l2, lows, highs));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_oracle_L0L2
+Rcpp::List test_oracle_L0L2(const arma::mat& theta, const arma::mat& l0, const arma::mat& l1, const arma::mat& l2, const arma::mat& lows, const arma::mat& highs);
+RcppExport SEXP _gL0Learn_test_oracle_L0L2(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type lows(lowsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type highs(highsSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_oracle_L0L2(theta, l0, l1, l2, lows, highs));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_oracle_L0L1L2
+Rcpp::List test_oracle_L0L1L2(const arma::mat& theta, const arma::mat& l0, const arma::mat& l1, const arma::mat& l2, const arma::mat& lows, const arma::mat& highs);
+RcppExport SEXP _gL0Learn_test_oracle_L0L1L2(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l0(l0SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l1(l1SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type l2(l2SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type lows(lowsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type highs(highsSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_oracle_L0L1L2(theta, l0, l1, l2, lows, highs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // test_union_of_correlated_features
 SEXP test_union_of_correlated_features(const arma::mat& x, const double threshold);
 RcppExport SEXP _gL0Learn_test_union_of_correlated_features(SEXP xSEXP, SEXP thresholdSEXP) {
@@ -178,6 +226,9 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gL0Learn_test_Oracle_prox", (DL_FUNC) &_gL0Learn_test_Oracle_prox, 6},
+    {"_gL0Learn_test_oracle_L0", (DL_FUNC) &_gL0Learn_test_oracle_L0, 6},
+    {"_gL0Learn_test_oracle_L0L2", (DL_FUNC) &_gL0Learn_test_oracle_L0L2, 6},
+    {"_gL0Learn_test_oracle_L0L1L2", (DL_FUNC) &_gL0Learn_test_oracle_L0L1L2, 6},
     {"_gL0Learn_test_union_of_correlated_features", (DL_FUNC) &_gL0Learn_test_union_of_correlated_features, 2},
     {"_gL0Learn_test_union_of_correlated_features2", (DL_FUNC) &_gL0Learn_test_union_of_correlated_features2, 2},
     {"_gL0Learn_test_sorted_vector_difference", (DL_FUNC) &_gL0Learn_test_sorted_vector_difference, 2},

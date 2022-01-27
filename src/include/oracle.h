@@ -15,233 +15,198 @@ double inline R_nl(const double a, const double b){
 }
 
 
-struct NoBounds {
-    NoBounds() {};
-    
-    NoBounds(const NoBounds&,
-             const arma::uword row_index,
-             const arma::uword col_index) {};
-    
-    NoBounds(const NoBounds&,
-             const arma::uword row_index,
-             const arma::uvec col_indicies) {};
-};
+template <size_t N, typename... Args>
+decltype(auto) inline variadic_get(Args&&... as) noexcept {
+    return std::get<N>(std::forward_as_tuple(as...));
+}
+
+template <typename... Args,
+          typename = typename std::enable_if<sizeof...(Args) == 0>::type>
+arma::mat inline get_by_var_args(const arma::mat& x, const Args... getitems){
+    return x;
+}
+
+template <typename... Args,
+          typename = typename std::enable_if<sizeof...(Args) == 0>::type>
+arma::vec inline get_by_var_args(const arma::vec& x, const Args... getitems){
+    return x;
+}
+
+template <typename... Args>
+double inline get_by_var_args(const double x, const Args... getitems){
+    return x;
+}
+
+template <typename... Args,
+          typename = typename std::enable_if<sizeof...(Args) == 1>::type>
+arma::vec inline get_by_var_args(const arma::mat& x, const Args... getitems){
+    const arma::uword i = variadic_get<0>(getitems...);
+    return x.col(i);
+}
 
 
-template <class T>
-struct Bounds {
-    const T lows;
-    const T highs;
-    typedef T type;
-    
-    Bounds(const T& lows, const T& highs) : lows{lows}, highs{highs} {};
-    
-    template <class TT>
-    Bounds(const Bounds<TT>&,
-           const arma::uword row_index,
-           const arma::uword col_index);
-    
-    template <class TT>
-    Bounds(const Bounds<TT>&,
-           const arma::uword row_index,
-           const arma::uvec col_indicies);
-};
+template <typename... Args,
+          typename = typename std::enable_if<sizeof...(Args) == 2>::type>
+double inline get_by_var_args(const arma::mat& x, const Args... getitems){
+    const arma::uword i = variadic_get<0>(getitems...);
+    const arma::uword j = variadic_get<1>(getitems...);
+    return x(i, j);
+}
 
-template <>
-template <>
-inline Bounds<double>::Bounds(const Bounds<double>& b,
-                       const arma::uword row_index,
-                       const arma::uword col_index) : 
-    Bounds<double>(b.lows, b.highs) {};
-
-template <>
-template <>
-inline Bounds<double>::Bounds(const Bounds<arma::mat>& b,
-                       const arma::uword row_index,
-                       const arma::uword col_index) : 
-    Bounds<double>(b.lows(row_index, col_index),
-                   b.highs(row_index, col_index)) {};
-
-template <>
-template <>
-inline Bounds<arma::vec>::Bounds(const Bounds<double>& b,
-                                 const arma::uword row_index,
-                                 const arma::uvec col_indicies) : 
-    Bounds<arma::vec>(arma::ones<arma::vec>(col_indicies.n_elem)*b.lows,
-                      arma::ones<arma::vec>(col_indicies.n_elem)*b.highs) {};
-
-template <>
-template <>
-inline Bounds<arma::vec>::Bounds(const Bounds<arma::mat>& b,
-                                 const arma::uword row_index,
-                                 const arma::uvec col_indicies) : 
-    Bounds<arma::vec>(row_elem(b.lows, row_index, col_indicies),
-                      row_elem(b.highs, row_index, col_indicies)) {};
-
-
-template <class T, class Derived>
-struct PenaltyBase
+template <typename T>
+struct PenaltyL0
 {
     const T l0;
     
-    PenaltyBase(const T& l0): l0{l0}{};
+    PenaltyL0(const T& l0): l0{l0}{};
     
-};
-
-
-// template <class T>
-// struct PenaltyL0 : public PenaltyBase<T, PenaltyL0<T>>
-// {
-//     PenaltyL0(const T l0): PenaltyBase<T, PenaltyL0<T>>(l0){};
-//     
-//     template<class B>
-//     PenaltyL0<T> inline scale(const B two_a) const{
-//         const T new_l0 = this->l0/two_a;
-//         return PenaltyL0(new_l0);
-//     }
-//     
-//     template<class O>
-//     inline O cost(const O beta) const{
-//         return MULT(this->l0, (beta != 0));
-//     }
-//     
-// };
-
-
-template <class T>
-struct PenaltyL0L2 : public PenaltyBase<T, PenaltyL0L2<T>>
-{
-    const T l2;
-    
-    PenaltyL0L2(const T& l0, const T& l2) : PenaltyBase<T, PenaltyL0L2<T>>(l0), l2{l2} {};
-    
-    template <class TT>
-    PenaltyL0L2(const PenaltyL0L2<TT>&,
-                const arma::uword row_index,
-                const arma::uword col_index);
-    
-    template <class TT>
-    PenaltyL0L2(const PenaltyL0L2<TT>&,
-                const arma::uword row_index,
-                const arma::uvec col_indicies);
-
-    template<class S>
-    PenaltyL0L2<S> scale(const S& two_a) const {
-        return PenaltyL0L2<S>(this->l0/two_a, this->l2/two_a);
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL0<decltype(get_by_var_args(this->l0, getitems...))>(
+                get_by_var_args(this->l0, getitems...));
     }
-
-    template<class O>
-    inline O cost(const O& beta) const{
-        return MULT(this->l0,(beta != 0)) + MULT(this->l2,SQUARE(beta));
+    
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return MULT(get_by_var_args(this->l0, getitems...),
+                    get_by_var_args(beta, getitems...) != 0);
     }
     
 };
 
-template <>
-template <>
-inline PenaltyL0L2<double>::PenaltyL0L2(const PenaltyL0L2<double> &p,
-                                 const arma::uword row_index,
-                                 const arma::uword col_index) : 
-    PenaltyBase<double, PenaltyL0L2<double>>(p.l0), l2{p.l2} {};
-
-template <>
-template <>
-inline PenaltyL0L2<double>::PenaltyL0L2(const PenaltyL0L2<arma::mat> &p,
-                                 const arma::uword row_index,
-                                 const arma::uword col_index) : 
-    PenaltyBase<double, PenaltyL0L2<double>>(
-            p.l0(row_index, col_index)), 
-            l2{p.l2(row_index, col_index)} {};
-
-template <>
-template <>
-inline PenaltyL0L2<arma::vec>::PenaltyL0L2(const PenaltyL0L2<double> &p,
-                                    const arma::uword row_index,
-                                    const arma::uvec col_indicies) : 
-    PenaltyBase<arma::vec, PenaltyL0L2<arma::vec>>(
-            arma::ones<arma::vec>(col_indicies.n_elem)*(p.l0)),
-            l2{arma::ones<arma::vec>(col_indicies.n_elem)*(p.l2)} {};
-
-template <>
-template <>
-inline PenaltyL0L2<arma::vec>::PenaltyL0L2(const PenaltyL0L2<arma::mat> &p,
-                                    const arma::uword row_index,
-                                    const arma::uvec col_indicies) : 
-    PenaltyBase<arma::vec, PenaltyL0L2<arma::vec>>(
-            row_elem(p.l0, row_index, col_indicies)),
-            l2{row_elem(p.l2, row_index, col_indicies)} {};
-
-
-// TODO: Make PenaltyL0L1L2 inherit PenaltyL0, PenaltyL1, PenaltyL2
-template <class T>
-struct PenaltyL0L1L2 : public PenaltyBase<T, PenaltyL0L1L2<T>>
+template <typename T>
+struct PenaltyL1
 {
     const T l1;
-    const T l2;
     
-    PenaltyL0L1L2(const T& l0, const T& l1, const T& l2) : PenaltyBase<T, PenaltyL0L1L2<T>>(l0), l1{l1}, l2{l2} {};
+    PenaltyL1(const T& l1): l1{l1}{};
     
-    template <class TT>
-    PenaltyL0L1L2(const PenaltyL0L1L2<TT>&,
-                  const arma::uword row_index,
-                  const arma::uword col_index);
-    
-    template <class TT>
-    PenaltyL0L1L2(const PenaltyL0L1L2<TT>&,
-                  const arma::uword row_index,
-                  const arma::uvec col_indicies);
-    
-    template<class S>
-    PenaltyL0L1L2<S> scale(const S& two_a) const{
-        const S new_l0 = this->l0/two_a;
-        const S new_l1 = this->l1/two_a;
-        const S new_l2 = this->l2/two_a;
-        return PenaltyL0L1L2<S>(new_l0, new_l1,new_l2);
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL1<decltype(get_by_var_args(this->l1, getitems...))>(
+                get_by_var_args(this->l1, getitems...));
     }
     
-    template<class O>
-    inline O cost(const O& beta) const{
-        return MULT(this->l0, (beta != 0)) + MULT(this->l1, ABS(beta)) + MULT(this->l2,SQUARE(beta));
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return MULT(get_by_var_args(this->l1, getitems...),
+                    ABS(get_by_var_args(beta, getitems...)));
     }
     
 };
 
-template <>
-template <>
-inline PenaltyL0L1L2<double>::PenaltyL0L1L2(const PenaltyL0L1L2<double> &p,
-                                     const arma::uword row_index,
-                                     const arma::uword col_index) : 
-    PenaltyBase<double, PenaltyL0L1L2<double>>(p.l0), l1{p.l1}, l2{p.l2} {};
+template <typename T>
+struct PenaltyL2
+{
+    const T l2;
+    
+    PenaltyL2(const T& l2): l2{l2}{};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL2<decltype(get_by_var_args(this->l2, getitems...))>(
+                get_by_var_args(this->l2, getitems...));
+    }
+    
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return MULT(get_by_var_args(this->l2, getitems...),
+                    SQUARE(get_by_var_args(beta, getitems...)));
+    }
+    
+};
 
-template <>
-template <>
-inline PenaltyL0L1L2<double>::PenaltyL0L1L2(const PenaltyL0L1L2<arma::mat> &p,
-                                 const arma::uword row_index,
-                                 const arma::uword col_index) : 
-    PenaltyBase<double, PenaltyL0L1L2<double>>(
-            p.l0(row_index, col_index)), 
-            l1{p.l1(row_index, col_index)},
-            l2{p.l2(row_index, col_index)} {};
+template <typename T>
+struct PenaltyL0L2 : public PenaltyL0<T>, public PenaltyL2<T>
+{
+    PenaltyL0L2(const T& l0, const T& l2): PenaltyL0<T>(l0), PenaltyL2<T>(l2){};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL0L2<decltype(get_by_var_args(this->l0, getitems...))>(
+                get_by_var_args(this->l0, getitems...),
+                get_by_var_args(this->l2, getitems...));
+    }
+    
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return PenaltyL0<T>::cost(beta, getitems...) + PenaltyL2<T>::cost(beta, getitems...);
+    }
+    
+};
 
-template <>
-template <>
-inline PenaltyL0L1L2<arma::vec>::PenaltyL0L1L2(const PenaltyL0L1L2<double> &p,
-                                    const arma::uword row_index,
-                                    const arma::uvec col_indicies) : 
-    PenaltyBase<arma::vec, PenaltyL0L1L2<arma::vec>>(
-            arma::ones<arma::vec>(col_indicies.n_elem)*(p.l0)),
-            l1{arma::ones<arma::vec>(col_indicies.n_elem)*(p.l1)},
-            l2{arma::ones<arma::vec>(col_indicies.n_elem)*(p.l2)} {};
+template <typename T>
+struct PenaltyL0L1 : public PenaltyL0<T>, public PenaltyL1<T>
+{
+    PenaltyL0L1(const T& l0, const T& l1): PenaltyL0<T>(l0), PenaltyL1<T>(l1){};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL0L1<decltype(get_by_var_args(this->l0, getitems...))>(
+                get_by_var_args(this->l0, getitems...),
+                get_by_var_args(this->l1, getitems...));
+    }
+    
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return PenaltyL0<T>::cost(beta, getitems...) + PenaltyL1<T>::cost(beta, getitems...);
+    }
+};
 
-template <>
-template <>
-inline PenaltyL0L1L2<arma::vec>::PenaltyL0L1L2(const PenaltyL0L1L2<arma::mat> &p,
-                                    const arma::uword row_index,
-                                    const arma::uvec col_indicies) : 
-    PenaltyBase<arma::vec, PenaltyL0L1L2<arma::vec>>(
-            row_elem(p.l0, row_index, col_indicies)),
-            l1{row_elem(p.l1, row_index, col_indicies)},
-            l2{row_elem(p.l2, row_index, col_indicies)} {};
+template <typename T>
+struct PenaltyL0L1L2 : public PenaltyL0<T>, public PenaltyL1<T>, public PenaltyL2<T>
+{
+    PenaltyL0L1L2(const T& l0, const T& l1, const T& l2): PenaltyL0<T>(l0), PenaltyL1<T>(l1), PenaltyL2<T>(l2){};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return PenaltyL0L1L2<decltype(get_by_var_args(this->l0, getitems...))>(
+                get_by_var_args(this->l0, getitems...),
+                get_by_var_args(this->l1, getitems...),
+                get_by_var_args(this->l2, getitems...));
+    }
+    
+    template <typename U, typename... Args>
+    inline auto cost(const U& beta,
+                     const Args... getitems) const{
+        return PenaltyL0<T>::cost(beta, getitems...) + PenaltyL1<T>::cost(beta, getitems...) + PenaltyL2<T>::cost(beta, getitems...);
+    }
+};
+
+
+
+struct NoBounds {
+    NoBounds() {};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return NoBounds();
+    }
+};
+
+template <typename T>
+struct Bounds{
+    const T lows;
+    const T highs;
+    
+    Bounds(const Bounds &b) : lows{b.lows}, highs{b.highs} {};
+    
+    Bounds(const T& lows, const T& highs) : lows{lows}, highs{highs} {};
+    
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return Bounds<decltype(get_by_var_args(this->lows, getitems...))>(
+                get_by_var_args(this->lows, getitems...),
+                get_by_var_args(this->highs, getitems...));
+    }
+    
+};
+
 
 
 template <class P, class B>
@@ -251,94 +216,139 @@ struct Oracle{
     
     Oracle(const P& penalty, const B& bounds) : penalty{penalty}, bounds{bounds} {};
     
-    template <class PP, class BB>
-    Oracle(const PP &penalty,
-           const BB &bounds,
-           const arma::uword row_index,
-           const arma::uword col_index) 
-        : penalty{P(penalty, row_index, col_index)},
-          bounds{B(bounds, row_index, col_index)} {};
-    
-    template <class PP, class BB>
-    Oracle(const PP &penalty,
-           const BB &bounds,
-           const arma::uword row_index,
-           const arma::uvec col_indicies) 
-        : penalty{P(penalty, row_index, col_indicies)},
-          bounds{B(bounds, row_index, col_indicies)} {};
-    
-    template <class T>
-    inline T prox(const T& theta) const{
-        return _prox(theta, penalty, bounds);
+    template <typename... Args>
+    inline auto operator()(const Args... getitems) const {
+        return Oracle<decltype(this->penalty(getitems...)), decltype(this->bounds(getitems...))>(
+                this->penalty(getitems...),
+                this->bounds(getitems...));
     }
     
-    template <class T>
-    inline T Q(const T& a, const T& b) const {
+    template <class T, typename... Args>
+    inline auto prox(const T& theta,
+                     const Args... getitems) const{
+        return _prox(theta, this->penalty, this->bounds, getitems...);
+    }
+    
+    
+    template <class T, typename... Args>
+    inline auto Q(const T& a,
+                  const T& b,
+                  const Args... getitems) const {
         const T two_a = 2*a;
         const T b2 = -b/two_a;
-        return _prox(b2, penalty.scale(two_a), bounds);
+        return _prox(b2, this->penalty, this->bounds, two_a, getitems...);
     }
     
-    template <class T>
-    inline std::tuple<T, T> Qobj(const T& a, const T& b) const{
-        const T beta = Q(a, b);
-        const T beta_cost = penalty.cost(beta);
-        
-        return {beta, beta_cost + MULT(b, beta) + MULT(a, SQUARE(beta))};
+    template <class T, typename... Args>
+    inline auto Qobj(const T& a,
+                     const T& b,
+                     const Args... getitems) const {
+        const auto beta = this->Q(a, b, getitems...);
+        const auto beta_cost = this->penalty.cost(beta, getitems...);
+        return std::make_tuple(beta, (beta_cost 
+                                          + MULT(get_by_var_args(b, getitems...), beta) 
+                                          + MULT(get_by_var_args(a, getitems...), SQUARE(beta))));
     }
-    
-    
 };
 
-template <template<class> class P, class E>
-auto inline _get_scalar_oracle(const P<E> &penalty,
-                               const NoBounds &bounds,
-                               const size_t row_index,
-                               const size_t col_index){
-    return Oracle<P<double>, NoBounds>(penalty, bounds, row_index, col_index);
-}
-
-template <template<class> class P, class E>
-auto inline _get_row_oracle(const P<E> &penalty,
-                            const NoBounds &bounds,
-                            const arma::uword row_index,
-                            const arma::uvec col_indicies) {
-    return Oracle<P<arma::vec>, NoBounds>(penalty, bounds, row_index, col_indicies);
-}
-
-template <template<class> class P, class E, class B>
-auto inline _get_scalar_oracle(const P<E>& penalty,
-                               const Bounds<B>& bounds,
-                               const size_t row_index,
-                               const size_t col_index){
-    return Oracle<P<double>, Bounds<double>>(penalty, bounds, row_index, col_index);
-}
-
-template <template<class> class P, class E, class B>
-auto inline _get_row_oracle(const P<E>& penalty,
-                            const Bounds<B>& bounds,
-                            const arma::uword row_index,
-                            const arma::uvec col_indicies) {
-    return Oracle<P<arma::vec>, Bounds<arma::vec>>(penalty, bounds, row_index, col_indicies);
-}
+/*
+ * TODO: _prox_wrapper is unecessary.
+ * 
+ *  Instead create prox to accept Penalty and NoBounds and getitems. Then 
+ *  
+ *  For each P in [L0, L1, L2, L0L1, L0L2, L1L1, L0L1L2]:
+ *      For each B in [Bounds, NoBounds]:
+ *          define proxP(theta, P, B, getitems...)
+ *          define proxP(theta, P, B, scale, getitems...)
+ *          define _proxP(theta, ...)
+ * 
+ */
 
 template <class T, class P>
-inline T _prox(const T& theta, const PenaltyL0L2<P>& penalty, const NoBounds& b)
-{
-    const P two_l2_plus_1 = 2*penalty.l2 + 1;
-    const P thresh = SQRT(2*MULT(penalty.l0,two_l2_plus_1));
-    const T max_val = theta/two_l2_plus_1;
-    const T abs_theta = ABS(theta);
-    return MULT(max_val, abs_theta >= thresh);
+inline T _proxL0(const T& theta,
+                 const P& l0)
+{   
+    return MULT(theta, ABS(theta) >= SQRT(2*l0));
 }
 
 template <class T, class P, class B>
-inline T _prox(const T &theta, const PenaltyL0L2<P>& penalty, const Bounds<B>& b)
+inline T _proxL0(const T &theta, 
+                 const P& l0, 
+                 const B& lows,
+                 const B& highs)
 {
-    const P two_l2_plus_1 = 2*penalty.l2 + 1;
-    const P two_l0 = 2*penalty.l0;
+    const P two_l0 = 2*l0;
+    const T theta_opt_bounds = CLAMP(theta, lows, highs);
+    const T delta = SQRT(MAX(SQUARE(theta) - two_l0, 0.));
+    return MULT(theta_opt_bounds,
+                (ABS(theta) >= SQRT(two_l0) 
+                     && (theta - delta) <= theta_opt_bounds 
+                     && (theta + delta) >= theta_opt_bounds));
+}
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta,
+                  const PenaltyL0<P>& penalty,
+                  const NoBounds bounds,
+                  const Args... getitems){
+    return _proxL0(get_by_var_args(theta, getitems...),
+                   get_by_var_args(penalty.l0, getitems...));
+    
+}
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta,
+                  const PenaltyL0<P>& penalty,
+                  const Bounds<B> bounds,
+                  const Args... getitems){
+    return _proxL0(get_by_var_args(theta, getitems...),
+                   get_by_var_args(penalty.l0, getitems...),
+                   get_by_var_args(bounds.lows, getitems...),
+                   get_by_var_args(bounds.highs, getitems...));
+    
+}
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta,
+                  const PenaltyL0<P>& penalty,
+                  const NoBounds bounds,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0(get_by_var_args(theta, getitems...),
+                   eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)));
+    
+}
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta,
+                  const PenaltyL0<P>& penalty,
+                  const Bounds<B> bounds,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0(get_by_var_args(theta, getitems...),
+                   eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)),
+                   get_by_var_args(bounds.lows, getitems...),
+                   get_by_var_args(bounds.highs, getitems...));
+    
+}
+
+
+// L0L2 4 wrappers
+template <class T, class P>
+inline T _proxL0L2(const T& theta, const P& l0, const P& l2)
+{
+    const P two_l2_plus_1 = 2*l2 + 1;
+    return MULT(theta/two_l2_plus_1,  ABS(theta) >= SQRT(2*MULT(l0,two_l2_plus_1)));
+}
+
+
+template <class T, class P, class B>
+inline T _proxL0L2(const T &theta, const P& l0, const P& l2, const B& lows, const B& highs)
+{
+    const P two_l2_plus_1 = 2*l2 + 1;
+    const P two_l0 = 2*l0;
     const T theta_opt_no_l0 = theta/two_l2_plus_1;
-    const T theta_opt_bounds = CLAMP(theta_opt_no_l0, b.lows, b.highs);
+    const T theta_opt_bounds = CLAMP(theta_opt_no_l0, lows, highs);
     const T delta = SQRT(MAX(SQUARE(theta) - MULT(two_l0,two_l2_plus_1), 0.))/two_l2_plus_1;
     return MULT(theta_opt_bounds,
                 (ABS(theta_opt_no_l0) >= SQRT(two_l0/two_l2_plus_1) 
@@ -346,34 +356,134 @@ inline T _prox(const T &theta, const PenaltyL0L2<P>& penalty, const Bounds<B>& b
                      && (theta_opt_no_l0 + delta) >= theta_opt_bounds));
 }
 
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L2<P>& penalty,
+                  const NoBounds& b,
+                  const Args... getitems){
+    return _proxL0L2(get_by_var_args(theta, getitems...),
+                     get_by_var_args(penalty.l0, getitems...),
+                     get_by_var_args(penalty.l2, getitems...));
+}
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L2<P>& penalty,
+                  const Bounds<B>& b,
+                  const Args... getitems){
+    return _proxL0L2(get_by_var_args(theta, getitems...),
+                     get_by_var_args(penalty.l0, getitems...),
+                     get_by_var_args(penalty.l2, getitems...),
+                     get_by_var_args(b.lows, getitems...),
+                     get_by_var_args(b.highs, getitems...));
+}
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L2<P>& penalty,
+                  const NoBounds& b,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0L2(get_by_var_args(theta, getitems...),
+                     eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)),
+                     eval(get_by_var_args(penalty.l2, getitems...)/get_by_var_args(scale, getitems...)));
+}
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L2<P>& penalty,
+                  const Bounds<B>& b,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0L2(get_by_var_args(theta, getitems...),
+                     eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)),
+                     eval(get_by_var_args(penalty.l2, getitems...)/get_by_var_args(scale, getitems...)),
+                     get_by_var_args(b.lows, getitems...),
+                     get_by_var_args(b.highs, getitems...));
+}
+
+
 template <class T, class P>
-inline T _prox(const T& theta, const PenaltyL0L1L2<P>& penalty, const NoBounds& b)
+inline T _proxL0L1L2(const T& theta, const P& l0, const P& l1, const P& l2)
 {
-    const P two_l2_plus_1 = 2*penalty.l2 + 1;
-    const P two_l0 = 2*penalty.l0;
-    const T abs_beta_m_l1 = ABS(theta) - penalty.l1;
-    const T ns_beta_opt_no_l0 = abs_beta_m_l1/two_l2_plus_1;
+    const P two_l2_plus_1 = 2*l2 + 1;
+    const T ns_beta_opt_no_l0 = (ABS(theta) - l1)/two_l2_plus_1;
     const T beta_opt_no_l0 = MULT(SIGN(theta),ns_beta_opt_no_l0);
     return MULT(beta_opt_no_l0,
-                ns_beta_opt_no_l0 >= SQRT(two_l0/two_l2_plus_1));
+                ns_beta_opt_no_l0 >= SQRT(2*l0/two_l2_plus_1));
 }
 
 
 template <class T, class P, class B>
-inline T _prox(const T& theta, const PenaltyL0L1L2<P>& penalty, const Bounds<B>& b)
+inline T _proxL0L1L2(const T& theta, const P& l0, const P& l1, const P& l2, const B& lows, const B& highs)
 {
-    const P two_l2_plus_1 = 2*penalty.l2 + 1;
-    const P two_l0 = 2*penalty.l0;
-    const T abs_theta_m_l1 = ABS(theta) - penalty.l1;
+    const P two_l2_plus_1 = 2*l2 + 1;
+    const P two_l0 = 2*l0;
+    const T abs_theta_m_l1 = ABS(theta) - l1;
     const T ns_theta_opt_no_l0 = abs_theta_m_l1/two_l2_plus_1;
     const T theta_opt_no_l0 = MULT(SIGN(theta),ns_theta_opt_no_l0);
-    const T theta_opt_bounds = CLAMP(theta_opt_no_l0, b.lows, b.highs);
+    const T theta_opt_bounds = CLAMP(theta_opt_no_l0, lows, highs);
     const T delta = SQRT(MAX(SQUARE(abs_theta_m_l1) - MULT(two_l0,two_l2_plus_1), 0.))/two_l2_plus_1;
     return MULT(theta_opt_bounds,
                 (ns_theta_opt_no_l0 >= SQRT(two_l0/two_l2_plus_1) 
                      && (theta_opt_no_l0 - delta) <= theta_opt_bounds 
                      && (theta_opt_no_l0 + delta) >= theta_opt_bounds));
-
 }
 
-#endif // ORACLE2_H
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta,
+                  const PenaltyL0L1L2<P>& penalty,
+                  const NoBounds& b,
+                  const Args... getitems){
+    return _proxL0L1L2(get_by_var_args(theta, getitems...),
+                       get_by_var_args(penalty.l0, getitems...),
+                       get_by_var_args(penalty.l1, getitems...),
+                       get_by_var_args(penalty.l2, getitems...));
+}
+
+
+template <class T, class P, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L1L2<P>& penalty,
+                  const NoBounds& b,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0L1L2(get_by_var_args(theta, getitems...),
+                       eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)),
+                       eval(get_by_var_args(penalty.l1, getitems...)/get_by_var_args(scale, getitems...)),
+                       eval(get_by_var_args(penalty.l2, getitems...)/get_by_var_args(scale, getitems...)));
+}
+
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L1L2<P>& penalty,
+                  const Bounds<B>& b,
+                  const Args... getitems){
+    return _proxL0L1L2(get_by_var_args(theta, getitems...),
+                       get_by_var_args(penalty.l0, getitems...),
+                       get_by_var_args(penalty.l1, getitems...),
+                       get_by_var_args(penalty.l2, getitems...),
+                       get_by_var_args(b.lows, getitems...),
+                       get_by_var_args(b.highs, getitems...));
+}
+
+
+template <class T, class P, class B, typename... Args>
+inline auto _prox(const T& theta, 
+                  const PenaltyL0L1L2<P>& penalty,
+                  const Bounds<B>& b,
+                  const T& scale,
+                  const Args... getitems){
+    return _proxL0L1L2(get_by_var_args(theta, getitems...),
+                       eval(get_by_var_args(penalty.l0, getitems...)/get_by_var_args(scale, getitems...)),
+                       eval(get_by_var_args(penalty.l1, getitems...)/get_by_var_args(scale, getitems...)),
+                       eval(get_by_var_args(penalty.l2, getitems...)/get_by_var_args(scale, getitems...)),
+                       get_by_var_args(b.lows, getitems...),
+                       get_by_var_args(b.highs, getitems...));
+}
+
+
+#endif // ORACLE_H

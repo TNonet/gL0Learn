@@ -23,6 +23,66 @@ SEXP test_Oracle_prox(const SEXP &theta,
 }
 
 // [[Rcpp::export]]
+Rcpp::List test_oracle_L0(const arma::mat& theta,
+                          const arma::mat& l0,
+                          const arma::mat& l1,
+                          const arma::mat& l2,
+                          const arma::mat& lows,
+                          const arma::mat& highs){
+    
+    const Bounds<arma::mat> b_m(lows, highs);
+    const PenaltyL0<arma::mat> p_m(l0);
+    const Oracle<PenaltyL0<arma::mat>, Bounds<arma::mat>> o_m_m(p_m, b_m);
+    
+    const auto results = test_oracle(theta, o_m_m);
+    
+    const SEXP results_0 = Rcpp::wrap(std::get<0>(results));
+    const SEXP results_1 = Rcpp::wrap(std::get<1>(results));
+    return Rcpp::List::create(Rcpp::Named("with_bounds") = results_0,
+                              Rcpp::Named("without_bounds") = results_1);
+}
+
+// [[Rcpp::export]]
+Rcpp::List test_oracle_L0L2(const arma::mat& theta,
+                            const arma::mat& l0,
+                            const arma::mat& l1,
+                            const arma::mat& l2,
+                            const arma::mat& lows,
+                            const arma::mat& highs){
+    
+    const Bounds<arma::mat> b_m(lows, highs);
+    const PenaltyL0L2<arma::mat> p_m(l0, l2);
+    const Oracle<PenaltyL0L2<arma::mat>, Bounds<arma::mat>> o_m_m(p_m, b_m);
+    
+    const auto results = test_oracle(theta, o_m_m);
+    
+    const SEXP results_0 = Rcpp::wrap(std::get<0>(results));
+    const SEXP results_1 = Rcpp::wrap(std::get<1>(results));
+    return Rcpp::List::create(Rcpp::Named("with_bounds") = results_0,
+                              Rcpp::Named("without_bounds") = results_1);
+}
+
+// [[Rcpp::export]]
+Rcpp::List test_oracle_L0L1L2(const arma::mat& theta,
+                              const arma::mat& l0,
+                              const arma::mat& l1,
+                              const arma::mat& l2,
+                              const arma::mat& lows,
+                              const arma::mat& highs){
+    
+    const Bounds<arma::mat> b_m(lows, highs);
+    const PenaltyL0L1L2<arma::mat> p_m(l0, l1, l2);
+    const Oracle<PenaltyL0L1L2<arma::mat>, Bounds<arma::mat>> o_m_m(p_m, b_m);
+    
+    const auto results = test_oracle(theta, o_m_m);
+    
+    const SEXP results_0 = Rcpp::wrap(std::get<0>(results));
+    const SEXP results_1 = Rcpp::wrap(std::get<1>(results));
+    return Rcpp::List::create(Rcpp::Named("with_bounds") = results_0,
+                              Rcpp::Named("without_bounds") = results_1);
+}
+
+// [[Rcpp::export]]
 SEXP test_union_of_correlated_features(const arma::mat & x,
                                        const double threshold){
     

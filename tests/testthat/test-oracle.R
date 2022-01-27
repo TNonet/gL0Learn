@@ -1,356 +1,140 @@
+library("RClassTemplates")
 library("gL0Learn")
-library('pracma')
+library("pracma")
 
-
-test_that("gL0Learn.oracle_prox properly fails properly", {
-    N = 3
-    M = 4
+test_that("Oracle is consistent for different types of data ", {
     
-    # No Bounds
+    P <- 10
+    atol = 1e-5
     
-    expect_equal(gL0Learn.oracle_prox(theta=5, l0=1, l2=1), 5/3)
-    expect_equal(gL0Learn.oracle_prox(1:N, l0=1, l2=1), c(0, 0, 1))
-    expect_equal(gL0Learn.oracle_prox(N:(2*N - 1), l0=1:N, l2=1:N), c(1, 0, 0))
-    expect_error(gL0Learn.oracle_prox(1:M, l0=1:N, l2=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:M, l2=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l2=1:M))
-    expect_equal(gL0Learn.oracle_prox(4, l0=1, l1=1, l2=1), 1)
-    expect_equal(gL0Learn.oracle_prox(N:(2*N-1), l0=1, l1=1, l2=1), c(0, 1, 4/3))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l2=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1:M))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:M))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1 = 1:N, l2=1))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1, l1 = 1:N, l2=1))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l1 = 1:N, l2=1:N))
-    expect_equal(gL0Learn.oracle_prox((2*N):(3*N-1), l0=1:N, l1=1:N, l2=1:N), c(5/3, 1, 0))
-    expect_equal(gL0Learn.oracle_prox(matrix(1:4, 2, 2), 1, 1, 1), matrix(c(0, 0, 0, 1), 2, 2))
-    expect_error(gL0Learn.oracle_prox(matrix(1:4, 2, 2), 1:N, 1, 1))
-    expect_error(gL0Learn.oracle_prox(matrix(1:4, 2, 2), 1:N, 1:N, 1:N))
-    expect_equal(gL0Learn.oracle_prox(matrix(4:7, 2, 2), matrix(1:4, 2, 2), matrix(1:4, 2, 2), matrix(1:4, 2, 2)), matrix(c(1, 0, 0, 0), 2, 2))
-    expect_error(gL0Learn.oracle_prox(matrix(1:4, 2, 2), matrix(1:9, 3, 3), matrix(1:9, 3, 3), matrix(1:9, 3, 3)))
+    theta <- matrix(rnorm(P*P), P, P)
+    theta <- (theta + t(theta))/2
     
-    # Scalar Bounds
+    lows <- matrix(runif(P*P), P, P)
+    lows <- -(lows + t(lows))/2
     
-    expect_equal(gL0Learn.oracle_prox(theta=5, l0=1, l2=1, lows=-1, highs=1.2), 1.2)
-    expect_equal(gL0Learn.oracle_prox(2:4, l0=1, l2=1, lows=-1, highs=1.2), c(0, 1.0, 1.2))
-    expect_equal(gL0Learn.oracle_prox(5:7, l0=1:N, l2=1:N, lows=-1, highs=1.2), c(1.2, 1.2, 1.0))
-    expect_error(gL0Learn.oracle_prox(1:M, l0=1:N, l2=1:N, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:M, l2=1:N, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l2=1:M, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1:N, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l2=1:N, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l2=1:M, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:M, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:N, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1 = 1:N, l2=1, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1, l1 = 1:N, l2=1, lows=-1, highs=10))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l1 = 1:N, l2=1:N, lows=-1, highs=10))
-    expect_equal(gL0Learn.oracle_prox(theta=matrix(5:8, 2, 2), l0=1, l2=1, lows=-1, highs=2), matrix(c(5/3, 2, 2, 2), 2, 2))
-    expect_equal(gL0Learn.oracle_prox(theta=matrix(5:8, 2, 2), l0=matrix(1:4, 2, 2), l2=matrix(1:4, 2, 2), lows=-1, highs=2), matrix(c(5/3, 1.2, 1, 0), 2, 2))
+    highs <- matrix(runif(P*P), P, P)
+    highs <- (highs + t(highs))/2
     
+    l0 <- matrix(runif(P*P), P, P)
+    l0 <- (l0 + t(l0))/2
     
-    # Vector Bounds
-    expect_error(gL0Learn.oracle_prox(theta=1:N, l0=1, l2=1, lows=-1, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(theta=1:N, l0=1, l2=1, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(theta=1:N, l0=1, l2=1, lows=-1:-N,  highs=1))
-    expect_error(gL0Learn.oracle_prox(theta=1:N, l0=1, l2=1, lows=-1:-M, highs=1:N))
+    l1 <- matrix(runif(P*P), P, P)
+    l1 <- (l1 + t(l1))/2
     
+    l2 <-  matrix(runif(P*P), P, P)
+    l2 <- (l2 + t(l2))/2
     
-    expect_error(gL0Learn.oracle_prox(theta=1, l0=1, l2=1, lows=-1:-N, highs=1:N))
-    expect_equal(gL0Learn.oracle_prox(1:N, l0=1, l2=1, lows=-1:-N, highs=rep(0.8, 3)), c(0, 0, 0.8))
-    expect_equal(gL0Learn.oracle_prox(5:7, l0=1:N, l2=1:N, lows=-1:-N, highs=1:N), c(1.0, 1.2, 1.0))
-    expect_error(gL0Learn.oracle_prox(1:M, l0=1:N, l2=1:N, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:M, l2=1:N, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l2=1:M, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1=1, l2=1, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l2=1:N, lows=-1:-N, highs=1:M))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:M, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1:N, l1 = 1, l2=1:N, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1 = 1:N, l2=1, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1:N, l0=1, l1 = 1:N, l2=1, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(1, l0=1:N, l1 = 1:N, l2=1:N, lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(matrix(1, 2, 2), l0=matrix(1, 2, 2), l1 = matrix(1, 2, 2), l2=matrix(1, 2, 2), lows=-1:-N, highs=1:N))
-    expect_error(gL0Learn.oracle_prox(matrix(1, 2, 2), l0=matrix(1, 2, 2), l1 = matrix(1, 2, 2), l2=matrix(1, 2, 2), lows=-1:-N, highs=1:N))
-    
-    ## Matrix bounds
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1 = 1, l2=1, lows=-matrix(1, 2, 2), highs=matrix(1, 2, 2)))
-    expect_error(gL0Learn.oracle_prox(1, l0=1, l1 = 1, l2=1, lows=-matrix(1, 2, 2), highs=1))
-    expect_error(gL0Learn.oracle_prox(matrix(1, 2, 2), l0=1, l1 = 1, l2=1, lows=-matrix(1, 2, 2), highs=1))
-    expect_error(gL0Learn.oracle_prox(matrix(1, 2, 2), l0=1, l1 = 1, l2=1, lows=-matrix(1, 3, 3), highs=matrix(1, 3, 3)))
-    expect_equal(gL0Learn.oracle_prox(matrix(1:4, 2, 2), l0=1, l1 = 1, l2=1, lows=matrix(0, 2, 2), highs=matrix(0.8, 2, 2)),
-                 matrix(c(0, 0, 0, 0.8), 2, 2))
-})
-
-NUM_RUNS = 50
-RUN_SIZE = 10
-M = 2
-
-test_that("prox finds similar solutions to linear search for L0L1L2 Bounds", {
-    N = RUN_SIZE
-    
-    for (i in 1:NUM_RUNS){
-        theta_opt <- matrix(rnorm(N*M), N, M) 
-        lows <- - matrix(runif(N*M), N, M) 
-        highs <-  matrix(runif(N*M), N, M) 
-        l0 <- matrix(runif(N*M), N, M) 
-        l1 <- matrix(runif(N*M), N, M) 
-        l2 <- matrix(runif(N*M), N, M) 
+    for (f in c("test_oracle_L0", "test_oracle_L0L2", "test_oracle_L0L1L2")){
+        results <- do.call(f, list(theta, l0, l1, l2, lows, highs))
         
-        oracle_matrix <- gL0Learn.oracle_prox(theta_opt, l0, l1, l2, lows, highs)
+        theta_opt <- matrix(0, P, P)
         
-        for (j in 1:M){
-            # Test L0L1L2 with Bounds
-            oracle_vector <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                  l0[j,],
-                                                  l1[j,],
-                                                  l2[j,],
-                                                  lows[j,],
-                                                  highs[j,])
-            
-            test_func <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                           l0[j,k],
-                                                           l1[j,k],
-                                                           l2[j,k],
-                                                           lows[j,k],
-                                                           highs[j,k])}
-            
-            
-            oracle_vector2 <- sapply(1:M, test_func)
-            
-            test_func_2 <- function(k) {gL0Learn.linear_search(theta_opt[j,k],
-                                                               l0[j,k],
-                                                               l1[j,k],
-                                                               l2[j,k],
-                                                               lows[j,k],
-                                                               highs[j,k])}
-            
-            search_vector <- sapply(1:M, test_func_2)
-            
-            for (k in 1:M){
-                info = sprintf("error found with theta=%f, l0=%f, l1=%f, l2=%f, lows=%f, highs=%f", 
-                               theta_opt[j,k],
-                               l0[j,k],
-                               l1[j,k],
-                               l2[j,k],
-                               lows[j,k],
-                               highs[j,k])
-                expect_equal(oracle_vector[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix[j, k], search_vector[k], tolerance = 1e-6, info=info)
+        if (!grepl('L0', f, fixed=TRUE)){
+            l0 <- matrix(0, P, P)
+        }
+        
+        if (!grepl('L1', f, fixed=TRUE)){
+            l1 <- matrix(0, P, P)
+        }
+        
+        if (!grepl('L2', f, fixed=TRUE)){
+            l2 <- matrix(0, P, P)
+        }
+        
+        for (i in 1:P){
+            for (j in 1:P){
+                theta_opt[i, j] <- gL0Learn::gL0Learn.linear_search(theta[i,j],
+                                                                    l0[i,j],
+                                                                    l1[i, j],
+                                                                    l2[i,j],
+                                                                    lows[i,j],
+                                                                    highs[i,j],
+                                                                    atol=atol)
             }
         }
+        
+        for (name in names(results$with_bounds)){
+            expect_equal(matrix(results$with_bounds[[name]], P, P), theta_opt, info=name, tolerance = atol)
+            
+        }
+        
+        theta_opt <- matrix(0, P, P)
+        
+        for (i in 1:P){
+            for (j in 1:P){
+                theta_opt[i, j] <- gL0Learn::gL0Learn.linear_search(theta[i,j],
+                                                                    l0[i,j],
+                                                                    l1[i,j],
+                                                                    l2[i,j],
+                                                                    min(-0.1, 1.1*theta[i, j]),
+                                                                    max(+0.1, 1.1*theta[i, j]),
+                                                                    atol=atol)
+            }
+        }
+        
+        for (name in names(results$without_bounds)){
+            expect_equal(matrix(results$without_bounds[[name]], P, P), theta_opt, info=name, tolerance = atol)
+            
+        }
+        
     }
 })
 
 
-test_that("prox finds similar solutions to linear search for L0L1L2 NoBounds", {
-    N = RUN_SIZE
-    M = 2
+test_that("Oracle L0L1L2 is consistent with L0L2 when L1 is 0 ", {
     
-    for (i in 1:NUM_RUNS){
-        theta_opt <- matrix(rnorm(N*M), N, M) 
-        lows <- - Inf*matrix(1, N, M) 
-        highs <-  Inf*matrix(1, N, M) 
-        l0 <- matrix(runif(N*M), N, M) 
-        l1 <- matrix(runif(N*M), N, M) 
-        l2 <- matrix(runif(N*M), N, M) 
-        
-        oracle_matrix <- gL0Learn.oracle_prox(theta_opt, l0, l1, l2, lows, highs)
-        
-        for (j in 1:M){
-            # Test L0L1L2 with Bounds
-            oracle_vector <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                  l0[j,],
-                                                  l1[j,],
-                                                  l2[j,],
-                                                  lows[j,],
-                                                  highs[j,])
-            
-            test_func <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                           l0[j,k],
-                                                           l1[j,k],
-                                                           l2[j,k],
-                                                           lows[j,k],
-                                                           highs[j,k])}
-            
-            oracle_vector2 <- sapply(1:M, test_func)
-            
-            search_func <- function(k) {gL0Learn.linear_search(theta_opt[j,k],
-                                                               l0[j,k],
-                                                               l1[j,k],
-                                                               l2[j,k],
-                                                               min(0, theta_opt[j, k]),
-                                                               max(0, theta_opt[j, k]))}
-            
-            search_vector <- sapply(1:M, search_func)
-            
-            for (k in 1:M){
-                info = sprintf("error found with theta=%f, l0=%f, l1=%f, l2=%f, lows=%f, highs=%f", 
-                               theta_opt[j,k],
-                               l0[j,k],
-                               l1[j,k],
-                               l2[j,k],
-                               lows[j,k],
-                               highs[j,k])
-                expect_equal(oracle_vector[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix[j, k], search_vector[k], tolerance = 1e-6, info=info)
-            }
-        }
-    }
+    P <- 20
+    atol = 1e-5
+    theta <- matrix(rnorm(P*P), P, P)
+    theta <- (theta + t(theta))/2
+    
+    lows <- matrix(runif(P*P), P, P)
+    lows <- -(lows + t(lows))/2
+    
+    highs <- matrix(runif(P*P), P, P)
+    highs <- (highs + t(highs))/2
+    
+    l0 <- matrix(runif(P*P), P, P)
+    l0 <- (l0 + t(l0))/2
+    
+    l1 <- matrix(0, P, P)
+    
+    l2 <-  matrix(runif(P*P), P, P)
+    l2 <- (l2 + t(l2))/2
+    
+    results_L0L1L2 <- test_oracle_L0L1L2(theta, l0, l1, l2, lows, highs)
+    results_L0L2 <- test_oracle_L0L2(theta, l0, l1, l2, lows, highs)
+    
+    expect_equal(results_L0L1L2, results_L0L2)
 })
 
-test_that("prox finds similar solutions to linear search for L0L2 NoBounds", {
-    N = RUN_SIZE
+test_that("Oracle L0L1L2, L0L2 is consistent with L0 when L1 and L2 are 0 ", {
     
-    for (i in 1:NUM_RUNS){
-        theta_opt <- matrix(rnorm(N*M), N, M)
-        lows <- - Inf*matrix(1, N, M) 
-        highs <-  Inf*matrix(1, N, M) 
-        l0 <- matrix(runif(N*M), N, M) 
-        l1 <- matrix(0, N, M) 
-        l2 <- matrix(runif(N*M), N, M) 
-        
-        oracle_matrix <- gL0Learn.oracle_prox(theta_opt, l0, l1, l2, -Inf, +Inf)
-        oracle_matrix_0 <- gL0Learn.oracle_prox(theta_opt, l0, 0, l2, lows, highs)
-        
-        for (j in 1:M){
-            # Test L0L1L2 with Bounds
-            oracle_vector <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                  l0[j,],
-                                                  l1[j,],
-                                                  l2[j,],
-                                                  lows[j,],
-                                                  highs[j,])
-            oracle_vector_0 <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                  l0[j,],
-                                                  0,
-                                                  l2[j,],
-                                                  lows[j,],
-                                                  highs[j,])
-            
-            test_func <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                           l0[j,k],
-                                                           l1[j,k],
-                                                           l2[j,k],
-                                                           lows[j,k],
-                                                           highs[j,k])}
-            
-            oracle_vector2 <- sapply(1:M, test_func)
-            
-            test_func_0 <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                           l0[j,k],
-                                                           0,
-                                                           l2[j,k],
-                                                           lows[j,k],
-                                                           highs[j,k])}
-            
-            oracle_vector_0_2 <- sapply(1:M, test_func_0)
-            
-            search_func <- function(k) {gL0Learn.linear_search(theta_opt[j,k],
-                                                               l0[j,k],
-                                                               l1[j,k],
-                                                               l2[j,k],
-                                                               min(0, theta_opt[j, k]),
-                                                               max(0, theta_opt[j, k]))}
-            
-            search_vector <- sapply(1:M, search_func)
-            
-            for (k in 1:M){
-                info = sprintf("error found with theta=%f, l0=%f, l1=%f, l2=%f, lows=%f, highs=%f", 
-                               theta_opt[j,k],
-                               l0[j,k],
-                               l1[j,k],
-                               l2[j,k],
-                               lows[j,k],
-                               highs[j,k])
-                expect_equal(oracle_vector[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector_0[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector_0_2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix[j, k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix_0[j, k], search_vector[k], tolerance = 1e-6, info=info)
-            }
-        }
-    }
+    P <- 10
+    atol = 1e-5
+    theta <- matrix(rnorm(P*P), P, P)
+    theta <- (theta + t(theta))/2
+    
+    lows <- matrix(runif(P*P), P, P)
+    lows <- -(lows + t(lows))/2
+    
+    highs <- matrix(runif(P*P), P, P)
+    highs <- (highs + t(highs))/2
+    
+    l0 <- matrix(runif(P*P), P, P)
+    l0 <- (l0 + t(l0))/2
+    
+    l1 <- matrix(0, P, P)
+    
+    l2 <-  matrix(0, P, P)
+    
+    results_L0L1L2 <- test_oracle_L0L1L2(theta, l0, l1, l2, lows, highs)
+    results_L0L2 <- test_oracle_L0L2(theta, l0, l1, l2, lows, highs)
+    results_L0 <- test_oracle_L0(theta, l0, l1, l2, lows, highs)
+    
+    expect_equal(results_L0L1L2, results_L0)
+    expect_equal(results_L0L2, results_L0)
 })
 
 
-test_that("prox finds similar solutions to linear search for L0L2 Bounds", {
-    N = RUN_SIZE
-    
-    for (i in 1:NUM_RUNS){
-        theta_opt <- matrix(rnorm(N*M), N, M) 
-        lows <- -matrix(runif(N*M), N, M) 
-        highs <- matrix(runif(N*M), N, M) 
-        l0 <- matrix(runif(N*M), N, M) 
-        l1 <- matrix(0, N, M) 
-        l2 <- matrix(runif(N*M), N, M) 
-        
-        oracle_matrix <- gL0Learn.oracle_prox(theta_opt, l0, l1, l2, lows, highs)
-        oracle_matrix_0 <- gL0Learn.oracle_prox(theta_opt, l0, 0, l2, lows, highs)
-        
-        for (j in 1:M){
-            # Test L0L1L2 with Bounds
-            oracle_vector <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                  l0[j,],
-                                                  l1[j,],
-                                                  l2[j,],
-                                                  lows[j,],
-                                                  highs[j,])
-            oracle_vector_0 <- gL0Learn.oracle_prox(theta_opt[j,],
-                                                    l0[j,],
-                                                    0,
-                                                    l2[j,],
-                                                    lows[j,],
-                                                    highs[j,])
-            
-            test_func <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                           l0[j,k],
-                                                           l1[j,k],
-                                                           l2[j,k],
-                                                           lows[j,k],
-                                                           highs[j,k])}
-            
-            oracle_vector2 <- sapply(1:M, test_func)
-            
-            test_func_0 <- function(k) {gL0Learn.oracle_prox(theta_opt[j,k],
-                                                             l0[j,k],
-                                                             0,
-                                                             l2[j,k],
-                                                             lows[j,k],
-                                                             highs[j,k])}
-            
-            oracle_vector_0_2 <- sapply(1:M, test_func_0)
-            
-            search_func <- function(k) {gL0Learn.linear_search(theta_opt[j,k],
-                                                               l0[j,k],
-                                                               l1[j,k],
-                                                               l2[j,k],
-                                                               lows[j,k],
-                                                               highs[j,k])}
-            
-            search_vector <- sapply(1:M, search_func)
-            
-            for (k in 1:M){
-                info = sprintf("error found with theta=%f, l0=%f, l1=%f, l2=%f, lows=%f, highs=%f", 
-                               theta_opt[j,k],
-                               l0[j,k],
-                               l1[j,k],
-                               l2[j,k],
-                               lows[j,k],
-                               highs[j,k])
-                expect_equal(oracle_vector[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector_0[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_vector_0_2[k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix[j, k], search_vector[k], tolerance = 1e-6, info=info)
-                expect_equal(oracle_matrix_0[j, k], search_vector[k], tolerance = 1e-6, info=info)
-            }
-        }
-    }
-})

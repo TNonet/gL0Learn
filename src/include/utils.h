@@ -15,6 +15,15 @@ inline arma::vec row_elem(const arma::mat& a, const arma::uword row, const arma:
     return a_row(indices);
 }
 
+inline double eval(const double x){
+    return x;
+}
+
+template <typename T>
+inline auto eval(const T& x){
+    return x.eval();
+}
+
 
 // inline arma::vec ABS(const arma::vec& x){
 //     return arma::abs(x);
@@ -42,11 +51,9 @@ inline double SQRT(const double x){
     return std::sqrt(x);
 }
 
-template<class T>
-inline T SQUARE(const T& x){
+inline arma::mat SQUARE(const arma::mat& x){
     return arma::square(x);
 }
-
 
 inline double SQUARE(const double x){
     return x*x;
@@ -85,6 +92,22 @@ inline arma::mat MULT(const arma::mat& x1, const arma::umat& x2){
     return x1%x2;
 }
 
+inline arma::mat DIVIDE(const arma::mat& x1, const arma::mat& x2){
+    return x1/x2;
+}
+
+inline arma::mat DIVIDE(const arma::mat& x1, const double& x2){
+    return x1/x2;
+}
+
+inline double DIVIDE(const double x1, const double x2){
+    return x1/x2;
+}
+
+inline arma::mat DIVIDE(const double x1, const arma::mat& x2){
+    return x1/x2;
+}
+
 inline arma::mat SIGN(const arma::mat& x){
     return arma::sign(x);
 }
@@ -92,6 +115,8 @@ inline arma::mat SIGN(const arma::mat& x){
 inline int SIGN(const double x){
     return (0. < x) - (x < 0.);
 }
+
+inline int SIGN2(const double x);
 
 
 inline double CLAMP(const double x, const double lows, const double highs) {
@@ -103,22 +128,10 @@ inline double CLAMP(const double x, const double lows, const double highs) {
     return x;
 }
 
-// inline arma::vec CLAMP(const arma::vec& x, const double lows, const double highs){
-//     return arma::clamp(x, lows, highs);
-// }
 
 inline arma::mat CLAMP(const arma::mat& x, const double lows, const double highs){
     return arma::clamp(x, lows, highs);
 }
-
-// inline arma::vec CLAMP(const arma::vec& x, const arma::vec& lows, const arma::vec& highs){
-//     const std::size_t n = x.n_rows;
-//     arma::vec x_clamped(n);
-//     for (std::size_t i = 0; i < n; i++){
-//         x_clamped.at(i) = CLAMP(x.at(i), lows.at(i), highs.at(i));
-//     }
-//     return x_clamped;
-// }
 
 inline arma::mat CLAMP(const arma::mat& x, const arma::mat& lows, const arma::mat& highs){
     

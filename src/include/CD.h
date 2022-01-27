@@ -1,5 +1,5 @@
-#ifndef gL0Learn_H
-#define gL0Learn_H
+#ifndef CD_H
+#define CD_H
 #include "RcppArmadillo.h"
 #include "oracle.h"
 #include "fitmodel.h"
@@ -12,7 +12,7 @@
 #include <iomanip>
 
 
-template <class B, template<class> class P, class E>
+template <class O>
 struct CDParams
 {
     const double atol;
@@ -20,8 +20,7 @@ struct CDParams
     const GapMethod gap_method;
     const bool one_normalize;
     const size_t max_iter;
-    const P<E> penalty;
-    const B bounds;
+    const O oracle;
     const std::string algorithm;
     
     CDParams(const double atol,
@@ -29,28 +28,11 @@ struct CDParams
              const GapMethod gap_method,
              const bool one_normalize,
              const size_t max_iter,
-             const P<E> penalty,
-             const B bounds,
+             const O& oracle,
              const std::string algorithm) : 
         atol{atol}, rtol{rtol}, gap_method{gap_method}, 
-        one_normalize{one_normalize}, max_iter{max_iter}, penalty{penalty},
-        bounds{bounds}, algorithm{algorithm} {};
-    
-    auto get_scalar_oracle(const arma::uword row_index,
-                           const arma::uword col_index) const{
-        return _get_scalar_oracle(this->penalty,
-                                  this->bounds,
-                                  row_index,
-                                  col_index);
-    };
-    
-    auto get_row_oracle(const arma::uword row_index,
-                        const arma::uvec col_indicies) const{
-        return _get_row_oracle(this->penalty,
-                               this->bounds,
-                               row_index,
-                               col_indicies);
-    };
+        one_normalize{one_normalize}, max_iter{max_iter}, oracle{oracle},
+        algorithm{algorithm} {};
 };
 
 
@@ -208,7 +190,7 @@ coordinate_vector CD<TY, TR, TT, TP>::active_set_expansion(const coordinate_vect
         const double a = this->S_diag(j)/theta_diag(i) + this->S_diag(i) / theta_diag(j);
         const double b = 2*ytr(j, i)/theta_diag(i) + 2*ytr(i, j)/theta_diag(j);
         
-        if (this->params.get_scalar_oracle(i, j).Q(a, b) != 0){
+        if (this->params.oracle.Q(a, b, i, j) != 0){
             items_to_expand_active_set_by.push_back(ij);
         }
         
@@ -240,7 +222,7 @@ void CD<TY, TR, TT, TP>::inner_fit(){
         const double a = this->S_diag(j)/old_theta_ii + this->S_diag(i)/old_theta_jj;
         const double b = 2*((arma::dot(this->Y.col(j), this->R.col(i)) - old_theta_ji*this->S_diag(j))/old_theta_ii +
                           (arma::dot(this->Y.col(i), this->R.col(j)) - old_theta_ij*this->S_diag(i))/old_theta_jj);
-        const double new_theta = this->params.get_scalar_oracle(i, j).Q(a, b);
+        const double new_theta = this->params.oracle.Q(a, b, i, j);
         
         this->theta(i, j) = new_theta;
         this->theta(j, i) = new_theta;
@@ -335,7 +317,7 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " overleaf_Q_L0L2reg_obj \n";
         // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         //const std::tuple<double, double> theta_f = this->params.oracle.Qobj(aj, bj);
-        const std::tuple<double, double> theta_f = this->params.get_scalar_oracle(row_ix, j).Qobj(aj, bj);
+        const std::tuple<double, double> theta_f = this->params.oracle.Qobj(aj, bj, row_ix, j);
         
         const double theta = std::get<0>(theta_f);
         const double f = std::get<1>(theta_f);
@@ -349,9 +331,9 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " overleaf_Q_L0L2reg_obj vec \n";
         // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         //const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.oracle.Qobj(a_vec, b_vec);
-        const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.get_row_oracle(row_ix, zeros).Qobj(a_vec, b_vec);
-        const arma::vec thetas = std::get<0>(thetas_fs);
-        const arma::vec fs = std::get<1>(thetas_fs);
+        const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.oracle.Qobj(a_vec, b_vec, row_ix);
+        const arma::vec thetas = std::get<0>(thetas_fs)(zeros);
+        const arma::vec fs = std::get<1>(thetas_fs)(zeros);
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " fs: " << fs << " \n";
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " thetas: "<< thetas <<"\n";
         // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -453,11 +435,11 @@ double inline CD<TY, TR, TT, TP>::compute_objective(){
         const double i = std::get<0>(ij);
         const double j = std::get<1>(ij);
         const double theta_ij = this->theta(i, j);
-        cost += this->params.get_scalar_oracle(i, j).penalty.cost(theta_ij);
+        cost += this->params.oracle.penalty.cost(theta_ij, i, j);
     }
     
     return cost;
 };
     
-#endif // gL0Learn_H
+#endif // CD_H
 

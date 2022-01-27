@@ -97,11 +97,10 @@
 // }
 
 
-template <class T, template <class> class P,class E, class B> 
+template <class T, class O> 
 const fitmodel gL0LearnFit(const T& Y,
                            const T& theta_init,
-                           const P<E>& penalty,
-                           const B& bounds,
+                           const O& oracle,
                            const std::string algorithm,
                            const arma::umat& initial_active_set,
                            const arma::umat& super_active_set, 
@@ -109,83 +108,27 @@ const fitmodel gL0LearnFit(const T& Y,
                            const double rtol,
                            const size_t max_iter){
     
-    const CDParams<B, P, E> params = CDParams<B, P, E>(
-        atol,
-        rtol,
-        GapMethod::both,
-        true,
-        max_iter,
-        penalty,
-        bounds,
-        algorithm);
+    const auto params = CDParams<O>(atol,
+                                    rtol,
+                                    GapMethod::both,
+                                    true,
+                                    max_iter,
+                                    oracle,
+                                    algorithm);
     
     const coordinate_vector initial_active_set_vec = coordinate_vector_from_matrix(initial_active_set);
     const coordinate_vector super_active_set_vec = coordinate_vector_from_matrix(super_active_set); 
     
-    CD<const T, T, T, CDParams<B, P, E>> x = CD<const T, T, T, CDParams<B, P, E>>(Y, theta_init, params, initial_active_set_vec, super_active_set_vec);
+    auto cd = CD<const T, T, T, CDParams<O>>(Y, theta_init, params, initial_active_set_vec, super_active_set_vec);
     
     if (algorithm == "CD"){
-        return x.fit();
+        return cd.fit();
     } else if (algorithm == "CDPSI"){
-        return x.fitpsi();
+        return cd.fitpsi();
     } else {
         Rcpp::stop("Canno't determine algorithm choice");
     }
 }
 
 
-
-
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<NoBounds, PenaltyL0L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<NoBounds, PenaltyL0L1L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<NoBounds, PenaltyL0L2, arma::mat>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<NoBounds, PenaltyL0L1L2, arma::mat>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<double>, PenaltyL0L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<double>, PenaltyL0L1L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<double>, PenaltyL0L2, arma::mat>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<double>, PenaltyL0L1L2, arma::mat>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<arma::mat>, PenaltyL0L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<arma::mat>, PenaltyL0L1L2, double>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<arma::mat>, PenaltyL0L2, arma::mat>>;
-template class CD<const arma::mat,
-                  arma::mat,
-                  arma::mat,
-                  CDParams<Bounds<arma::mat>, PenaltyL0L1L2, arma::mat>>;
-
-
-
-
-#endif 
+#endif // GL0LEARN_H
