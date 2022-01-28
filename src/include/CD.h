@@ -384,6 +384,8 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
                                                                row_ix_k);
             
             const size_t loc = low - this->active_set.begin();
+            
+            // START: Debug Printing statements
             const auto active_set_size = this->active_set.size();
             
             Rcpp::Rcout << "Swap for (" << row_ix << ", " << j << ") with (" << row_ix << ", " << k << ")\n";
@@ -401,12 +403,10 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
                     Rcpp::Rcout << " AS(loc+1)= " << this->active_set.at(loc + 1) << "\n";
                 }
             }
+            // END: Debug Printing statements
             
             if (this->active_set.at(loc - 1) != row_ix_k){
                 this->active_set.insert(low, row_ix_k);
-                // Rcpp::Rcout << " active_set.insert(low, row_ix_k) scucess";
-                // std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                // TODO: We will need to check if this code works when inserting...
             }
             
             return true;
