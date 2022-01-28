@@ -122,8 +122,10 @@ const fitmodel gL0LearnFit(const T& Y,
     auto cd = CD<const T, T, T, CDParams<O>>(Y, theta_init, params, initial_active_set_vec, super_active_set_vec);
     
     if (algorithm == "CD"){
+        Rcpp::Rcout << "FIT CD";
         return cd.fit();
     } else if (algorithm == "CDPSI"){
+        Rcpp::Rcout << "FIT CDPSI";
         return cd.fitpsi();
     } else {
         Rcpp::stop("Canno't determine algorithm choice");

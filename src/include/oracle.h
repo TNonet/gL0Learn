@@ -3,6 +3,9 @@
 #include "RcppArmadillo.h"
 #include "utils.h"
 
+#include <chrono>
+#include <thread>
+
 
 template <class T>
 T inline R_nl(const T & a, const T & b){
@@ -20,14 +23,7 @@ decltype(auto) inline variadic_get(Args&&... as) noexcept {
     return std::get<N>(std::forward_as_tuple(as...));
 }
 
-template <typename... Args,
-          typename = typename std::enable_if<sizeof...(Args) == 0>::type>
-arma::mat inline get_by_var_args(const arma::mat& x, const Args... getitems){
-    return x;
-}
-
-template <typename... Args,
-          typename = typename std::enable_if<sizeof...(Args) == 0>::type>
+template <typename... Args>
 arma::vec inline get_by_var_args(const arma::vec& x, const Args... getitems){
     return x;
 }
@@ -38,20 +34,40 @@ double inline get_by_var_args(const double x, const Args... getitems){
 }
 
 template <typename... Args,
-          typename = typename std::enable_if<sizeof...(Args) == 1>::type>
+          typename std::enable_if<sizeof...(Args) == 0, bool>::type = true>
+arma::mat inline get_by_var_args(const arma::mat& x, const Args... getitems){
+    return x;
+}
+
+template <typename... Args,
+          typename std::enable_if<sizeof...(Args) == 1, bool>::type = true>
 arma::vec inline get_by_var_args(const arma::mat& x, const Args... getitems){
     const arma::uword i = variadic_get<0>(getitems...);
     return x.col(i);
 }
 
 
-template <typename... Args,
-          typename = typename std::enable_if<sizeof...(Args) == 2>::type>
-double inline get_by_var_args(const arma::mat& x, const Args... getitems){
-    const arma::uword i = variadic_get<0>(getitems...);
-    const arma::uword j = variadic_get<1>(getitems...);
-    return x(i, j);
+arma::vec inline _get_by_var_args(const arma::mat& x,
+                                  const arma::uword row,
+                                  const arma::uvec& indices){
+    const arma::vec x_row = x.row(row);
+    return x_row.elem(indices);
 }
+
+double inline _get_by_var_args(const arma::mat& x,
+                               const arma::uword row,
+                               const arma::uword col){
+    return x(row, col);
+}
+
+template <typename... Args,
+          typename std::enable_if<sizeof...(Args) == 2, bool>::type = true>
+auto inline get_by_var_args(const arma::mat& x, const Args... getitems){
+    const auto getitem0 = variadic_get<0>(getitems...);
+    const auto getitem1 = variadic_get<1>(getitems...);
+    return _get_by_var_args(x, getitem0, getitem1);
+}
+
 
 template <typename T>
 struct PenaltyL0
@@ -69,8 +85,28 @@ struct PenaltyL0
     template <typename U, typename... Args>
     inline auto cost(const U& beta,
                      const Args... getitems) const{
+        
+        // const auto tmpl0 = get_by_var_args(this->l0, getitems...);
+        // Rcpp::Rcout << "tmpl0 = " << tmpl0 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // Rcpp::Rcout << "tmp_beta_l02 = " << beta << " \n";
+        // Rcpp::Rcout << "tmp_beta_l03 = " << get_by_var_args(beta, getitems...) << " \n";
+        // const auto tmp_beta_l0 = not_eq_zero(get_by_var_args(beta, getitems...));
+        // Rcpp::Rcout << "tmp_beta_l0 = " << tmp_beta_l0 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // 
+        // const auto tmp_mult = MULT(get_by_var_args(this->l0, getitems...),
+        //                 not_eq_zero(get_by_var_args(beta, getitems...)));
+        // 
+        // 
+        // Rcpp::Rcout << "tmp_mult = " << tmp_mult << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
+        
         return MULT(get_by_var_args(this->l0, getitems...),
-                    get_by_var_args(beta, getitems...) != 0);
+                    not_eq_zero(get_by_var_args(beta, getitems...)));
     }
     
 };
@@ -91,6 +127,16 @@ struct PenaltyL1
     template <typename U, typename... Args>
     inline auto cost(const U& beta,
                      const Args... getitems) const{
+        
+        // const auto tmpl1 = get_by_var_args(this->l1, getitems...);
+        // Rcpp::Rcout << "tmpl1 = " << tmpl1 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // 
+        // const auto tmp_beta_l1 = ABS(get_by_var_args(beta, getitems...));
+        // Rcpp::Rcout << "tmp_beta_l1 = " << tmp_beta_l1 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
         return MULT(get_by_var_args(this->l1, getitems...),
                     ABS(get_by_var_args(beta, getitems...)));
     }
@@ -113,6 +159,16 @@ struct PenaltyL2
     template <typename U, typename... Args>
     inline auto cost(const U& beta,
                      const Args... getitems) const{
+        
+        // const auto tmpl2 = get_by_var_args(this->l2, getitems...);
+        // Rcpp::Rcout << "tmpl2 = " << tmpl2 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // const auto tmp_beta_l2 = SQUARE(get_by_var_args(beta, getitems...));
+        // Rcpp::Rcout << "tmp_beta_l2 = " << tmp_beta_l2 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
+        
         return MULT(get_by_var_args(this->l2, getitems...),
                     SQUARE(get_by_var_args(beta, getitems...)));
     }
@@ -134,7 +190,23 @@ struct PenaltyL0L2 : public PenaltyL0<T>, public PenaltyL2<T>
     template <typename U, typename... Args>
     inline auto cost(const U& beta,
                      const Args... getitems) const{
-        return PenaltyL0<T>::cost(beta, getitems...) + PenaltyL2<T>::cost(beta, getitems...);
+        
+        // Rcpp::Rcout << "PenaltyL0L2::cost\n";
+        const auto pL0 = PenaltyL0<T>::cost(beta, getitems...);
+        const auto pL2 = PenaltyL2<T>::cost(beta, getitems...);
+        
+        // Rcpp::Rcout << "pL0 = " << pL0 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // Rcpp::Rcout << "pL2 = " << pL2 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // Rcpp::Rcout << "pL0 + pL2 = " << pL0 + pL2 << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // const auto cost = pL0 + pL2;
+    
+        return ADD(pL0, pL2);
     }
     
 };
@@ -174,6 +246,20 @@ struct PenaltyL0L1L2 : public PenaltyL0<T>, public PenaltyL1<T>, public PenaltyL
     template <typename U, typename... Args>
     inline auto cost(const U& beta,
                      const Args... getitems) const{
+        
+        Rcpp::Rcout << "PenaltyL0L1L2::cost\n";
+        const auto pL0 = PenaltyL0<T>::cost(beta, getitems...);
+        Rcpp::Rcout << "pL0 = " << pL0 << " \n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
+        const auto pL2 = PenaltyL2<T>::cost(beta, getitems...);
+        Rcpp::Rcout << "pL2 = " << pL2 << " \n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
+        const auto pL1 = PenaltyL1<T>::cost(beta, getitems...);
+        Rcpp::Rcout << "pL1 = " << pL1 << " \n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        
         return PenaltyL0<T>::cost(beta, getitems...) + PenaltyL1<T>::cost(beta, getitems...) + PenaltyL2<T>::cost(beta, getitems...);
     }
 };
@@ -244,10 +330,31 @@ struct Oracle{
                      const T& b,
                      const Args... getitems) const {
         const auto beta = this->Q(a, b, getitems...);
+        
+        
+        // Rcpp::Rcout << "beta = " << beta << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        
         const auto beta_cost = this->penalty.cost(beta, getitems...);
-        return std::make_tuple(beta, (beta_cost 
-                                          + MULT(get_by_var_args(b, getitems...), beta) 
-                                          + MULT(get_by_var_args(a, getitems...), SQUARE(beta))));
+        
+        
+        // Rcpp::Rcout << "beta_cost = " << beta_cost << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // const auto tmp_a = get_by_var_args(b, getitems...);
+        // Rcpp::Rcout << "tmp_a = " << tmp_a << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // 
+        // 
+        // const auto tmp_beta = get_by_var_args(beta, getitems...);
+        // Rcpp::Rcout << "tmp_beta = " << tmp_beta << " \n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+        
+        return std::make_tuple(beta, ADD(beta_cost,
+                                         MULT(get_by_var_args(b, getitems...), beta),
+                                         MULT(get_by_var_args(a, getitems...), SQUARE(beta))));
     }
 };
 

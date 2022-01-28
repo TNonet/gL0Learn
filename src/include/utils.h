@@ -29,6 +29,30 @@ inline auto eval(const T& x){
 //     return arma::abs(x);
 // }
 
+inline arma::mat ADD(const arma::mat& x1, const arma::mat& x2){
+    return x1 + x2;
+}
+
+inline double ADD(const double x1, const double x2){
+    return x1 + x2;
+}
+
+inline arma::vec ADD(const arma::vec& x1, const arma::vec& x2){
+    return x1 + x2;
+}
+
+inline arma::mat ADD(const arma::mat& x1, const arma::mat& x2, const arma::mat& x3){
+    return x1 + x2 + x3;
+}
+
+inline double ADD(const double x1, const double x2, const double x3){
+    return x1 + x2 + x3;
+}
+
+inline arma::vec ADD(const arma::vec& x1, const arma::vec& x2, arma::vec& x3){
+    return x1 + x2 + x3;
+}
+
 inline arma::mat ABS(const arma::mat& x){
     return arma::abs(x);
 }
@@ -58,7 +82,6 @@ inline arma::mat SQUARE(const arma::mat& x){
 inline double SQUARE(const double x){
     return x*x;
 }
-
 
 inline double MULT(const double x1, const double x2){
     return x1*x2;
@@ -116,7 +139,17 @@ inline int SIGN(const double x){
     return (0. < x) - (x < 0.);
 }
 
-inline int SIGN2(const double x);
+inline arma::umat not_eq_zero(const arma::mat& x){
+    return x != 0;
+}
+
+inline arma::uvec not_eq_zero(const arma::vec& x){
+    return x != 0;
+}
+
+inline std::size_t not_eq_zero(const double x){
+    return x != 0;
+}
 
 
 inline double CLAMP(const double x, const double lows, const double highs) {

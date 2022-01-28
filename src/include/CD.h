@@ -240,6 +240,7 @@ void CD<TY, TR, TT, TP>::inner_fit(){
 
 template <class TY, class TR, class TT, class TP>
 const fitmodel CD<TY, TR, TT, TP>::fitpsi(){
+    // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     Rcpp::Rcout << "fitpsi called \n";
     static_cast<void>(this->fit());
     Rcpp::Rcout << "Pre psi cost: " << this->compute_objective() << " \n";
@@ -247,7 +248,7 @@ const fitmodel CD<TY, TR, TT, TP>::fitpsi(){
     
     for (auto i=0; i<100; i++){ // TODO: Elevant 100 to Parameter
         Rcpp::Rcout << "PSI iter: " << i << " \n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
         bool swap = false;
         
         for (arma::uword row_ix=0; row_ix < p; row_ix ++){ // TODO: Shuffle the order at which we look rows
@@ -329,11 +330,19 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " theta_diag " << theta_diag << " \n";
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " b_vec " << b_vec << " \n";
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " overleaf_Q_L0L2reg_obj vec \n";
-        // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        
+        // Rcpp::Rcout << "params.oracle.Qobj(a_vec, b_vec, row_ix) \n";
+        // Rcpp::Rcout << "params.oracle.Qobj(" << a_vec.size() << ", " <<  b_vec.size() << ", " << row_ix << ")\n";
+        // Rcpp::Rcout << "zeros.size() = " << zeros.size() <<"\n";
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
         //const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.oracle.Qobj(a_vec, b_vec);
-        const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.oracle.Qobj(a_vec, b_vec, row_ix);
-        const arma::vec thetas = std::get<0>(thetas_fs)(zeros);
-        const arma::vec fs = std::get<1>(thetas_fs)(zeros);
+        
+        const std::tuple<arma::vec, arma::vec> thetas_fs = this->params.oracle.Qobj(a_vec, b_vec, row_ix, zeros);
+        const arma::vec thetas = std::get<0>(thetas_fs);
+        const arma::vec fs = std::get<1>(thetas_fs);
+        
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // Rcpp::Rcout << "After this = " << zeros.size() <<"\n";
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " fs: " << fs << " \n";
         // Rcpp::Rcout << "Non Zero Index Loop: " << j << " thetas: "<< thetas <<"\n";
         // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -375,21 +384,31 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
                                                                row_ix_k);
             
             const size_t loc = low - this->active_set.begin();
+            const auto active_set_size = this->active_set.size();
             
             Rcpp::Rcout << "Swap for (" << row_ix << ", " << j << ") with (" << row_ix << ", " << k << ")\n";
             Rcpp::Rcout << "AS before insert:\n";
-            Rcpp::Rcout << " AS(loc-1)= " << this->active_set.at(loc -1 ) << "\n";
-            Rcpp::Rcout << " AS(loc)= " << this->active_set.at(loc) << "\n";
-            Rcpp::Rcout << " AS(loc+1)= " << this->active_set.at(loc + 1) << "\n";
+            Rcpp::Rcout << "AS size = " << active_set_size << " \n";
+            Rcpp::Rcout << " AS(loc-1) = AS(" << loc - 1 << ")" << this->active_set.at(loc -1 ) << "\n";
             
-            if (this->active_set.at(loc) != row_ix_k){
-                this->active_set.insert(low, row_ix_k);
-                // TODO: We will need to check if this code works when inserting...
-                Rcpp::Rcout << "AS after insert:\n";
-                Rcpp::Rcout << " AS(loc-1)= " << this->active_set.at(loc -1 );
-                Rcpp::Rcout << " AS(loc)= " << this->active_set.at(loc);
-                Rcpp::Rcout << " AS(loc+1)= " << this->active_set.at(loc + 1);
+            if (loc >= active_set_size){
+                Rcpp::Rcout << " AS has no loc element\n";
+            } else{
+                Rcpp::Rcout << " AS(loc)= " << this->active_set.at(loc) << "\n";
+                if (loc + 1 >= active_set_size){
+                    Rcpp::Rcout << " AS has no loc+1 element\n";
+                } else {
+                    Rcpp::Rcout << " AS(loc+1)= " << this->active_set.at(loc + 1) << "\n";
+                }
             }
+            
+            if (this->active_set.at(loc - 1) != row_ix_k){
+                this->active_set.insert(low, row_ix_k);
+                // Rcpp::Rcout << " active_set.insert(low, row_ix_k) scucess";
+                // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                // TODO: We will need to check if this code works when inserting...
+            }
+            
             return true;
         }
     }
