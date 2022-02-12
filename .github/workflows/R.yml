@@ -38,7 +38,6 @@ jobs:
           extra-packages: |
             covr
             xml2
-          working-directory: R
 
       - name: Test coverage
         run: |
