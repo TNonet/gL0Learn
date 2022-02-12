@@ -13,5 +13,6 @@ Imports: Rcpp (>= 1.0.5)
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    covr
 LinkingTo: Rcpp, RcppArmadillo
