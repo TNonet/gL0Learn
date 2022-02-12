@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+    -   id: black
+        args: [pypkg, '--check', '--exclude', 'pypkg/external/']
+  - repo: local
+    hooks:
+      - id: dirs_check
+        name: dirs_check
+        pass_filenames: false
+        entry: python scripts/dirs_check.py src/include pypkg/gl0learn/src/include --ignore "arma_includes.h"
+        language: python
+
+
+

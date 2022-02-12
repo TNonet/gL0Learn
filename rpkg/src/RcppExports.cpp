@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // test_Oracle_prox
 SEXP test_Oracle_prox(const SEXP& theta, const SEXP& l0, const SEXP& l1, const SEXP& l2, const SEXP& lows, const SEXP& highs);
 RcppExport SEXP _gL0Learn_test_Oracle_prox(SEXP thetaSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP lowsSEXP, SEXP highsSEXP) {

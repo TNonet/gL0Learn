@@ -1,10 +1,11 @@
 #ifndef RGL0LEARN_H
 #define RGL0LEARN_H
 #include <algorithm>
-#include "RcppArmadillo.h"
+#include "arma_includes.h"
 #include "gL0Learn.h"
 #include "oracle.h"
 #include "utils.h"
+#include "Rutils.h"
 
 template <template <class> class P, class E>
 fitmodel gL0Learn_fit_sub_penalty(const arma::mat& Y,

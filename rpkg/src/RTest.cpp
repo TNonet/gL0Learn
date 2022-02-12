@@ -88,7 +88,7 @@ SEXP test_union_of_correlated_features(const arma::mat & x,
     
     const coordinate_vector cv = union_of_correlated_features(x, threshold);
     
-    Rcpp::Rcout << cv;
+    COUT << cv;
     
     Rcpp::List coordinate_list(cv.size());
     

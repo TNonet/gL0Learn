@@ -2,10 +2,11 @@
 #define RTEST_H
 
 #include <tuple>
-#include "RcppArmadillo.h"
+#include "arma_includes.h"
 #include "oracle.h"
 #include "utils.h"
 #include "active_set.h"
+#include "Rutils.h"
 
 typedef Bounds<double> ScalarBounds;
 typedef Bounds<arma::vec> VectorBounds;
@@ -42,7 +43,7 @@ double Oracle_prox_sub_penalty(const double& theta,
         if (is_double_SEXP(lows) && is_double_SEXP(highs)){
             return Oracle<P<E>, Bounds<double>>(penalty, Bounds<double>(Rcpp::as<double>(lows), Rcpp::as<double>(highs))).prox(theta);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
         
     }    
@@ -62,7 +63,7 @@ arma::vec Oracle_prox_sub_penalty(const arma::vec& theta,
         } else if (Rf_isVector(lows) && Rf_isVector(highs)){
             return Oracle<P<E>, Bounds<arma::vec>>(penalty, Bounds<arma::vec>(Rcpp::as<arma::vec>(lows), Rcpp::as<arma::vec>(highs))).prox(theta);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
         
     }    
@@ -84,7 +85,7 @@ arma::mat Oracle_prox_sub_penalty(const arma::mat& theta,
         } else if (Rf_isVector(lows) && Rf_isVector(highs)){
             return Oracle<P<E>, Bounds<arma::vec>>(penalty, Bounds<arma::vec>(Rcpp::as<arma::vec>(lows), Rcpp::as<arma::vec>(highs))).prox(theta);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
         
     }    
@@ -103,7 +104,7 @@ double Oracle_prox_c(const double& theta,
                                            PenaltyL0L2<double>(Rcpp::as<double>(l0), Rcpp::as<double>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     } else {
         if (is_double_SEXP(l0) && is_double_SEXP(l1) && is_double_SEXP(l1)){
@@ -111,7 +112,7 @@ double Oracle_prox_c(const double& theta,
                                            PenaltyL0L1L2<double>(Rcpp::as<double>(l0), Rcpp::as<double>(l1), Rcpp::as<double>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     }
 }
@@ -132,7 +133,7 @@ arma::vec Oracle_prox_c(const arma::vec& theta,
                                            PenaltyL0L2<arma::vec>(Rcpp::as<arma::vec>(l0), Rcpp::as<arma::vec>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     } else {
         if (is_double_SEXP(l0) && is_double_SEXP(l1) && is_double_SEXP(l1)){
@@ -144,7 +145,7 @@ arma::vec Oracle_prox_c(const arma::vec& theta,
                                            PenaltyL0L1L2<arma::vec>(Rcpp::as<arma::vec>(l0), Rcpp::as<arma::vec>(l1), Rcpp::as<arma::vec>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     }
 }
@@ -169,7 +170,7 @@ arma::mat Oracle_prox_c(const arma::mat& theta,
                                            PenaltyL0L2<arma::vec>(Rcpp::as<arma::vec>(l0), Rcpp::as<arma::vec>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     } else {
         if (is_double_SEXP(l0) && is_double_SEXP(l1) && is_double_SEXP(l1)){
@@ -185,7 +186,7 @@ arma::mat Oracle_prox_c(const arma::mat& theta,
                                            PenaltyL0L1L2<arma::vec>(Rcpp::as<arma::vec>(l0), Rcpp::as<arma::vec>(l1), Rcpp::as<arma::vec>(l2)),
                                            lows, highs);
         } else {
-            Rcpp::stop("Must be same types");
+            STOP("Must be same types");
         }
     }
 }
