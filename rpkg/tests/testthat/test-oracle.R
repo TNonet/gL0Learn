@@ -1,4 +1,3 @@
-library("RClassTemplates")
 library("gL0Learn")
 library("pracma")
 

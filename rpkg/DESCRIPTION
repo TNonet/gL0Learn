@@ -9,7 +9,7 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Depends: R (>= 3.4.0)
 SystemRequirements: C++14
-Imports: Rcpp (>= 1.0.5)
+Imports: Rcpp (>= 1.0.5), pracma
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 

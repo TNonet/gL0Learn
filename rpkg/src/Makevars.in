@@ -1,6 +1,0 @@
-CXX_STD = CXX14
-
-PKG_CXXFLAGS = "-I/include -I/src/include" 
-
-# Include all C++ files in src/ and its subdirectories: src/A and src/B 
-SOURCES=RcppExports.cpp RTest.cpp RgL0Learn.cpp

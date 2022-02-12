@@ -48,5 +48,5 @@ gL0Learn.linear_plot<- function(theta_opt, l0=0, l1=0, l2=0, lows=-1, highs=+1, 
     f_x <- 0.5*(theta_opt-x)**2 + (x!=0.)*l0 + abs(x)*l1 + x*x*l2
     
     data <- data.frame(x,f_x)
-    ggplot(data, aes(x=x, y=f_x)) + geom_line()
+    plot(data, aes(x=x, y=f_x)) + geom_line()
 }

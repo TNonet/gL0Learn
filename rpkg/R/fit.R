@@ -121,8 +121,8 @@ gL0Learn.gfit <- function(x,
     #   3. support of non-zero non-diagonal values of theta_init must be a subset of initial_active_set
     #   
     
-    initial_active_set <- check_make_valid_coordinate_matrix('initial_active_set', initial_active_set, y)
-    super_active_set <- check_make_valid_coordinate_matrix('super_active_set', super_active_set, y)
+    initial_active_set <- check_make_valid_coordinate_matrix('initial_active_set', initial_active_set, y, p)
+    super_active_set <- check_make_valid_coordinate_matrix('super_active_set', super_active_set, y, p)
     if (!check_is_valid_coordinate_subset(super_active_set, initial_active_set)){
       stop("expected `initial_active_set` be a subset of `super_active_set`, 
            but is not. Please see documentation on how `super_active_set` and
@@ -141,7 +141,7 @@ gL0Learn.gfit <- function(x,
   
 }
 
-check_make_valid_coordinate_matrix <- function(parameter_name, coordinate_matrix, y){
+check_make_valid_coordinate_matrix <- function(parameter_name, coordinate_matrix, y, p){
   if (gL0Learn.is.real_scalar(coordinate_matrix) && coordinate_matrix >= 0){
     return(test_union_of_correlated_features2(y, coordinate_matrix))
   } else if (coordinate_matrix == 'full') {
