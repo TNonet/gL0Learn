@@ -1,10 +1,6 @@
 name: R CI
 
 on:
-  push:
-    branches: [ sub-modules ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
