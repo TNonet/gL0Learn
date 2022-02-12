@@ -38,6 +38,8 @@ jobs:
           extra-packages: |
             covr
             xml2
+          working-directory:
+            rpkg
 
       - name: Test coverage
         run: |
