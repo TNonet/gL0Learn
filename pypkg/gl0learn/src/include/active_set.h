@@ -55,13 +55,13 @@ inline coordinate_vector union_of_correlated_features(const T& x, const double c
      *  Returns the coordinates of the upper triangle of xtx where xtx[i,j] > correlation_threshold
      *  
      */
-    
+    const arma::vec s_diag = arma::sum(arma::square(x), 0);
     const auto p = x.n_cols;
     coordinate_vector active_set = coordinate_vector();
     active_set.reserve(p*(p-1));
 
     for (auto i = 0; i < p - 1; ++i){
-        const arma::vec xxt_i = x.cols(i+1, p-1).t()*x.col(i);
+        const arma::vec xxt_i = x.cols(i+1, p-1).t()*x.col(i)/s_diag[i];
         const arma::uvec highly_correlated_xxt_i_indicies = arma::find(arma::abs(xxt_i) > correlation_threshold);
         
         arma::uvec::const_iterator it = highly_correlated_xxt_i_indicies.begin();
@@ -188,10 +188,12 @@ inline arma::umat union_of_correlated_features2(const T& x, const double correla
      *  Note, because we are using armadillo logic which is column major, 
      *   we have to flip our coordinates to make this work.
      */
+    const arma::rowvec s_diag = arma::sum(arma::square(x), 0);
     const auto p = x.n_cols;
     arma::mat upper_triangle_indicator(p, p, arma::fill::zeros);
     upper_triangle_indicator.elem(arma::trimatu_ind(arma::size(upper_triangle_indicator), 1)).fill(1);
-    const arma::uvec highly_correlated_indicies = arma::find((arma::abs(x.t()*x)%upper_triangle_indicator).t() > correlation_threshold);
+    const arma::mat xtx_upper_triangle = (arma::abs(x.t()*x)%upper_triangle_indicator).t();
+    const arma::uvec highly_correlated_indicies = arma::find(xtx_upper_triangle.each_row()/s_diag > correlation_threshold);
     return unravel_ut_indices(highly_correlated_indicies, p);
 }
 

@@ -3,7 +3,7 @@ import re
 import subprocess
 import sys
 
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -124,9 +124,11 @@ setup(
     author_email="tim.nonet@gmail.com",
     description="A test project using pybind11 and CMake",
     long_description="",
-    ext_modules=[CMakeExtension("gl0learn")],
+    ext_modules=[CMakeExtension("_gl0learn")],
+    packages=find_packages(),
     cmdclass={"build_ext": CMakeBuild},
+    install_requires=["numpy==1.22.2"],
     zip_safe=False,
-    extras_require={"test": ["pytest>=6.0"]},
+    extras_require={"test": ["pytest", "hypothesis"], "opt": ["numba", "mosek"]},
     python_requires=">=3.6",
 )

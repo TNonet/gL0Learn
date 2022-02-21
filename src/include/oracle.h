@@ -1,11 +1,8 @@
 #ifndef ORACLE_H
 #define ORACLE_H
+#include <limits>
 #include "arma_includes.h"
 #include "utils.h"
-
-#include <chrono>
-#include <thread>
-
 
 template <class T>
 T inline R_nl(const T & a, const T & b){
@@ -68,6 +65,14 @@ auto inline get_by_var_args(const arma::mat& x, const Args... getitems){
     return _get_by_var_args(x, getitem0, getitem1);
 }
 
+bool inline _validate_Penalty(const double lX){
+    return lX >= 0;
+}
+
+bool inline _validate_Penalty(const arma::mat& lX){
+    return arma::all(arma::all(lX >= 0)) && lX.is_symmetric();
+}
+
 
 template <typename T>
 struct PenaltyL0
@@ -88,6 +93,10 @@ struct PenaltyL0
         // TODO: Replaced `not_eq_zero`
         return MULT(get_by_var_args(this->l0, getitems...),
                     not_eq_zero(get_by_var_args(beta, getitems...)));
+    }
+
+    bool inline validate(){
+        return _validate_Penalty(this->l0);
     }
     
 };
@@ -110,6 +119,10 @@ struct PenaltyL1
                      const Args... getitems) const{
         return MULT(get_by_var_args(this->l1, getitems...),
                     ABS(get_by_var_args(beta, getitems...)));
+    }
+
+    bool inline validate(){
+         return _validate_Penalty(this->l1);
     }
     
 };
@@ -134,6 +147,10 @@ struct PenaltyL2
         return MULT(get_by_var_args(this->l2, getitems...),
                     SQUARE(get_by_var_args(beta, getitems...)));
     }
+
+    bool inline validate(){
+         return _validate_Penalty(this->l2);
+    }
     
 };
 
@@ -155,6 +172,10 @@ struct PenaltyL0L2 : public PenaltyL0<T>, public PenaltyL2<T>
         return ADD(PenaltyL0<T>::cost(beta, getitems...),
                    PenaltyL2<T>::cost(beta, getitems...));
     }
+
+    bool inline validate(){
+        return PenaltyL0<T>::validate() && PenaltyL2<T>::validate();
+    }
     
 };
 
@@ -175,6 +196,10 @@ struct PenaltyL0L1 : public PenaltyL0<T>, public PenaltyL1<T>
                      const Args... getitems) const{
         return ADD(PenaltyL0<T>::cost(beta, getitems...),
                    PenaltyL1<T>::cost(beta, getitems...));
+    }
+
+    bool inline validate(){
+        return PenaltyL0<T>::validate() && PenaltyL1<T>::validate();
     }
 };
 
@@ -199,8 +224,11 @@ struct PenaltyL0L1L2 : public PenaltyL0<T>, public PenaltyL1<T>, public PenaltyL
                    PenaltyL1<T>::cost(beta, getitems...),
                    PenaltyL2<T>::cost(beta, getitems...));
     }
-};
 
+    bool inline validate(){
+        return PenaltyL0<T>::validate() && PenaltyL1<T>::validate() && PenaltyL2<T>::validate();
+    }
+};
 
 
 struct NoBounds {
@@ -210,7 +238,22 @@ struct NoBounds {
     inline auto operator()(const Args... getitems) const {
         return NoBounds();
     }
+
+    bool inline validate(){
+        return true;
+    }
 };
+
+inline bool _validate_Bounds(const double lows, const double highs){
+    return (lows <= 0) && (highs >= 0) && (lows < highs);
+}
+
+inline bool _validate_Bounds(const arma::mat& lows, const arma::mat& highs){
+    const bool are_square = lows.is_symmetric() && highs.is_symmetric();
+    const bool are_same_size = arma::size(lows) == arma::size(highs);
+    const bool are_valid = arma::all(arma::all((lows <= 0) && (highs >= 0) && (lows < highs)));
+    return are_square && are_same_size && are_valid;
+}
 
 template <typename T>
 struct Bounds{
@@ -227,10 +270,12 @@ struct Bounds{
                 get_by_var_args(this->lows, getitems...),
                 get_by_var_args(this->highs, getitems...));
     }
+
+    inline bool validate() const{
+        return _validate_Bounds(this->lows, this->highs);
+    }
     
 };
-
-
 
 template <class P, class B>
 struct Oracle{

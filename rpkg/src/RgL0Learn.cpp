@@ -37,6 +37,7 @@ Rcpp::List gL0Learn_fit_R(const arma::mat& Y,
                           const arma::umat& super_active_set,
                           const double atol,
                           const double rtol,
+                          const size_t max_active_set_size,
                           const size_t max_iter){
     
     const fitmodel l = gL0Learn_fit_C(Y,
@@ -51,6 +52,7 @@ Rcpp::List gL0Learn_fit_R(const arma::mat& Y,
                                       super_active_set,
                                       atol, 
                                       rtol, 
+                                      max_active_set_size,
                                       max_iter);
     
     return(Rcpp::List::create(Rcpp::Named("theta") = l.theta,

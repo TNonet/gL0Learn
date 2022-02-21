@@ -5,6 +5,9 @@
 #include "oracle.h"
 #include "fitmodel.h"
 
+#include <chrono>
+#include <thread>
+
 
 // template <class T, template <class> class P, class E, class B> 
 // const fitmodel gL0LearnFit(const T& Y,
@@ -106,26 +109,28 @@ const fitmodel gL0LearnFit(const T& Y,
                            const arma::umat& super_active_set, 
                            const double atol,
                            const double rtol,
+                           const size_t max_active_set_size,
                            const size_t max_iter){
     
     const auto params = CDParams<O>(atol,
                                     rtol,
+                                    max_active_set_size,
                                     GapMethod::both,
                                     true,
                                     max_iter,
                                     oracle,
                                     algorithm);
-    
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    COUT << "gL0LearnFit 1\n";
     const coordinate_vector initial_active_set_vec = coordinate_vector_from_matrix(initial_active_set);
+    COUT << "gL0LearnFit 2\n";
     const coordinate_vector super_active_set_vec = coordinate_vector_from_matrix(super_active_set); 
-    
+    COUT << "gL0LearnFit 2\n";
     auto cd = CD<const T, T, T, CDParams<O>>(Y, theta_init, params, initial_active_set_vec, super_active_set_vec);
     
     if (algorithm == "CD"){
-        COUT << "FIT CD";
         return cd.fit();
     } else if (algorithm == "CDPSI"){
-        COUT << "FIT CDPSI";
         return cd.fitpsi();
     } else {
         STOP("Canno't determine algorithm choice");

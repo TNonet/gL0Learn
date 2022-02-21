@@ -2,6 +2,7 @@
 #define UTILS_H
 #include <iterator>
 #include <functional>
+#include <queue>
 #include "arma_includes.h"
 
 inline arma::vec row_elem(const arma::mat& a, const arma::uword row, const arma::uvec& indices){
@@ -16,6 +17,25 @@ inline double eval(const double x){
 template <typename T>
 inline auto eval(const T& x){
     return x.eval();
+}
+
+std::vector<std::size_t> inline nth_largest_indices(const std::vector<double> x, const std::size_t n){
+    std::priority_queue<std::pair<double, size_t>> q;
+
+    auto it = x.begin();
+    const auto it_end = x.end();
+    for (size_t i = 0; it != it_end; ++i, ++it){
+        q.push(std::pair<double, int>(*it, i));
+    }
+
+    std::vector<std::size_t> indices;
+    indices.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        indices.push_back(q.top().second);
+        q.pop();
+    }
+
+    return indices;
 }
 
 

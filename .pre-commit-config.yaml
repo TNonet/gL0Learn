@@ -3,7 +3,7 @@ repos:
     rev: 22.1.0
     hooks:
     -   id: black
-        args: [pypkg, '--check', '--exclude', 'pypkg/external/']
+        args: [pypkg/, '--check', '--exclude', 'external/']
   - repo: local
     hooks:
       - id: dirs_check

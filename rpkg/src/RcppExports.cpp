@@ -206,8 +206,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // gL0Learn_fit_R
-Rcpp::List gL0Learn_fit_R(const arma::mat& Y, const arma::mat& theta_init, const SEXP l0, const SEXP l1, const SEXP l2, const std::string algorithm, const SEXP lows, const SEXP highs, const arma::umat& initial_active_set, const arma::umat& super_active_set, const double atol, const double rtol, const size_t max_iter);
-RcppExport SEXP _gL0Learn_gL0Learn_fit_R(SEXP YSEXP, SEXP theta_initSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP algorithmSEXP, SEXP lowsSEXP, SEXP highsSEXP, SEXP initial_active_setSEXP, SEXP super_active_setSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP max_iterSEXP) {
+Rcpp::List gL0Learn_fit_R(const arma::mat& Y, const arma::mat& theta_init, const SEXP l0, const SEXP l1, const SEXP l2, const std::string algorithm, const SEXP lows, const SEXP highs, const arma::umat& initial_active_set, const arma::umat& super_active_set, const double atol, const double rtol, const size_t max_active_set_size, const size_t max_iter);
+RcppExport SEXP _gL0Learn_gL0Learn_fit_R(SEXP YSEXP, SEXP theta_initSEXP, SEXP l0SEXP, SEXP l1SEXP, SEXP l2SEXP, SEXP algorithmSEXP, SEXP lowsSEXP, SEXP highsSEXP, SEXP initial_active_setSEXP, SEXP super_active_setSEXP, SEXP atolSEXP, SEXP rtolSEXP, SEXP max_active_set_sizeSEXP, SEXP max_iterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -223,8 +223,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::umat& >::type super_active_set(super_active_setSEXP);
     Rcpp::traits::input_parameter< const double >::type atol(atolSEXP);
     Rcpp::traits::input_parameter< const double >::type rtol(rtolSEXP);
+    Rcpp::traits::input_parameter< const size_t >::type max_active_set_size(max_active_set_sizeSEXP);
     Rcpp::traits::input_parameter< const size_t >::type max_iter(max_iterSEXP);
-    rcpp_result_gen = Rcpp::wrap(gL0Learn_fit_R(Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_iter));
+    rcpp_result_gen = Rcpp::wrap(gL0Learn_fit_R(Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_active_set_size, max_iter));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -245,7 +246,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gL0Learn_upper_triangluar_coords", (DL_FUNC) &_gL0Learn_upper_triangluar_coords, 1},
     {"_gL0Learn_check_coordinate_matrix_is_valid", (DL_FUNC) &_gL0Learn_check_coordinate_matrix_is_valid, 3},
     {"_gL0Learn_check_is_valid_coordinate_subset", (DL_FUNC) &_gL0Learn_check_is_valid_coordinate_subset, 2},
-    {"_gL0Learn_gL0Learn_fit_R", (DL_FUNC) &_gL0Learn_gL0Learn_fit_R, 13},
+    {"_gL0Learn_gL0Learn_fit_R", (DL_FUNC) &_gL0Learn_gL0Learn_fit_R, 14},
     {NULL, NULL, 0}
 };
 

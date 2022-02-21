@@ -17,6 +17,7 @@ struct CDParams
 {
     const double atol;
     const double rtol;
+    const size_t max_active_set_size;
     const GapMethod gap_method;
     const bool one_normalize;
     const size_t max_iter;
@@ -25,12 +26,13 @@ struct CDParams
     
     CDParams(const double atol,
              const double rtol,
+             const size_t max_active_set_size,
              const GapMethod gap_method,
              const bool one_normalize,
              const size_t max_iter,
              const O& oracle,
              const std::string algorithm) : 
-        atol{atol}, rtol{rtol}, gap_method{gap_method}, 
+        atol{atol}, rtol{rtol}, max_active_set_size{max_active_set_size}, gap_method{gap_method},
         one_normalize{one_normalize}, max_iter{max_iter}, oracle{oracle},
         algorithm{algorithm} {};
 };
@@ -57,7 +59,7 @@ class CD
             
         void restrict_active_set();
         void l0learn_restrict_active_set();
-        coordinate_vector active_set_expansion(const coordinate_vector& search_space);
+        std::tuple<coordinate_vector, std::vector<double>> active_set_expansion(const coordinate_vector& search_space);
         void inner_fit();
         const fitmodel fit();
         
@@ -117,9 +119,10 @@ const fitmodel CD<TY, TR, TT, TP>::fit(){
     auto cur_objective = std::numeric_limits<double>::infinity();
     
     std::size_t cur_iter = 0;
-    
+    COUT << "fit 1\n";
     // RUN CD on AS until convergence
     while (cur_iter <= this->params.max_iter){
+        COUT << "fit loop" << cur_iter << "\n";
         this->inner_fit(); // Fits on active_set
         old_objective = cur_objective;
         cur_objective = this->compute_objective();
@@ -133,7 +136,25 @@ const fitmodel CD<TY, TR, TT, TP>::fit(){
             
             if (values_to_check.empty()){ break; } 
             
-            coordinate_vector add_to_active_set = this->active_set_expansion(values_to_check);
+            const std::tuple<coordinate_vector, std::vector<double>> tmp = this->active_set_expansion(values_to_check);
+            coordinate_vector add_to_active_set = std::get<0>(tmp);
+
+            const std::size_t new_active_set_size = this->active_set.size() + add_to_active_set.size();
+            if (new_active_set_size > this->params.max_active_set_size){
+                const std::vector<double> q_values = std::get<1>(tmp);
+                const std::size_t n_to_keep =  this->params.max_active_set_size - this->active_set.size();
+                const std::vector<size_t> indices = nth_largest_indices(q_values, n_to_keep);
+
+                coordinate_vector n_add_to_active_set;
+                n_add_to_active_set.reserve(n_to_keep);
+
+                auto it = indices.begin();
+                const auto it_end = indices.end();
+                for (;it != it_end; ++it){
+                    n_add_to_active_set.push_back(add_to_active_set[*it]);
+                }
+                add_to_active_set = n_add_to_active_set;
+            }
             
             if (add_to_active_set.empty()){ break; }
             
@@ -175,7 +196,8 @@ void CD<TY, TR, TT, TP>::l0learn_restrict_active_set(){
 
 
 template <class TY, class TR, class TT, class TP>
-coordinate_vector CD<TY, TR, TT, TP>::active_set_expansion(const coordinate_vector& search_space){
+std::tuple<coordinate_vector, std::vector<double>> CD<TY, TR, TT, TP>::active_set_expansion(
+    const coordinate_vector& search_space){
     
     const size_t p = this->Y.n_cols;
     const arma::vec theta_diag = arma::vec(this->theta.diag());
@@ -184,18 +206,25 @@ coordinate_vector CD<TY, TR, TT, TP>::active_set_expansion(const coordinate_vect
     
     coordinate_vector items_to_expand_active_set_by;
     items_to_expand_active_set_by.reserve(p);
+
+    std::vector<double> items_Q;
+    items_Q.reserve(p);
+
     for (auto const &ij: search_space){
         const double i = std::get<0>(ij);
         const double j = std::get<1>(ij);
         const double a = this->S_diag(j)/theta_diag(i) + this->S_diag(i) / theta_diag(j);
         const double b = 2*ytr(j, i)/theta_diag(i) + 2*ytr(i, j)/theta_diag(j);
+
+        const double q_ij = this->params.oracle.Q(a, b, i, j);
         
-        if (this->params.oracle.Q(a, b, i, j) != 0){
+        if (q_ij != 0){
+            items_Q.push_back(std::abs(q_ij));
             items_to_expand_active_set_by.push_back(ij);
         }
         
     }
-    return items_to_expand_active_set_by;
+    return std::make_tuple(items_to_expand_active_set_by, items_Q);
 }
 
 

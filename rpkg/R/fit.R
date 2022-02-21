@@ -40,6 +40,7 @@ gL0Learn.gfit <- function(x,
                           lows=-Inf,
                           highs=Inf,
                           max_iter=100,
+                          max_active_set_size=.1,
                           algorithm="CD",
                           atol=1e-6,
                           rtol=1e-6,
@@ -64,6 +65,11 @@ gL0Learn.gfit <- function(x,
         y <- x/sqrt(n)
     } else {
         y <- x
+    }
+    
+    if (max_active_set_size <= 1){
+      #TODO, Error check on `max_active_set_size`
+      max_active_set_size = as.integer(max_active_set_size*p**2)
     }
     
     if (is.null(theta_init)){
@@ -137,7 +143,7 @@ gL0Learn.gfit <- function(x,
            `initial_active_set` are selected")
     }
     
-    return(gL0Learn_fit_R(y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_iter))
+    return(gL0Learn_fit_R(y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_active_set_size, max_iter))
   
 }
 
