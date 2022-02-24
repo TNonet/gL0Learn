@@ -31,7 +31,7 @@ const fitmodel _fit(const arma::mat& Y,
 
 
     COUT << "_fit \n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     const Oracle<P, B> oracle = Oracle<P, B>(penalty, bounds);
 
     return gL0LearnFit(Y, theta_init, oracle, algorithm, initial_active_set, super_active_set, atol, rtol,

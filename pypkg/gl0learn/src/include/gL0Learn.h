@@ -120,7 +120,7 @@ const fitmodel gL0LearnFit(const T& Y,
                                     max_iter,
                                     oracle,
                                     algorithm);
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     COUT << "gL0LearnFit 1\n";
     const coordinate_vector initial_active_set_vec = coordinate_vector_from_matrix(initial_active_set);
     COUT << "gL0LearnFit 2\n";

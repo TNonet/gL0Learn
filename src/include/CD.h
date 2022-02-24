@@ -142,7 +142,10 @@ const fitmodel CD<TY, TR, TT, TP>::fit(){
             const std::size_t new_active_set_size = this->active_set.size() + add_to_active_set.size();
             if (new_active_set_size > this->params.max_active_set_size){
                 const std::vector<double> q_values = std::get<1>(tmp);
+                COUT << "this->params.max_active_set_size = " << this->params.max_active_set_size << "\n";
+                COUT << "this->active_set.size() = " << this->active_set.size() << "\n";
                 const std::size_t n_to_keep =  this->params.max_active_set_size - this->active_set.size();
+                COUT << "n_to_keep = " << n_to_keep << "\n";
                 const std::vector<size_t> indices = nth_largest_indices(q_values, n_to_keep);
 
                 coordinate_vector n_add_to_active_set;
@@ -308,7 +311,7 @@ const fitmodel CD<TY, TR, TT, TP>::fitpsi(){
 template <class TY, class TR, class TT, class TP>
 bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix){
     COUT << "psi_row_fit \n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     arma::mat::const_row_iterator it = this->theta.begin_row(row_ix);
     arma::mat::const_row_iterator end = this->theta.end_row(row_ix);
 
