@@ -67,9 +67,8 @@ def fit(
     else:
         y = x
 
-    if max_active_set_size <= 1:
-        # TODO, Error check on `max_active_set_size`
-        max_active_set_size = int(max_active_set_size * p**2)
+    if not isinstance(max_active_set_size, int) or max_active_set_size < 1:
+        raise ValueError(f"expected `max_active_set_size` to be an positive integer.")
 
     if max_iter < 1:
         raise ValueError(
@@ -114,7 +113,7 @@ def fit(
                 f"expected the support of `theta_init` to be a subset of `initial_active_set`, but is not"
             )
 
-    if initial_active_set.shape[1] > max_active_set_size:
+    if initial_active_set.shape[0] > max_active_set_size:
         raise ValueError(
             f"expected `initial_active_set` to be less than `max_active_set_size`, but isn't."
         )
