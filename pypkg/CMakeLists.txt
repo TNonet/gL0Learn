@@ -10,7 +10,7 @@ pybind11_add_module(_gl0learn SHARED
 
 target_include_directories(_gl0learn PRIVATE gl0learn/src/include)
 
-TARGET_LINK_LIBRARIES(_gl0learn PUBLIC carma)
+TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma)
 
 TARGET_INCLUDE_DIRECTORIES(_gl0learn
     PUBLIC
