@@ -2,8 +2,6 @@ from typing import TypeVar, Union, Optional, Callable, Dict, Tuple
 
 import numpy as np
 import numpy.typing as npt
-import pandas as pd
-
 from _gl0learn import (
     _PenaltyL0_double,
     _PenaltyL0_mat,
@@ -18,7 +16,6 @@ from _gl0learn import (
     _PenaltyL0L1L2_double,
     _PenaltyL0L1L2_mat,
 )
-
 
 from .utils import ensure_well_behaved, set_post_broadcasting_flags, ClosedInterval
 

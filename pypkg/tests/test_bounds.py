@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.testing
-import pandas as pd
 import pytest
+
 from gl0learn import Bounds
 from gl0learn.utils import ClosedInterval
 
