@@ -5,10 +5,12 @@ add_subdirectory(external/pybind11)
 add_subdirectory(external/carma)
 
 pybind11_add_module(_gl0learn SHARED
-    gl0learn/pygl0learn.cpp
+    gl0learn/src/pygl0learn.cpp
+    gl0learn/src/pyoracle.cpp
 )
 
 target_include_directories(_gl0learn PRIVATE gl0learn/src/include)
+target_include_directories(_gl0learn PRIVATE gl0learn/src)
 
 TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma)
 
