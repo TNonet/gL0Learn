@@ -6,6 +6,12 @@ import sys
 from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
+if sys.version_info < (3, 6):
+    sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
+
+if sys.version_info > (3, 9):
+    sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
+
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
     "win32": "Win32",
@@ -127,7 +133,7 @@ setup(
     ext_modules=[CMakeExtension("_gl0learn")],
     packages=find_packages(),
     cmdclass={"build_ext": CMakeBuild},
-    install_requires=["numpy==1.22.2"],
+    install_requires=["numpy>=1.14.0"],
     zip_safe=False,
     extras_require={"test": ["pytest", "hypothesis"], "opt": ["numba", "mosek"]},
     python_requires=">=3.6",
