@@ -9,8 +9,8 @@ from setuptools.command.build_ext import build_ext
 if sys.version_info < (3, 6):
     sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
 
-if sys.version_info > (3, 9):
-    sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
+# if sys.version_info > (3, 9):
+#     sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
