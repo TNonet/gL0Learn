@@ -2,7 +2,6 @@
 #include <pybind11/stl.h>
 #include "pyoracle.h"
 
-
 void init_oracle(py::module_ &m) {
     declare_bounds<double>(m, "double");
     declare_bounds<arma::mat>(m, "mat");

@@ -1,36 +1,28 @@
 cmake_minimum_required(VERSION 3.4...3.18)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
 project(_gl0learn)
 
-add_subdirectory(external/pybind11)
-add_subdirectory(external/carma)
+ADD_SUBDIRECTORY(external/pybind11)
+ADD_SUBDIRECTORY(external/carma)
 
-pybind11_add_module(_gl0learn SHARED
+pybind11_add_module(_gl0learn MODULE
     gl0learn/src/pygl0learn.cpp
     gl0learn/src/pyoracle.cpp
+    gl0learn/src/pyfitmodel.cpp
+    gl0learn/src/pyfit.cpp
 )
+
+
+TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma)
+FIND_LIBRARY(ARMADILLO_LIB armadillo HINTS /usr/local/lib/ REQUIRED)
+TARGET_LINK_LIBRARIES(_gl0learn PRIVATE ${ARMADILLO_LIB})
+
+set_target_properties(_gl0learn PROPERTIES OUTPUT_NAME gl0learn/_gl0learn)
 
 target_include_directories(_gl0learn PRIVATE gl0learn/src/include)
 target_include_directories(_gl0learn PRIVATE gl0learn/src)
-
-TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma)
-
-TARGET_INCLUDE_DIRECTORIES(_gl0learn
-    PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
-
-TARGET_COMPILE_OPTIONS(_gl0learn
-    PUBLIC
-        "$<$<CONFIG:RELEASE>:${PROJECT_RELEASE_FLAGS}>"
-)
-
-TARGET_COMPILE_DEFINITIONS(_gl0learn
-    PUBLIC
-        "$<$<CONFIG:RELEASE>:${PROJECT_RELEASE_DEFINITIONS}>"
-)
-
-# EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
-# define (VERSION_INFO) here.
-target_compile_definitions(_gl0learn
-                           PRIVATE VERSION_INFO=${EXAMPLE_VERSION_INFO})

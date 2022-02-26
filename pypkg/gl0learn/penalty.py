@@ -2,7 +2,7 @@ from typing import TypeVar, Union, Optional, Callable, Dict, Tuple
 
 import numpy as np
 import numpy.typing as npt
-from _gl0learn import (
+from gl0learn._gl0learn import (
     _PenaltyL0_double,
     _PenaltyL0_mat,
     _PenaltyL1_double,

@@ -1,11 +1,14 @@
 #ifndef PY_ORACLE_H_
 #define PY_ORACLE_H_
 #include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include <pybind11/stl.h>
 #include "arma_includes.h"
 #include "oracle.h"
 
 namespace py = pybind11;
+
+void init_oracle(py::module_ &m);
 
 template<typename T>
 void declare_bounds(py::module &m, std::string typestr) {
@@ -82,7 +85,6 @@ void declare_penalty_l0l1l2(py::module &m, std::string typestr) {
     .def("validate", &Penalty_::validate);
 }
 
-void init_oracle(py::module_ &m);
 
 template void declare_bounds<double>(py::module &m, std::string typestr);
 template void declare_bounds<arma::mat>(py::module &m, std::string typestr);

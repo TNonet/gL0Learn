@@ -3,7 +3,7 @@ from typing import Optional, Union
 import numpy as np
 import numpy.typing as npt
 
-from _gl0learn import (
+from gl0learn._gl0learn import (
     _fit,
     union_of_correlated_features2,
     upper_triangular_coords,
