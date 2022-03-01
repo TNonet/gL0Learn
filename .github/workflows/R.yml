@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        r-version: ['3.6.3', '4.1.1', 'release']
+        r-version: ['4.1.1', 'release']
         
     defaults:
       run:
@@ -34,8 +34,7 @@ jobs:
         shell: Rscript {0}
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 1
-          pak-version: devel
+          cache-version: 3
           extra-packages: |
             covr
             xml2
