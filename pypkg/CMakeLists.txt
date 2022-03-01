@@ -7,6 +7,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 project(_gl0learn)
 
+FIND_PACKAGE(BLAS REQUIRED)
+FIND_PACKAGE(LAPACK REQUIRED)
+
+FIND_LIBRARY(ARMADILLO armadillo HINTS /usr/local/lib/ REQUIRED)
+
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/carma)
 
@@ -18,9 +23,7 @@ pybind11_add_module(_gl0learn MODULE
 )
 
 
-TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma)
-FIND_LIBRARY(ARMADILLO_LIB armadillo HINTS /usr/local/lib/ REQUIRED)
-TARGET_LINK_LIBRARIES(_gl0learn PRIVATE ${ARMADILLO_LIB})
+TARGET_LINK_LIBRARIES(_gl0learn PRIVATE carma::carma BLAS::BLAS LAPACK::LAPACK)
 
 set_target_properties(_gl0learn PROPERTIES OUTPUT_NAME gl0learn/_gl0learn)
 
