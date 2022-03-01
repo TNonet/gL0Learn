@@ -1,6 +1,6 @@
-import pandas as pd
-import pytest
 import numpy as np
+import pytest
+
 from gl0learn import Penalty
 from gl0learn.utils import ClosedInterval
 
