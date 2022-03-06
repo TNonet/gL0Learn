@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
+
 import os
 import re
 import subprocess
@@ -9,8 +14,24 @@ from setuptools.command.build_ext import build_ext
 if sys.version_info < (3, 6):
     sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
 
-# if sys.version_info > (3, 9):
-#     sys.exit("Sorry, Only Python 3.6 - 3.9 is supported")
+import io
+import re
+from glob import glob
+from os.path import basename
+from os.path import dirname
+from os.path import join
+from os.path import splitext
+
+from setuptools import find_packages
+from setuptools import setup
+
+
+def read(*names, **kwargs):
+    with io.open(
+        join(dirname(__file__), *names), encoding=kwargs.get("encoding", "utf8")
+    ) as fh:
+        return fh.read()
+
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -125,13 +146,21 @@ class CMakeBuild(build_ext):
 
 setup(
     name="gl0learn",
-    version="0.0.1",
+    version="0.0.3",
+    license="MIT",
     author="Tim Nonet",
     author_email="tim.nonet@gmail.com",
-    description="A test project using pybind11 and CMake",
-    long_description="",
-    ext_modules=[CMakeExtension("_gl0learn")],
-    packages=find_packages(),
+    long_description="%s\n%s"
+    % (
+        re.compile("^.. start-badges.*^.. end-badges", re.M | re.S).sub(
+            "", read("README.rst")
+        ),
+        re.sub(":[a-z]+:`~?(.*?)`", r"``\1``", read("CHANGELOG.rst")),
+    ),
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    include_package_data=True,
+    ext_modules=[CMakeExtension("gl0learn_core")],
     cmdclass={"build_ext": CMakeBuild},
     install_requires=["numpy>=1.14.0"],
     zip_safe=False,

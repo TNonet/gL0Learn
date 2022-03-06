@@ -9,7 +9,7 @@ repos:
       - id: dirs_check
         name: dirs_check
         pass_filenames: false
-        entry: python scripts/dirs_check.py src/include pypkg/gl0learn/src/include --ignore "arma_includes.h"
+        entry: python scripts/dirs_check.py src/include pypkg/src/gl0learn/src/include --ignore "arma_includes.h"
         language: python
 
 

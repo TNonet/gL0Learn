@@ -13,8 +13,8 @@ arma::umat upper_triangular_coords(const arma::uword p){
     return coordinate_matrix_from_vector(upper_triangle_coordinate_vector(p));
 }
 
-PYBIND11_MODULE(_gl0learn, m) {
-    m.attr("__name__") = "gl0learn._gl0learn"; // The default would be just "foo"
+PYBIND11_MODULE(gl0learn_core, m) {
+    m.attr("__name__") = "gl0learn.gl0learn_core"; // The default would be just "foo"
     m.def(
       "union_of_correlated_features2",
       &union_of_correlated_features2<arma::mat>,

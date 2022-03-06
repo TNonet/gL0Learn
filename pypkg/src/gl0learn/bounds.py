@@ -3,7 +3,7 @@ from typing import TypeVar, Union, Optional
 import numpy as np
 import numpy.typing as npt
 
-from gl0learn._gl0learn import _NoBounds, _Bounds_double, _Bounds_mat
+from gl0learn.gl0learn_core import _NoBounds, _Bounds_double, _Bounds_mat
 from gl0learn.utils import (
     ensure_well_behaved,
     set_post_broadcasting_flags,
