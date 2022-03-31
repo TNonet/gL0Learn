@@ -25,10 +25,6 @@ test_union_of_correlated_features2 <- function(x, threshold) {
     .Call(`_gL0Learn_test_union_of_correlated_features2`, x, threshold)
 }
 
-test_sorted_vector_difference <- function(larger, smaller) {
-    .Call(`_gL0Learn_test_sorted_vector_difference`, larger, smaller)
-}
-
 test_sorted_vector_difference2 <- function(larger, smaller) {
     .Call(`_gL0Learn_test_sorted_vector_difference2`, larger, smaller)
 }

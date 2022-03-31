@@ -1,24 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
 import argparse
-import pathlib
 import filecmp
-import tempfile
-import shutil
-import os
-import io
-from contextlib import redirect_stdout
+import pathlib
+import sys
 from typing import Sequence, Dict, List
-
-"""
-Ensure every dir in `dirs` is equivalent when exluding any files in `ignore`.
-
-Steps:
-	1. For each dir in `dirs`:
-			compare current tmp_dir with tmp_dir from first iteration!
-
-"""
 
 
 class onlydiffdircmp(filecmp.dircmp):
@@ -36,7 +22,6 @@ class onlydiffdircmp(filecmp.dircmp):
 
 
 def dirs_check(dirs: Sequence[pathlib.Path], ignore: Sequence[pathlib.Path]):
-
     first_dir, *other_dirs = dirs
 
     bad_diffs = []
@@ -57,12 +42,11 @@ def dirs_check(dirs: Sequence[pathlib.Path], ignore: Sequence[pathlib.Path]):
             bad_diffs.append(other_dir)
 
     if bad_diffs:
-        print(f"dirs {bad_diffs} are mistmatched from '{first_dir}'")
+        print(f"dirs {bad_diffs} are mis-matched from '{first_dir}'")
         sys.exit(1)
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
         description="Check directories to ensure equivalence"
     )
@@ -76,9 +60,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--ignore",
         metavar="paths/to/ignore",
-        type=str,
         nargs="*",
-        help="paths exlude from equivalence between dirs",
+        help="paths exclude from equivalence between dirs",
     )
 
     args = parser.parse_args()

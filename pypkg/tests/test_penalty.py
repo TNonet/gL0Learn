@@ -61,3 +61,8 @@ def test_l0l1l2_Penalty(l0, l1, l2):
 def test_bad_l0l1l2_Penalty(l0, l1, l2):
     with pytest.raises(ValueError):
         _ = Penalty(l0, l1, l2)
+
+
+def test_l0_cost():
+    p = Penalty(l0=np.ones([2, 2]))
+    p._penalty.cost(np.ones([2, 2]), 1, 1)

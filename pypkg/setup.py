@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import os
-import re
 import subprocess
 import sys
 
@@ -16,14 +15,8 @@ if sys.version_info < (3, 6):
 
 import io
 import re
-from glob import glob
-from os.path import basename
 from os.path import dirname
 from os.path import join
-from os.path import splitext
-
-from setuptools import find_packages
-from setuptools import setup
 
 
 def read(*names, **kwargs):
@@ -164,6 +157,9 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     install_requires=["numpy>=1.14.0"],
     zip_safe=False,
-    extras_require={"test": ["pytest", "hypothesis"], "opt": ["numba", "mosek"]},
+    extras_require={
+        "test": ["pytest", "hypothesis", "scipy"],
+        "opt": ["numba", "mosek"],
+    },
     python_requires=">=3.6",
 )

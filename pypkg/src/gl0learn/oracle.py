@@ -12,7 +12,7 @@ class Oracle:
 
         if not overlaps(self.bounds.num_features, self.penalty.num_features):
             raise ValueError(
-                f"expected Bounds and Penalty to have overlapping number of features, but are not."
+                "expected Bounds and Penalty to have overlapping number of features, but are not."
             )
 
     @property

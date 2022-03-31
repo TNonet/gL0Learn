@@ -155,14 +155,23 @@ def generate_synthetic(
     Parameters
     ----------
     model: str
-        "independent", "constant_correlation", "Toeplitz_correlation", "AR1", "banded_partial_correlation", or "regression"
+        One of {"independent",
+                "constant_correlation",
+                "Toeplitz_correlation",
+                "AR1",
+                "banded_partial_correlation",
+                "regression"}
+
         "independent": independent samples
         "constant_correlation": samples with constant correlation "rho" given by kwargs
         "Toeplitz_correlation" or "AR1": samples with correlation rho^{|i-j|}, where 'rho' is given by kwargs
-        "banded_partial_correlation": samples with banded partial correlation rho if |i-j|=1, where 'rho' is given by kwargs
-        "regression": the first covariate is a linear model of k of the others, the coefficient is randomly selected from \pm val, where 'k' and 'val' are given by kwargs
+        "banded_partial_correlation": samples with banded partial correlation rho if |i-j|=1,
+            where 'rho' is given by kwargs
+        "regression": the first covariate is a linear model of k of the others,
+            the coefficient is randomly selected from ... val, where 'k' and 'val' are given by kwargs
     normalize: str, default "precision"
-        "covariance" or "precision". How to normalize the data so that either covariance or precision matrix has diagonal 1
+        "covariance" or "precision". How to normalize the data so that either covariance or precision matrix
+            has diagonal 1.
     rng: None, int, or random generator
         If rng is None, then it becomes np.random
         If rng is int, then it becomes np.random.RandomState(rng)

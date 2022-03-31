@@ -114,6 +114,7 @@ def check_make_valid_coordinate_matrix(
                 f"to be a N by 2 integer matrix that only refers to the upper triangle of a {p} by {p} "
                 f"matrix and is lexicographically sorted, but got {x}"
             )
+        return x
     else:
         raise ValueError(
             f"expected `{scope_x_name}` to be a float, str, or numpy array,"

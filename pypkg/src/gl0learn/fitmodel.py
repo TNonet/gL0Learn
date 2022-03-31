@@ -23,4 +23,4 @@ class FitModel:
         return self._fitmodel.active_set_size
 
     def __repr__(self):
-        return f"FitModel()"
+        return "FitModel()"
