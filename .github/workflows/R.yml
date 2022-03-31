@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        r-version: ['4.1.1', 'release']
+        r-version: ['3.6.3', '4.1.1', 'release']
         
     defaults:
       run:
@@ -40,7 +40,6 @@ jobs:
             xml2
           working-directory:
             rpkg
-
       - name: Test coverage
         run: |
           covr::package_coverage(
