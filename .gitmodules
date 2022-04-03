@@ -1,0 +1,6 @@
+[submodule "pypkg/external/pybind11"]
+	path = pypkg/external/pybind11
+	url = https://github.com/pybind/pybind11
+[submodule "pypkg/external/carma"]
+	path = pypkg/external/carma
+	url = https://github.com/RUrlus/carma

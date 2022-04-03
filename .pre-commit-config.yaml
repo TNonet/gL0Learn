@@ -1,0 +1,49 @@
+fail_fast: false
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+    - id: black
+      args: ['pypkg/', '--extend-exclude', 'external/']
+  - repo: local
+    hooks:
+    - id: dirs_check
+      name: dirs_check
+      pass_filenames: false
+      entry: python scripts/dirs_check.py rpkg/src/src/include pypkg/src/gl0learn/src/include --ignore arma_includes.h .DS_Store
+      language: python
+    - id: lintr
+      name: run_lintr
+      language: r
+      additional_dependencies: ['lintr']
+      entry: Rscript -e "Sys.setenv(NOT_CRAN = 'true'); lintr::expect_lint_free(path='rpkg/R/', linters = lintr::with_defaults(object_length_linter = NULL, object_name_linter=NULL, object_usage_linter=NULL), exclusions = c('rpkg/R/RcppExports.R', list.files('rpkg/tests', recursive=TRUE, full.names=TRUE)))"
+    - id: styler
+      name: run_styler
+      additional_dependencies: ['styler']
+      entry: Rscript -e "styler::style_pkg('rpkg/R/', dry='off')"
+      language: r
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+    - id: flake8
+      args:
+        - '--max-line-length=121'
+        - '--ignore=C901,W503'
+        - '--exclude=pypkg/tests/*.py'
+        - 'pypkg/src/gl0learn/'
+        - 'pypkg/setup.py'
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: master
+    hooks:
+    - id: clang-format
+      # Find files with  find . -name \*.h -not -path  "./pypkg/external/*" -print -o -name \*.cpp -not -path  "./pypkg/external/*" -print
+      args: ['-i']
+#    - id: clang-tidy
+#    - id: oclint
+#    - id: uncrustify
+#    - id: cppcheck
+#    - id: cpplint
+#    - id: include-what-you-use
+
+
+

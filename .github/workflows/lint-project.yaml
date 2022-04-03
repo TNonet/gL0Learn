@@ -1,0 +1,29 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: lint-project
+
+jobs:
+  lint-project:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          use-public-rspm: true
+
+      - name: Install lintr
+        run: install.packages("lintr")
+        shell: Rscript {0}
+
+      - name: Lint root directory
+        run: Sys.setenv(NOT_CRAN = 'true'); lintr::expect_lint_free(path='rpkg/R/', linters = lintr::with_defaults(object_length_linter = NULL, object_name_linter=NULL, object_usage_linter=NULL), exclusions = c('rpkg/R/RcppExports.R', list.files('rpkg/tests', recursive=TRUE, full.names=TRUE)))
+        shell: Rscript {0}
