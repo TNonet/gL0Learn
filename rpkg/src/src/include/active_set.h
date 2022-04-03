@@ -166,15 +166,8 @@ bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
   const arma::uvec smaller_indices =
       smaller_coord_set.col(0) * max_col + smaller_coord_set.col(1);
 
-  COUT << "larger_indices: \n " << larger_indices << "\n";
-  COUT << "smaller_indices: \n " << smaller_indices << "\n";
-
-  if (larger_indices.n_rows == smaller_indices.n_rows) {
-    return arma::all(larger_indices == smaller_indices);
-  } else {
-    return std::includes(larger_indices.begin(), larger_indices.end(),
-                         smaller_indices.begin(), smaller_indices.end());
-  }
+  return std::includes(larger_indices.begin(), larger_indices.end(),
+                       smaller_indices.begin(), smaller_indices.end());
 }
 
 bool inline check_coordinate_matrix(const arma::umat &coords_ma,

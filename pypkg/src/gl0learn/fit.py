@@ -86,9 +86,7 @@ def fit(
 
         theta_init = np.asarray(theta_init, dtype="float", order="F")
         if theta_init.shape != (p, p) or (theta_init != theta_init.T).all():
-            raise ValueError(
-                f"expected `theta_init` to be a square symmetric matrix of side length {p}, but is not."
-            )
+            raise ValueError(f"expected `theta_init` to be a square symmetric matrix of side length {p}, but is not.")
 
         theta_init_support = np.transpose(np.nonzero(theta_init * np.tri(p, k=-1).T))
 
@@ -98,57 +96,39 @@ def fit(
         y = x
 
     if not isinstance(max_active_set_size, int) or max_active_set_size < 1:
-        raise ValueError(
-            f"expected `max_active_set_size` to be an positive integer, but got {max_active_set_size}"
-        )
+        raise ValueError(f"expected `max_active_set_size` to be an positive integer, but got {max_active_set_size}")
 
     if max_iter < 1:
-        raise ValueError(
-            f"expected `max_iter` to be a positive integer, but got {max_iter}"
-        )
+        raise ValueError(f"expected `max_iter` to be a positive integer, but got {max_iter}")
 
     if algorithm not in ["CD", "CDPSI"]:
-        raise ValueError(
-            f"expected `algorithm` to be a 'CD' or 'CDPSI', but got {algorithm}"
-        )
+        raise ValueError(f"expected `algorithm` to be a 'CD' or 'CDPSI', but got {algorithm}")
 
     if atol < 0:
         raise ValueError(f"expected `atol` to be a non-negative number, but got {atol}")
 
     if rtol < 0 or rtol >= 1:
-        raise ValueError(
-            f"expected `rtol` to be a number between 0 and 1 (exclusive), but got {rtol}."
-        )
+        raise ValueError(f"expected `rtol` to be a number between 0 and 1 (exclusive), but got {rtol}.")
 
-    initial_active_set = check_make_valid_coordinate_matrix(
-        initial_active_set, y, "initial_active_set", check=check
-    )
+    initial_active_set = check_make_valid_coordinate_matrix(initial_active_set, y, "initial_active_set", check=check)
 
     # if algorithm == "CDPSI":
     #     super_active_set = check_make_valid_coordinate_matrix(super_active_set, y, 'super_active_set', check=check)
     # else:
     #     super_active_set = np.empty(shape=(0, 0), dtype='int', order='F')
 
-    super_active_set = check_make_valid_coordinate_matrix(
-        super_active_set, y, "super_active_set", check=check
-    )
+    super_active_set = check_make_valid_coordinate_matrix(super_active_set, y, "super_active_set", check=check)
 
     if check:
         # if algorithm == "CDPSI" and not check_is_coordinate_subset(super_active_set, initial_active_set):
         if not check_is_coordinate_subset(super_active_set, initial_active_set):
-            raise ValueError(
-                "executed `initial_active_set` to be a subset of `super_active_set` but is not."
-            )
+            raise ValueError("executed `initial_active_set` to be a subset of `super_active_set` but is not.")
 
         if not check_is_coordinate_subset(initial_active_set, theta_init_support):
-            raise ValueError(
-                "expected the support of `theta_init` to be a subset of `initial_active_set`, but is not"
-            )
+            raise ValueError("expected the support of `theta_init` to be a subset of `initial_active_set`, but is not")
 
     if initial_active_set.shape[0] > max_active_set_size:
-        raise ValueError(
-            "expected `initial_active_set` to be less than `max_active_set_size`, but isn't."
-        )
+        raise ValueError("expected `initial_active_set` to be less than `max_active_set_size`, but isn't.")
 
     return FitModel(
         _fit(

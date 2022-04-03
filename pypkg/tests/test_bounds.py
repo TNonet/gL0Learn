@@ -6,9 +6,7 @@ from gl0learn import Bounds
 from gl0learn.utils import ClosedInterval
 
 
-@pytest.mark.parametrize(
-    "bounds", [(0, 0), (-1, -1), (1, 1), (np.NAN, np.NAN), (np.NAN, 1), (-1, np.NAN)]
-)
+@pytest.mark.parametrize("bounds", [(0, 0), (-1, -1), (1, 1), (np.NAN, np.NAN), (np.NAN, 1), (-1, np.NAN)])
 def test_scalar_bad_bounds(bounds):
     with pytest.raises(ValueError):
         _ = Bounds(*bounds)

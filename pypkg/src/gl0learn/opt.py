@@ -68,9 +68,7 @@ def mosek_level_values(theta: np.ndarray, Y: np.ndarray, int_tol: float = 1e-4):
     assert theta.shape == (p, p), "Initial Theta must be passed as a (p by p matrix)!"
     np.testing.assert_array_almost_equal(theta, theta.T)
 
-    tril_indicies = np.tril_indices(
-        p, k=0
-    )  # Used to select the lower triangular values including the main diagonal
+    tril_indicies = np.tril_indices(p, k=0)  # Used to select the lower triangular values including the main diagonal
 
     # Since mosek keeps main diagonal in the l0 and l2 variables.
     # We create a copy and set diagonal to zero to make l0, and l2 calculations easier!
@@ -108,9 +106,7 @@ def MIO_mosek(
     try:
         import mosek.fusion as msk
     except ModuleNotFoundError:
-        raise Exception(
-            "`mosek` is not installed. Refer ot installation documentation about how to install `mosek`"
-        )
+        raise Exception("`mosek` is not installed. Refer ot installation documentation about how to install `mosek`")
 
     model = msk.Model()
     model.acceptedSolutionStatus(msk.AccSolutionStatus.Feasible)
@@ -140,9 +136,7 @@ def MIO_mosek(
             msk.Domain.inRotatedQCone(),
         )
         model.constraint(
-            msk.Expr.vstack(
-                theta_tril.index(diag_index(i)), msk.Expr.constTerm(1), lg.index(i)
-            ),
+            msk.Expr.vstack(theta_tril.index(diag_index(i)), msk.Expr.constTerm(1), lg.index(i)),
             msk.Domain.inPExpCone(),
         )
 

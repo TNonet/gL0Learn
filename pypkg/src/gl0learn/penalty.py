@@ -26,9 +26,7 @@ P = TypeVar("P")
 
 
 class Penalty:
-    PENALTY_DICT: Dict[
-        str, Callable[[Tuple[Union[float, npt.NDArray[FLOAT_TYPE]], ...]], P]
-    ] = {
+    PENALTY_DICT: Dict[str, Callable[[Tuple[Union[float, npt.NDArray[FLOAT_TYPE]], ...]], P]] = {
         "_PenaltyL0_double": _PenaltyL0_double,
         "_PenaltyL0_mat": _PenaltyL0_mat,
         "_PenaltyL1_double": _PenaltyL1_double,
@@ -52,9 +50,7 @@ class Penalty:
     ):
 
         if l0 is None and l1 is None and l2 is None:
-            raise ValueError(
-                "expected at least one of l0, l1, and l2 to be non-None, but got all None."
-            )
+            raise ValueError("expected at least one of l0, l1, and l2 to be non-None, but got all None.")
 
         penalty_values = []
         penalty_names = []
@@ -76,10 +72,7 @@ class Penalty:
         if penalty_values[0].size == 1:
             penalty_dtype = "double"
         elif len(penalty_values[0].shape) == 2:
-            penalty_values = [
-                ensure_well_behaved(p, name=name)
-                for (p, name) in zip(penalty_values, penalty_names)
-            ]
+            penalty_values = [ensure_well_behaved(p, name=name) for (p, name) in zip(penalty_values, penalty_names)]
             penalty_dtype = "mat"
         else:
             raise ValueError(
@@ -90,9 +83,7 @@ class Penalty:
         try:
             penalty = self.PENALTY_DICT[penalty_lx + penalty_dtype]
         except KeyError:
-            raise ValueError(
-                "Currently, only L0, L1, L2, L0L1, L0L2 and L0L1L2 are supported."
-            )
+            raise ValueError("Currently, only L0, L1, L2, L0L1, L0L2 and L0L1L2 are supported.")
 
         self.cxx_penalty = penalty(*penalty_values)
 
@@ -129,18 +120,12 @@ class Penalty:
             p = theta.shape[0]
             active_set = np.asarray(np.triu_indices(p, k=1), order="F").T
 
-        if not check_coordinate_matrix(
-            active_set, for_order=True, for_upper_triangle=True
-        ):
-            raise ValueError(
-                "expected `active_set` to be a lexicographically sorted coordinate matrix, but isn't."
-            )
+        if not check_coordinate_matrix(active_set, for_order=True, for_upper_triangle=True):
+            raise ValueError("expected `active_set` to be a lexicographically sorted coordinate matrix, but isn't.")
 
         return objective(theta, residuals, active_set, self.cxx_penalty)
 
-    def cost(
-        self, theta: Union[np.ndarray, float], *getitems: int
-    ) -> Union[np.ndarray, float]:
+    def cost(self, theta: Union[np.ndarray, float], *getitems: int) -> Union[np.ndarray, float]:
         """Calculate the regularization/penalty cost of `theta`
 
         Parameters
@@ -166,7 +151,5 @@ class Penalty:
         return self.cxx_penalty.cost(theta, *getitems)
 
     def __repr__(self):
-        repr_str = ", ".join(
-            [f"{name}={getattr(self, name)}" for name in self.penalty_names]
-        )
+        repr_str = ", ".join([f"{name}={getattr(self, name)}" for name in self.penalty_names])
         return f"Penalty({repr_str})"
