@@ -22,7 +22,11 @@ def pseudo_likelihood_loss_(y, theta, l0=0, l1=0, l2=0, abs_tol: float = 1e-6):
     upper_triu = np.triu_indices(theta.shape[0], k=1)
     theta_upper = theta[upper_triu]
 
-    loss += l0 * nonzeros(theta_upper, abs_tol=abs_tol).sum() + l1 * np.abs(theta_upper) + l2 * np.square(theta_upper)
+    loss += (
+        l0 * nonzeros(theta_upper, abs_tol=abs_tol).sum()
+        + l1 * np.abs(theta_upper)
+        + l2 * np.square(theta_upper)
+    )
     return loss
 
 
@@ -34,7 +38,9 @@ def zeros(x: npt.ArrayLike, abs_tol: float = 1e-6) -> npt.NDArray[np.int_]:
     return np.abs(x) < abs_tol
 
 
-def indicator_matrix_to_coords(x: npt.ArrayLike, abs_tol: float = 1e-6, only_upper: bool = True) -> npt.NDArray[np.int_]:
+def indicator_matrix_to_coords(
+    x: npt.ArrayLike, abs_tol: float = 1e-6, only_upper: bool = True
+) -> npt.NDArray[np.int_]:
     x = np.asarray(x)
 
     if x.ndim != 2:
@@ -47,7 +53,9 @@ def indicator_matrix_to_coords(x: npt.ArrayLike, abs_tol: float = 1e-6, only_upp
     return np.transpose(nonzeros(x, abs_tol=abs_tol))
 
 
-def false_positives(x_pred: npt.ArrayLike, x_truth: npt.ArrayLike, abs_tol: float = 1e-6) -> int:
+def false_positives(
+    x_pred: npt.ArrayLike, x_truth: npt.ArrayLike, abs_tol: float = 1e-6
+) -> int:
     return sum(
         np.logical_and(
             nonzeros(x_pred, abs_tol=abs_tol),  # type: ignore # noqa

@@ -29,7 +29,9 @@ class ClosedInterval:
             return self.low <= item.low and item.high <= self.high
         raise NotImplementedError()
 
-    def intersect(self, other: Union["ClosedInterval", Real]) -> Union["ClosedInterval", Real]:
+    def intersect(
+        self, other: Union["ClosedInterval", Real]
+    ) -> Union["ClosedInterval", Real]:
         if isinstance(other, Real):
             if other in self:
                 return other
@@ -45,7 +47,9 @@ class ClosedInterval:
                 return ClosedInterval(lowest, highest)
 
 
-def intersect(x1: Union["ClosedInterval", Real], x2: Union["ClosedInterval", Real]) -> Union["ClosedInterval", Real]:
+def intersect(
+    x1: Union["ClosedInterval", Real], x2: Union["ClosedInterval", Real]
+) -> Union["ClosedInterval", Real]:
     if isinstance(x1, ClosedInterval):
         return x1.intersect(x2)
     if isinstance(x2, ClosedInterval):
@@ -55,7 +59,9 @@ def intersect(x1: Union["ClosedInterval", Real], x2: Union["ClosedInterval", Rea
     raise IntersectionError(f"{x1} and {x2} do not intersect.")
 
 
-def overlaps(x1: Union["ClosedInterval", Real], x2: Union["ClosedInterval", Real]) -> bool:
+def overlaps(
+    x1: Union["ClosedInterval", Real], x2: Union["ClosedInterval", Real]
+) -> bool:
     try:
         intersect(x1, x2)
     except IntersectionError:
@@ -110,7 +116,10 @@ def check_make_valid_coordinate_matrix(
             )
         return x
     else:
-        raise ValueError(f"expected `{scope_x_name}` to be a float, str, or numpy array," f" but got {x}")
+        raise ValueError(
+            f"expected `{scope_x_name}` to be a float, str, or numpy array,"
+            f" but got {x}"
+        )
 
 
 def set_post_broadcasting_flags(arr: npt.NDArray):

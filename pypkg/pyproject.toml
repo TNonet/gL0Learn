@@ -12,8 +12,5 @@ build-backend = "setuptools.build_meta"
 [mypy]
 plugins = "numpy.typing.mypy_plugin"
 
-[tool.black]
-line-length = 121
-
 [tool.pytest.ini_options]
 norecursedirs= "tests/utils"

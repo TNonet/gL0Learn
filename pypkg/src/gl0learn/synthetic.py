@@ -63,7 +63,9 @@ def generate_Toeplitz_correlation(n, p, rho=0, normalize="precision", rng=None):
             X[:, i] = X[:, i - 1] * rho + q * X[:, i]
     Sigma = np.power(rho, np.abs(np.arange(p) - np.arange(p)[:, None]))
 
-    Theta = np.where(np.abs(np.arange(p) - np.arange(p)[:, None]) == 1, -rho / (1 - rho**2), 0)
+    Theta = np.where(
+        np.abs(np.arange(p) - np.arange(p)[:, None]) == 1, -rho / (1 - rho**2), 0
+    )
     np.fill_diagonal(Theta, (1 + rho**2) / (1 - rho**2))
     Theta[0, 0] = Theta[-1, -1] = 1 / (1 - rho**2)
     if normalize == "covariance":
@@ -115,7 +117,9 @@ def generate_regression(n, p, k, val=1, normalize="precision", rng=None):
 
     X = np.random.randn(n, p - 1)
     beta = np.zeros(p - 1)
-    beta[np.random.choice(p - 1, k, replace=False)] = (2 * np.random.choice(2, k) - 1) * val
+    beta[np.random.choice(p - 1, k, replace=False)] = (
+        2 * np.random.choice(2, k) - 1
+    ) * val
     noise = np.random.randn(n)
     y = X @ beta + noise
     X = np.hstack([y[:, None], X])
@@ -143,7 +147,9 @@ def generate_regression(n, p, k, val=1, normalize="precision", rng=None):
     return X, Sigma, Theta
 
 
-def generate_synthetic(n, p, model="independent", normalize="precision", rng=None, **kwargs):
+def generate_synthetic(
+    n, p, model="independent", normalize="precision", rng=None, **kwargs
+):
     """
     Generate synthetic data set
     Parameters

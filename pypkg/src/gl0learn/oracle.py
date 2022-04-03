@@ -11,7 +11,9 @@ class Oracle:
         self.bounds = bounds
 
         if not overlaps(self.bounds.num_features, self.penalty.num_features):
-            raise ValueError("expected Bounds and Penalty to have overlapping number of features, but are not.")
+            raise ValueError(
+                "expected Bounds and Penalty to have overlapping number of features, but are not."
+            )
 
     @property
     def num_features(self) -> Union[ClosedInterval, int]:
