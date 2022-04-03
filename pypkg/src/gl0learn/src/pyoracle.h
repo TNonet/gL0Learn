@@ -50,7 +50,7 @@ void declare_penalty_l0(py::module &m, const std::string &typestr) {
           .def(py::init<const T>())
           .def_readonly("l0", &Penalty_::l0)
           .def("validate", &Penalty_::validate);
-  declare_penalty_cost<Penalty_>(py_class);
+  declare_penalty_cost<Penalty_, decltype(py_class)>(py_class);
   m.def("objective", &compute_objective_penalty<Penalty_>);
 }
 
