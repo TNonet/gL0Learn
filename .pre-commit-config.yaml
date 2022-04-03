@@ -38,6 +38,7 @@ repos:
     - id: clang-format
       # Find files with  find . -name \*.h -not -path  "./pypkg/external/*" -print -o -name \*.cpp -not -path  "./pypkg/external/*" -print
       args: ['-i']
+      exclude: '^rpkg/src/RcppExports.cpp'
 #    - id: clang-tidy
 #    - id: oclint
 #    - id: uncrustify
