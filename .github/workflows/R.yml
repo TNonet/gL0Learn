@@ -5,10 +5,11 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        r-version: ['3.6.3', '4.1.1', 'release']
+        r-version: ['4.1.1', 'release'] #, '3.6.3']
+        os: [macos-latest, ubuntu-latest, windows-latest]
         
     defaults:
       run:
