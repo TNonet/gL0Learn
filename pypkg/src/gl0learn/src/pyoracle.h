@@ -49,8 +49,16 @@ void declare_penalty_l0(py::module &m, const std::string &typestr) {
                            py::dynamic_attr())
           .def(py::init<const T>())
           .def_readonly("l0", &Penalty_::l0)
-          .def("validate", &Penalty_::validate);
-  declare_penalty_cost<Penalty_, decltype(py_class)>(py_class);
+          .def("validate", &Penalty_::validate)
+          .def("cost",
+               &Penalty_::template cost<arma::mat, arma::uword, arma::uword>)
+          .def("cost", &Penalty_::template cost<arma::mat, arma::uword>)
+          .def("cost", &Penalty_::template cost<arma::mat>)
+          .def("cost",
+               &Penalty_::template cost<double, arma::uword, arma::uword>)
+          .def("cost", &Penalty_::template cost<double, arma::uword>)
+          .def("cost", &Penalty_::template cost<double>);
+  // declare_penalty_cost<Penalty_>(py_class);
   m.def("objective", &compute_objective_penalty<Penalty_>);
 }
 
