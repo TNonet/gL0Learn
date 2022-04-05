@@ -25,7 +25,7 @@ void declare_bounds(py::module &m, const std::string &typestr) {
 template <class P, class T> void declare_penalty_cost(T &penalty_py_class) {
   penalty_py_class
       .def("cost", &P::template cost<arma::mat, arma::uword, arma::uword>)
-      // .def("cost", &P::template cost<arma::mat, arma::uword>)
+      .def("cost", &P::template cost<arma::mat, arma::uword>)
       .def("cost", &P::template cost<arma::mat>)
       .def("cost", &P::template cost<double, arma::uword, arma::uword>)
       .def("cost", &P::template cost<double, arma::uword>)
