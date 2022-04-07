@@ -44,14 +44,15 @@ template <class T>
 void declare_penalty_l0(py::module &m, const std::string &typestr) {
   using Penalty_ = PenaltyL0<T>;
   std::string pyclass_name = std::string("_PenaltyL0_") + typestr;
+
+  auto f1 = &Penalty_::template cost<arma::mat, arma::uword, arma::uword>;
   auto py_class =
       py::class_<Penalty_>(m, pyclass_name.c_str(), py::buffer_protocol(),
                            py::dynamic_attr())
           .def(py::init<const T>())
           .def_readonly("l0", &Penalty_::l0)
           .def("validate", &Penalty_::validate)
-          .def("cost",
-               &Penalty_::template cost<arma::mat, arma::uword, arma::uword>)
+          .def("cost", f1)
           .def("cost", &Penalty_::template cost<arma::mat, arma::uword>)
           .def("cost", &Penalty_::template cost<arma::mat>)
           .def("cost",
