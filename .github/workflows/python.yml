@@ -33,10 +33,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set (with ${{matrix.compiler}}, for ${{matrix.os}})
-        run: |
-          export CXX=${{matrix.compiler}}
-          export CC=${{matrix.compiler}}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -47,8 +43,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade wheel setuptools pytest-cov coveralls
-      - name: Build and install
-        run: pip install --verbose .[test]
+      - name: Build and install (with ${{matrix.compiler}} compiler, for ${{matrix.os}})
+        run: |
+          export CXX=${{matrix.compiler}}
+          export CC=${{matrix.compiler}}
+          pip install --verbose .[test]
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn
       - name: Coveralls
