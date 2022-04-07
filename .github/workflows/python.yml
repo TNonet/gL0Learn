@@ -30,13 +30,13 @@ jobs:
         working-directory: ./pypkg
 
     steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Set (with ${{matrix.compiler}}, for ${{matrix.os}})
         run: |
           export CXX=${{matrix.compiler}}
           export CC=${{matrix.compiler}}
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
