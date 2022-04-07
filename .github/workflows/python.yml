@@ -15,6 +15,7 @@ jobs:
       matrix:
         python-version: [3.7, 3.8, 3.9]
         os: [macos-latest, ubuntu-latest] #, windows-latest]
+        compiler: [clang]
         include:
           - os: macos-latest
             INSTALL_DEPS: brew install armadillo
@@ -29,6 +30,8 @@ jobs:
         working-directory: ./pypkg
 
     steps:
+      - name: make (with ${{matrix.compiler}}, for ${{matrix.os}})
+        run: make CXX=${{matrix.compiler}} && CC=${{matrix.compiler}}
       - uses: actions/checkout@v2
         with:
           submodules: true
