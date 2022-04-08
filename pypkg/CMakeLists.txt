@@ -29,6 +29,10 @@ TARGET_LINK_LIBRARIES(gl0learn_core PRIVATE carma::carma BLAS::BLAS LAPACK::LAPA
 
 target_compile_definitions(gl0learn_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
+target_compile_options(gl0learn_core PRIVATE -stdlib=libc++)
+add_link_options(-Wl,--no-undefined)
+
+
 set_target_properties(gl0learn_core PROPERTIES OUTPUT_NAME gl0learn/gl0learn_core)
 
 # install(TARGETS gl0learn_core LIBRARY DESTINATION .)
