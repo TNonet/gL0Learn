@@ -2,7 +2,6 @@
 
 void init_fitmodel(py::module_ &m) {
   py::class_<fitmodel>(m, "_fitmodel")
-      .def(py::init())
       .def(py::init<const arma::mat &, const arma::mat &,
                     const std::vector<double> &,
                     const std::vector<std::size_t>>())

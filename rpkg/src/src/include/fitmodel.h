@@ -8,7 +8,6 @@ struct fitmodel {
   const std::vector<double> costs;
   const std::vector<std::size_t> active_set_size;
 
-  fitmodel() = default;
   fitmodel(const fitmodel &f)
       : theta(f.theta), R(f.R), costs(f.costs),
         active_set_size(f.active_set_size){};
