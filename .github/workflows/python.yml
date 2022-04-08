@@ -15,7 +15,7 @@ jobs:
       matrix:
         python-version: [3.7, 3.8, 3.9]
         os: [macos-latest, ubuntu-latest] #, windows-latest]
-        compiler: [clang]
+        compiler: [[clang, clang++]]
         include:
           - os: macos-latest
             INSTALL_DEPS: brew install armadillo
@@ -45,8 +45,8 @@ jobs:
           python -m pip install --upgrade wheel setuptools pytest-cov coveralls
       - name: Build and install (with ${{matrix.compiler}} compiler, for ${{matrix.os}})
         run: |
-          export CXX=${{matrix.compiler}}
-          export CC=${{matrix.compiler}}
+          export CC=${{matrix.compiler[0]}}
+          export CXX=${{matrix.compiler[1]}}
           pip install --verbose .[test]
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn
