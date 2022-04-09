@@ -15,7 +15,7 @@ jobs:
       matrix:
         python-version: [3.7, 3.8, 3.9]
         os: [macos-latest, ubuntu-latest] #, windows-latest]
-        compiler: [[clang, clang++]]
+        compiler: [[gcc, g++]]
         include:
           - os: macos-latest
             INSTALL_DEPS: brew install armadillo
