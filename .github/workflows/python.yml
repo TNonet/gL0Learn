@@ -28,6 +28,7 @@ jobs:
               # sudo apt-get install build-essential
               sudo apt-get install g++
               sudo apt-get install libc++-dev libc++abi-dev
+              bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
     defaults:
       run:
         working-directory: ./pypkg
