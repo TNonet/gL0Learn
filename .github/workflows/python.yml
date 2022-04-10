@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
-        os: [macos-latest] # ubuntu-latest, windows-latest]
         # Bug with g++ <= 10.X.Y. Unresolved template functions see "Unresolved overloaded function type in gcc"
         # Must use g++ > 10
         # https://stackoverflow.com/questions/60633892/unresolved-overloaded-function-type-in-gcc
@@ -23,17 +22,17 @@ jobs:
           - os: macos-latest
             INSTALL_DEPS: brew install armadillo
             compiler: [clang, clang++]
-          - os: ubuntu-latest
-            compiler: [gcc-11, g++-11]
-            INSTALL_DEPS: |
-              sudo apt-get install liblapack-dev
-              sudo apt-get install libblas-dev
-              sudo apt-get install libboost-dev
-              sudo apt-get install libarmadillo-dev
-              # sudo apt-get install build-essential
-              sudo apt install -y g++-11
-              # sudo apt-get install libc++-dev libc++abi-dev
-              # sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+#           - os: ubuntu-latest
+#             compiler: [gcc-11, g++-11]
+#             INSTALL_DEPS: |
+#               sudo apt-get install liblapack-dev
+#               sudo apt-get install libblas-dev
+#               sudo apt-get install libboost-dev
+#               sudo apt-get install libarmadillo-dev
+#               # sudo apt-get install build-essential
+#               sudo apt install -y g++-11
+#               # sudo apt-get install libc++-dev libc++abi-dev
+#               # sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
     defaults:
       run:
         working-directory: ./pypkg
