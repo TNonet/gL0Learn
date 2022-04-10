@@ -15,14 +15,16 @@ jobs:
       matrix:
         python-version: [3.7, 3.8, 3.9]
         os: [macos-latest, ubuntu-latest] #, windows-latest]
-        compiler: [[gcc-11, g++-11]]
         # Bug with g++ <= 10.X.Y. Unresolved template functions see "Unresolved overloaded function type in gcc"
         # Must use g++ > 10
-        # clang shoudl work but keep getting #cstddef. Clang should be fully installed. May need to add to the path?
+        # clang shou;d work but keep getting #cstddef. Clang should be fully installed. May need to add to the path?
         include:
           - os: macos-latest
             INSTALL_DEPS: brew install armadillo
+            compiler: clang
           - os: ubuntu-latest
+            compiler: gcc
+            gcc: 11
             INSTALL_DEPS: |
               sudo apt-get install liblapack-dev
               sudo apt-get install libblas-dev
