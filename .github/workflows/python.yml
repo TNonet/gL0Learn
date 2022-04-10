@@ -14,9 +14,10 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
-        os: [macos-latest, ubuntu-latest] #, windows-latest]
+        os: [macos-latest] # ubuntu-latest, windows-latest]
         # Bug with g++ <= 10.X.Y. Unresolved template functions see "Unresolved overloaded function type in gcc"
         # Must use g++ > 10
+        # https://stackoverflow.com/questions/60633892/unresolved-overloaded-function-type-in-gcc
         # clang shou;d work but keep getting #cstddef. Clang should be fully installed. May need to add to the path?
         include:
           - os: macos-latest
