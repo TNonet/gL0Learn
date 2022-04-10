@@ -1,4 +1,3 @@
-import warnings
 from typing import Optional, Union
 
 import numpy as np
@@ -12,7 +11,7 @@ from gl0learn.gl0learn_core import (
 from gl0learn import Penalty, Bounds
 from gl0learn.fitmodel import FitModel
 from gl0learn.oracle import Oracle
-from gl0learn.utils import check_make_valid_coordinate_matrix
+from gl0learn.utils import check_make_valid_coordinate_matrix, ensure_well_behaved
 
 
 def fit(
@@ -24,15 +23,16 @@ def fit(
     lows: Optional[Union[npt.ArrayLike, float]] = None,
     highs: Optional[Union[npt.ArrayLike, float]] = None,
     max_iter: int = 100,
+    max_swaps: int = 100,
     algorithm: str = "CD",
-    max_active_set_size: float = 0.1,
-    atol: float = 1e-6,
-    rtol: float = 1e-6,
-    initial_active_set: Union[Union[npt.ArrayLike, float]] = 0.7,
+    max_active_set_ratio: float = 0.1,
+    tol: float = 1e-6,
+    active_set: Union[Union[npt.ArrayLike, float]] = 0.7,
     super_active_set: Union[Union[npt.ArrayLike, float]] = 0.5,
-    swap_iters=None,
     scale_x: bool = True,
     check: bool = True,
+    seed: int = 0,
+    shuffle: bool = False,
 ) -> FitModel:
     """
 
@@ -47,10 +47,10 @@ def fit(
     highs
     max_iter
     algorithm
-    max_active_set_size
+    max_active_set_ratio
     atol
     rtol
-    initial_active_set:
+    active_set:
         Highly corlelated components of X
         Coordinates of |YtY/S_diag| >= initial_active_set
 
@@ -64,12 +64,29 @@ def fit(
 
     """
 
-    n, p = x.shape
+    if isinstance(x, np.ndarray):
+        x = ensure_well_behaved(x, name="x")
+    else:
+        x = np.asarray(x, order="F")
 
-    if p < 1:
-        raise ValueError(f"expected `x` to have 2 columns, but got shape {x.shape}")
+    if not np.issubdtype(x.dtype, np.floating):
+        raise ValueError(
+            f"expected `x` to be an array of dtype {np.float_}, but got {x.dtype}"
+        )
 
-    oracle = Oracle(Penalty(l0, l1, l2), Bounds(lows, highs))
+    try:
+        n, p = x.shape
+    except ValueError as e:
+        raise ValueError(
+            f"expected `x` to be a 2D array but got {x.ndim}D array."
+        ) from e
+
+    if n < 1 or p < 1:
+        raise ValueError(
+            f"expected `x` to have at least two rows and two columns, but got {n} rows and {p} columns."
+        )
+
+    oracle = Oracle(Penalty(l0, l1, l2, validate=check), Bounds(lows, highs))
     if p not in oracle.num_features:
         raise ValueError(
             "expected `x`, `l0`, `l1`, `l2`, `lows`, and `highs` to all have compatible shapes, but they are not."
@@ -77,14 +94,14 @@ def fit(
 
     # TODO: check theta_init
     if theta_init is None:
-        theta_init = np.eye(p)
+        theta_init = np.eye(p, order="F")
         theta_init_support = np.empty(shape=(0, 0), dtype="int", order="F")
     else:
-        if isinstance(theta_init, np.ndarray) and not theta_init.flags["F_CONTIGUOUS"]:
-            # TODO: Document warnings
-            warnings.warn("raise warning on order of theta_init")
+        if isinstance(theta_init, np.ndarray):
+            theta_init = ensure_well_behaved(theta_init, name="theta_init")
+        else:
+            theta_init = np.asarray(theta_init, dtype="float", order="F")
 
-        theta_init = np.asarray(theta_init, dtype="float", order="F")
         if theta_init.shape != (p, p) or (theta_init != theta_init.T).all():
             raise ValueError(
                 f"expected `theta_init` to be a square symmetric matrix of side length {p}, but is not."
@@ -97,10 +114,12 @@ def fit(
     else:
         y = x
 
-    if not isinstance(max_active_set_size, int) or max_active_set_size < 1:
+    if max_active_set_ratio < 0:
         raise ValueError(
-            f"expected `max_active_set_size` to be an positive integer, but got {max_active_set_size}"
+            f"expected `max_active_set_size` to be an positive number in, but got {max_active_set_ratio}"
         )
+
+    max_active_set_size = int(max_active_set_ratio * (p * (p - 1) // 2))
 
     if max_iter < 1:
         raise ValueError(
@@ -112,16 +131,11 @@ def fit(
             f"expected `algorithm` to be a 'CD' or 'CDPSI', but got {algorithm}"
         )
 
-    if atol < 0:
-        raise ValueError(f"expected `atol` to be a non-negative number, but got {atol}")
+    if tol < 0:
+        raise ValueError(f"expected `tol` to be a non-negative number, but got {tol}")
 
-    if rtol < 0 or rtol >= 1:
-        raise ValueError(
-            f"expected `rtol` to be a number between 0 and 1 (exclusive), but got {rtol}."
-        )
-
-    initial_active_set = check_make_valid_coordinate_matrix(
-        initial_active_set, y, "initial_active_set", check=check
+    active_set = check_make_valid_coordinate_matrix(
+        active_set, y, "initial_active_set", check=check
     )
 
     # if algorithm == "CDPSI":
@@ -135,17 +149,17 @@ def fit(
 
     if check:
         # if algorithm == "CDPSI" and not check_is_coordinate_subset(super_active_set, initial_active_set):
-        if not check_is_coordinate_subset(super_active_set, initial_active_set):
+        if not check_is_coordinate_subset(super_active_set, active_set):
             raise ValueError(
                 "executed `initial_active_set` to be a subset of `super_active_set` but is not."
             )
 
-        if not check_is_coordinate_subset(initial_active_set, theta_init_support):
+        if not check_is_coordinate_subset(active_set, theta_init_support):
             raise ValueError(
                 "expected the support of `theta_init` to be a subset of `initial_active_set`, but is not"
             )
 
-    if initial_active_set.shape[0] > max_active_set_size:
+    if active_set.shape[0] > max_active_set_size:
         raise ValueError(
             "expected `initial_active_set` to be less than `max_active_set_size`, but isn't."
         )
@@ -157,11 +171,13 @@ def fit(
             oracle.penalty.cxx_penalty,
             oracle.bounds.cxx_bounds,
             algorithm,
-            initial_active_set,
+            active_set,
             super_active_set,
-            atol,
-            rtol,
+            tol,
             max_active_set_size,
             max_iter,
+            seed,
+            max_swaps,
+            shuffle,
         )
     )

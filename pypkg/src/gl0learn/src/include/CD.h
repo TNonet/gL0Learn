@@ -13,22 +13,24 @@
 #include <utility>
 
 template <class O> struct CDParams {
-  const double atol;
-  const double rtol;
+  const double tol;
   const size_t max_active_set_size;
   const GapMethod gap_method;
   const bool one_normalize;
   const size_t max_iter;
   const O oracle;
   const std::string algorithm;
+  const size_t max_swaps;
+  const bool shuffle_feature_order;
 
-  CDParams(const double atol, const double rtol,
-           const size_t max_active_set_size, const GapMethod gap_method,
-           const bool one_normalize, const size_t max_iter, const O &oracle,
-           std::string algorithm)
-      : atol{atol}, rtol{rtol}, max_active_set_size{max_active_set_size},
+  CDParams(const double tol, const size_t max_active_set_size,
+           const GapMethod gap_method, const bool one_normalize,
+           const size_t max_iter, const O &oracle, std::string algorithm,
+           const size_t max_swaps, const bool shuffle_feature_order)
+      : tol{tol}, max_active_set_size{max_active_set_size},
         gap_method{gap_method}, one_normalize{one_normalize},
-        max_iter{max_iter}, oracle{oracle}, algorithm{std::move(algorithm)} {};
+        max_iter{max_iter}, oracle{oracle}, algorithm{std::move(algorithm)},
+        max_swaps{max_swaps}, shuffle_feature_order{shuffle_feature_order} {};
 };
 
 template <class TY, class TR, class TT, class TP> class CD {
@@ -46,16 +48,34 @@ public:
   };
 
   void restrict_active_set();
-  void l0learn_restrict_active_set();
   std::tuple<coordinate_vector, std::vector<double>>
   active_set_expansion(const coordinate_vector &search_space);
   void inner_fit();
   fitmodel fit();
-  bool psi_row_fit(arma::uword row_ix);
+  std::tuple<bool, arma::uword> psi_row_fit(arma::uword row_ix);
   fitmodel fitpsi();
   double inline compute_objective();
   bool inline converged(double old_objective, double cur_objective,
                         size_t cur_iter);
+
+  std::tuple<double, double> calc_ab(std::tuple<arma::uword, arma::uword> ij,
+                                     const arma::vec &theta_diag);
+
+  std::tuple<arma::vec, arma::vec> calc_ab(arma::uword i, arma::uvec js,
+                                           const arma::vec &theta_diag);
+
+  // Use SFINAE to overload when new_theta == 0;
+  void remove_from_support(std::tuple<arma::uword, arma::uword> ij);
+  void update_support(std::tuple<arma::uword, arma::uword> ij, double theta);
+  void add_to_support(std::tuple<arma::uword, arma::uword> ij, double theta);
+
+  // Helper functions!
+  // active_set_of_row;
+  // active_set_row_begin_iter;
+  // active_set_row_end_iter;
+  // a, b from {i, j}
+  // theta_diag
+  // update Residuals
 
 private:
   const TY Y;
@@ -67,8 +87,6 @@ private:
   coordinate_vector super_active_set;
   std::vector<double> costs;
   std::vector<std::size_t> active_set_size;
-  coordinate_vector previous_support = coordinate_vector();
-  std::size_t same_support_count = 0;
 };
 
 template <class TY, class TR, class TT, class TP>
@@ -163,6 +181,9 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
     }
   }
   this->restrict_active_set();
+  cur_objective = this->compute_objective();
+  this->costs.push_back(cur_objective);
+  this->active_set_size.push_back(this->active_set.size());
   return fitmodel(this->theta, this->R, this->costs, this->active_set_size);
 }
 
@@ -177,23 +198,6 @@ void CD<TY, TR, TT, TP>::restrict_active_set() {
                         (this->theta(std::get<0>(ij), std::get<1>(ij)) != 0);
                });
   this->active_set = restricted_active_set;
-}
-
-template <class TY, class TR, class TT, class TP>
-void CD<TY, TR, TT, TP>::l0learn_restrict_active_set() {
-
-  coordinate_vector new_support =
-      support_from_active_set(this->theta, this->active_set);
-  if (new_support == this->previous_support) {
-    this->same_support_count++;
-
-    if (this->same_support_count == 5) { // TODO: Elevate parameter!
-      this->active_set = new_support;
-    }
-  } else {
-    this->same_support_count = 0;
-  }
-  this->previous_support = new_support;
 }
 
 template <class TY, class TR, class TT, class TP>
@@ -212,9 +216,21 @@ CD<TY, TR, TT, TP>::active_set_expansion(
   std::vector<double> items_Q;
   items_Q.reserve(p);
 
-  for (auto const &ij : search_space) {
-    const auto i = std::get<0>(ij);
-    const auto j = std::get<1>(ij);
+  arma::uvec feature_order;
+  if (this->params.shuffle_feature_order) {
+    feature_order = arma::randperm(search_space.size());
+  } else {
+    feature_order = arma::linspace<arma::uvec>(0, search_space.size() - 1,
+                                               search_space.size());
+  }
+
+  arma::uvec::const_iterator it = feature_order.begin();
+  const arma::uvec::const_iterator it_end = feature_order.end();
+
+  for (; it != it_end; ++it) {
+    const auto ij = search_space[*it];
+    const arma::uword i = std::get<0>(ij);
+    const arma::uword j = std::get<1>(ij);
     const double a =
         this->S_diag(j) / theta_diag(i) + this->S_diag(i) / theta_diag(j);
     const double b =
@@ -234,16 +250,26 @@ template <class TY, class TR, class TT, class TP>
 void CD<TY, TR, TT, TP>::inner_fit() {
   const size_t p = this->Y.n_cols;
 
-  // TODO: Make parameter to shuffle order of iterations?
-  const arma::uvec random_order = arma::randperm(this->active_set.size());
+  arma::uvec feature_order;
+  const arma::uword starting_active_set_size = this->active_set.size();
+  if (this->params.shuffle_feature_order) {
+    feature_order = arma::randperm(starting_active_set_size);
+  } else {
+    if (starting_active_set_size == 0) {
+      feature_order = arma::linspace<arma::uvec>(0, 0, 0);
+    } else {
+      feature_order = arma::linspace<arma::uvec>(
+          0, starting_active_set_size - 1, starting_active_set_size);
+    }
+  }
 
-  arma::uvec::const_iterator it = random_order.begin();
-  const arma::uvec::const_iterator it_end = random_order.end();
+  arma::uvec::const_iterator it = feature_order.begin();
+  const arma::uvec::const_iterator it_end = feature_order.end();
 
   for (; it != it_end; ++it) {
     auto const ij = this->active_set[*it];
-    const double i = std::get<0>(ij);
-    const double j = std::get<1>(ij);
+    const arma::uword i = std::get<0>(ij);
+    const arma::uword j = std::get<1>(ij);
 
     const double old_theta_ij = this->theta(i, j);
     const double old_theta_ji = this->theta(j, i);
@@ -283,31 +309,45 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
   COUT << "Pre psi cost: " << this->compute_objective() << " \n";
   const arma::uword p = this->Y.n_cols;
 
-  for (auto i = 0; i < 100; i++) { // TODO: Elevant 100 to Parameter
+  for (auto i = 0; i < this->params.max_swaps;
+       i++) { // TODO: Elevant 100 to Parameter
     COUT << "PSI iter: " << i << " \n";
     // std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    bool swap = false;
 
-    for (arma::uword row_ix = 0; row_ix < p - 1;
-         row_ix++) { // TODO: Shuffle the order at which we look rows
-      // No need to swap on last row!
-      COUT << "PSI iter: " << i << " Swapping row: " << row_ix << "\n";
-      swap = swap ||
-             this->psi_row_fit(
-                 row_ix); // TODO: This needs to properly update the active set.
-      if (swap) {
-        break;
-      }
+    arma::uvec feature_order;
+    if (this->params.shuffle_feature_order) {
+      feature_order = arma::randperm(p);
+    } else {
+      feature_order = arma::linspace<arma::uvec>(0, p - 1, p);
     }
 
-    for (arma::uword row_ix = 0; row_ix < p; row_ix++) {
-      // TODO: Do we need to update every diagonal? Only need to update
-      // diagonals that have changes.
-      this->R.col(row_ix) -= this->theta(row_ix, row_ix) * this->Y.col(row_ix);
-      this->theta(row_ix, row_ix) =
-          R_nl(this->S_diag(row_ix),
-               arma::dot(this->R.col(row_ix), this->R.col(row_ix)));
-      this->R.col(row_ix) += this->theta(row_ix, row_ix) * this->Y.col(row_ix);
+    arma::uvec::const_iterator it = feature_order.begin();
+    const arma::uvec::const_iterator it_end = feature_order.end();
+
+    bool swap = false;
+
+    for (; it != it_end; ++it) {
+      const arma::uword row_ix = *it;
+
+      // No need to swap on last row!
+      COUT << "PSI iter: " << i << " Swapping row: " << row_ix << "\n";
+      // TODO: This needs to properly update the active set.
+      const auto row_fit = this->psi_row_fit(row_ix);
+      swap = swap || std::get<0>(row_fit);
+      if (swap) {
+        for (arma::uword row : {row_ix, std::get<1>(row_fit)}) {
+          // TODO: Do we need to update every diagonal? Only need to update
+          // Only updates the two items that changed!
+          this->R.col(row_ix) -=
+              this->theta(row_ix, row_ix) * this->Y.col(row_ix);
+          this->theta(row_ix, row_ix) =
+              R_nl(this->S_diag(row_ix),
+                   arma::dot(this->R.col(row_ix), this->R.col(row_ix)));
+          this->R.col(row_ix) +=
+              this->theta(row_ix, row_ix) * this->Y.col(row_ix);
+        }
+        break;
+      }
     }
 
     if (!swap) {
@@ -325,14 +365,19 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
 }
 
 template <class TY, class TR, class TT, class TP>
-bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
+std::tuple<bool, arma::uword>
+CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
   COUT << "psi_row_fit row =  " << row_ix << " \n";
   // std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
+  // TODO: Check if this can be {row_ix, row_ix+1}
+  // TODO: Check if we should be storing active_set in column major sort order?
   const coordinate row_ix_0 = {row_ix, 0};
   auto it = std::lower_bound(this->super_active_set.begin(),
                              this->super_active_set.end(), row_ix_0);
 
+  // TODO: Check if this can be {row_ix+1, row_ix+2}
+  // TODO: Check if we should be storing active_set in column major sort order?
   const coordinate row_ix_p1_0 = {row_ix + 1, 0};
   auto it_tmp = it;
   auto end =
@@ -343,8 +388,6 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
   std::vector<arma::uword> zero_indices;
   std::vector<arma::uword> non_zero_indices;
-
-  // TODO: Have parameter to shuffle order of iteration?
 
   for (; it != end; ++it) {
     // zero_indices and non_zero_indices will not form the set (1, ..., p)
@@ -358,7 +401,7 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
   }
   // If every item is either 0 or non-zero then swapping is pointless
   if (zero_indices.empty() || non_zero_indices.empty()) {
-    return false;
+    return {false, -1L};
   }
 
   const arma::uvec zeros(zero_indices);
@@ -369,7 +412,20 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
   const arma::vec theta_diag = arma::vec(this->theta.diag());
 
-  for (auto const &j : non_zero_indices) {
+  // TODO: Have parameter to shuffle order of iteration
+  arma::uvec non_zero_order;
+  if (this->params.shuffle_feature_order) {
+    non_zero_order = arma::randperm(non_zero_indices.size());
+  } else {
+    // We know that non_zero_indices has at least 1 element in it!
+    non_zero_order = arma::linspace<arma::uvec>(0, non_zero_indices.size() - 1,
+                                                non_zero_indices.size());
+  }
+  arma::uvec::const_iterator non_zeros_it = non_zero_order.begin();
+  const arma::uvec::const_iterator it_end = non_zero_order.end();
+
+  for (; non_zeros_it != it_end; ++non_zeros_it) {
+    const arma::uword j = non_zero_order[*non_zeros_it];
     COUT << "Non Zero Index Loop: (" << row_ix << ", " << j << ") \n";
     // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     R.col(row_ix) -= this->theta(row_ix, j) * this->Y.col(j);
@@ -520,21 +576,12 @@ bool CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
       this->active_set.insert(low_k, row_ix_k);
       //}
 
-      return true;
+      return {true, k};
     }
   }
 
-  return false;
+  return {false, -1L};
 }
-
-// template<class TY, class TR, class TT>
-// bool inline CD<TY, TR, TT>::converged(const double old_objective,
-//                                       const double cur_objective,
-//                                       const size_t cur_iter){
-//     return ((cur_objective <= this->params.atol)
-//                 || ((cur_iter > 1) && (std::abs(old_objective -
-//                 cur_objective) < old_objective * this->params.rtol)));
-// };
 
 template <class TY, class TR, class TT, class TP>
 bool inline CD<TY, TR, TT, TP>::converged(const double old_objective,
@@ -542,7 +589,7 @@ bool inline CD<TY, TR, TT, TP>::converged(const double old_objective,
                                           const size_t cur_iter) {
   return ((cur_iter > 1) &&
           (relative_gap(old_objective, cur_objective, this->params.gap_method,
-                        this->params.one_normalize) <= this->params.rtol));
+                        this->params.one_normalize) <= this->params.tol));
 }
 
 template <class TY, class TR, class TT, class TP>
@@ -557,6 +604,57 @@ double inline CD<TY, TR, TT, TP>::compute_objective() {
    */
   return objective(this->theta, this->R, this->active_set,
                    this->params.oracle.penalty);
+}
+
+template <class TY, class TR, class TT, class TP>
+std::tuple<double, double>
+CD<TY, TR, TT, TP>::calc_ab(std::tuple<arma::uword, arma::uword> ij,
+                            const arma::vec &theta_diag) {
+  const arma::uword i = std::get<0>(ij);
+  const arma::uword j = std::get<1>(ij);
+
+  const double a =
+      this->S_diag[i] / theta_diag(j) + this->S_diag[j] / theta_diag(i);
+  const double b =
+      2 * ((arma::dot(this->Y.col(j), this->R.col(i)) / theta_diag(i)) +
+           (arma::dot(this->Y.col(i), this->R.col(j)) / theta_diag(j)));
+  return {a, b};
+}
+
+template <class TY, class TR, class TT, class TP>
+std::tuple<arma::vec, arma::vec>
+CD<TY, TR, TT, TP>::calc_ab(const arma::uword i, const arma::uvec js,
+                            const arma::vec &theta_diag) {
+  const arma::vec a_vec =
+      (this->S_diag(i) / theta_diag(js) + this->S_diag(js) / theta_diag(i));
+  const arma::vec b_vec =
+      2 * (((this->Y.cols(js).t() * this->R.col(i)) / theta_diag(i)) +
+           ((this->R.cols(js).t() * this->Y.col(i)) / theta_diag(js)));
+  return {a_vec, b_vec};
+}
+
+template <class TY, class TR, class TT, class TP>
+void CD<TY, TR, TT, TP>::remove_from_support(
+    std::tuple<arma::uword, arma::uword> ij) {
+  const arma::uword i = std::get<0>(ij);
+  const arma::uword j = std::get<1>(ij);
+
+  R.col(i) -= this->theta(i, j) * this->Y.unsafe_col(j);
+  R.col(j) -= this->theta(j, i) * this->Y.unsafe_col(i);
+  this->theta(j, j) = 0;
+  this->theta(j, j) = 0;
+}
+
+template <class TY, class TR, class TT, class TP>
+void CD<TY, TR, TT, TP>::add_to_support(std::tuple<arma::uword, arma::uword> ij,
+                                        const double theta) {
+  const arma::uword i = std::get<0>(ij);
+  const arma::uword j = std::get<1>(ij);
+
+  R.col(i) += theta * this->Y.unsafe_col(j);
+  R.col(j) += theta * this->Y.unsafe_col(i);
+  this->theta(i, j) = theta;
+  this->theta(j, i) = theta;
 }
 
 #endif // CD_H

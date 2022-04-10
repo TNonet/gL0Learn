@@ -71,7 +71,7 @@ def overlaps(
 
 
 def check_make_valid_coordinate_matrix(
-    x: Union[float, str, npt.NDArray[np.int_]],
+    x: Union[float, npt.NDArray[np.int_]],
     y: npt.NDArray[np.float64],
     scope_x_name: str,
     check: bool = True,
@@ -99,27 +99,30 @@ def check_make_valid_coordinate_matrix(
     p = y.shape[1]
 
     if isinstance(x, float):
-        return union_of_correlated_features2(y, x)
-    elif isinstance(x, str):
-        return upper_triangular_coords(p)
-    elif isinstance(x, np.ndarray):
-        if (
-            x.ndim != 2
-            or x.shape[1] != 2
-            or not np.issubdtype(x.dtype, np.integer)
-            or (check and not check_coordinate_matrix(x, True, True))
-        ):
-            raise ValueError(
-                f"expected `{scope_x_name}`, when passed as a np.ndarray,"
-                f"to be a N by 2 integer matrix that only refers to the upper triangle of a {p} by {p} "
-                f"matrix and is lexicographically sorted, but got {x}"
-            )
-        return x
-    else:
+        if x <= 0:
+            return upper_triangular_coords(p)
+        else:
+            return union_of_correlated_features2(y, x)
+
+    x = np.asarray(x, order="F")  # Not setting dtype on purpose. Let `asarray` decide.
+
+    if (
+        x.ndim != 2
+        or x.shape[1] != 2
+        or not np.issubdtype(x.dtype, np.integer)
+        or (check and not check_coordinate_matrix(x, True, True))
+    ):
         raise ValueError(
-            f"expected `{scope_x_name}` to be a float, str, or numpy array,"
-            f" but got {x}"
+            f"expected `{scope_x_name}`, when passed as a np.ndarray,"
+            f"to be a N by 2 integer matrix that only refers to the upper triangle of a {p} by {p} "
+            f"matrix and is lexicographically sorted, but got {x}"
         )
+
+    return x
+
+
+def triu_nnz_indicies(x, tol: float = 0):
+    return np.asarray(np.where(np.abs(np.triu(x, k=1)) > tol)).T
 
 
 def set_post_broadcasting_flags(arr: npt.NDArray):
@@ -127,8 +130,12 @@ def set_post_broadcasting_flags(arr: npt.NDArray):
         arr.flags["WRITEABLE"] = True
 
 
-def ensure_well_behaved(arr: npt.NDArray, name: Optional[str] = None) -> npt.NDArray:
+def ensure_well_behaved(
+    arr: npt.NDArray, dtype=np.float_, name: Optional[str] = None
+) -> npt.NDArray:
     if arr.flags["BEHAVED"] and arr.flags["F_CONTIGUOUS"]:
+        if arr.dtype != dtype:
+            arr = arr.astype(dtype)
         return arr
     else:
         if name is not None:
@@ -141,4 +148,4 @@ def ensure_well_behaved(arr: npt.NDArray, name: Optional[str] = None) -> npt.NDA
             f"Fortran-style and no copy will be made. See: "
             f"https://numpy.org/doc/stable/reference/generated/numpy.ndarray.flags.html."
         )
-        return np.asarray(arr, order="F")
+        return np.asarray(arr, order="F", dtype=dtype)

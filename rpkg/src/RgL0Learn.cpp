@@ -23,18 +23,18 @@ bool check_is_valid_coordinate_subset(const arma::umat &larger_coord_set,
 }
 
 // [[Rcpp::export]]
-Rcpp::List gL0Learn_fit_R(const arma::mat &Y, const arma::mat &theta_init,
-                          const SEXP l0, const SEXP l1, const SEXP l2,
-                          const std::string algorithm, const SEXP lows,
-                          const SEXP highs,
-                          const arma::umat &initial_active_set,
-                          const arma::umat &super_active_set, const double atol,
-                          const double rtol, const size_t max_active_set_size,
-                          const size_t max_iter) {
+Rcpp::List gL0Learn_fit_R(
+    const arma::mat &Y, const arma::mat &theta_init, const SEXP l0,
+    const SEXP l1, const SEXP l2, const std::string algorithm, const SEXP lows,
+    const SEXP highs, const arma::umat &initial_active_set,
+    const arma::umat &super_active_set, const double tol,
+    const size_t max_active_set_size, const size_t max_iter, const size_t seed,
+    const size_t max_swaps, const bool shuffle_feature_order) {
 
   const fitmodel l = gL0Learn_fit_C(Y, theta_init, l0, l1, l2, algorithm, lows,
                                     highs, initial_active_set, super_active_set,
-                                    atol, rtol, max_active_set_size, max_iter);
+                                    tol, max_active_set_size, max_iter, seed,
+                                    max_swaps, shuffle_feature_order);
 
   return (
       Rcpp::List::create(Rcpp::Named("theta") = l.theta, Rcpp::Named("R") = l.R,

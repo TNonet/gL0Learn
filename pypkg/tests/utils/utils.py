@@ -25,12 +25,44 @@ def is_scipy_installed() -> bool:
         return True
 
 
-def top_n_triu_indicies(x, n):
-    x = np.copy(x)
-    x = np.triu(x, k=1)
-    value = np.sort(np.abs(x).flatten())[::-1][n - 1]
+def top_n_triu_indicies_by_abs_value(x, n):
+    """
+    Parameters
+    ----------
+    n: int
+        Number of indicies to return.
+        If n is greather than p*(p-1)//2, the number of upper triangluer coordinates, an error is raised
+        If there are only k non-zero vaues, st k < n. Only k values are returned.
+    """
+    if n <= 0:
+        raise ValueError(f"Cannot request {n} non-zero items")
 
-    return np.where(np.abs(x) >= value)
+    p, p1 = x.shape
+    if p != p1:
+        raise ValueError(f"x is not a square matrix")
+
+    if n > p * (p - 1) // 2:
+        raise ValueError(f"n is to large for a {p} by {p} matrix")
+
+    triu_x = np.abs(np.triu(x, k=1))
+
+    if (triu_x == 0).all():
+        raise ValueError("All triu values of x are 0.")
+
+    triu_x_flat = triu_x.flatten()
+
+    non_zero_triu_x = triu_x_flat[np.nonzero(triu_x_flat)]
+    nnz = non_zero_triu_x.size
+    if np.unique(non_zero_triu_x).size != nnz:
+        raise NotImplementedError("Not implemented for arrays with duplicate values")
+
+    sorted_triu_values = np.sort(triu_x_flat)[::-1]
+
+    if sorted_triu_values[n] == 0:
+        n = np.where(sorted_triu_values == 0)[0][0] - 1
+        return np.where(triu_x >= sorted_triu_values[n])
+
+    return np.where(triu_x > sorted_triu_values[n])
 
 
 @composite
@@ -59,7 +91,7 @@ def random_penalty_values(
     draw,
     values_strategies: Dict[str, hypothesis.strategies.SearchStrategy[float]],
     penalty_strategies: hypothesis.strategies.SearchStrategy[Iterable[str]],
-) -> hypothesis.strategies.SearchStrategy[Dict[str, float]]:
+) -> Dict[str, float]:
     penalties = draw(penalty_strategies)
     values = {}
     for penalty in penalties:

@@ -57,7 +57,7 @@ check_is_valid_coordinate_subset <- function(larger_coord_set, smaller_coord_set
     .Call(`_gL0Learn_check_is_valid_coordinate_subset`, larger_coord_set, smaller_coord_set)
 }
 
-gL0Learn_fit_R <- function(Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_active_set_size, max_iter) {
-    .Call(`_gL0Learn_gL0Learn_fit_R`, Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, atol, rtol, max_active_set_size, max_iter)
+gL0Learn_fit_R <- function(Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, tol, max_active_set_size, max_iter, seed, max_swaps, shuffle_feature_order) {
+    .Call(`_gL0Learn_gL0Learn_fit_R`, Y, theta_init, l0, l1, l2, algorithm, lows, highs, initial_active_set, super_active_set, tol, max_active_set_size, max_iter, seed, max_swaps, shuffle_feature_order)
 }
 
