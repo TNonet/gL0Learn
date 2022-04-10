@@ -23,14 +23,14 @@ jobs:
             INSTALL_DEPS: brew install armadillo
             compiler: [clang, clang++]
           - os: ubuntu-latest
-            compiler: [gcc-10, g++-10]
+            compiler: [gcc-11, g++-11]
             INSTALL_DEPS: |
               sudo apt-get install liblapack-dev
               sudo apt-get install libblas-dev
               sudo apt-get install libboost-dev
               sudo apt-get install libarmadillo-dev
               # sudo apt-get install build-essential
-              # sudo apt-get install g++
+              sudo apt install -y g++-11
               # sudo apt-get install libc++-dev libc++abi-dev
               # sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
     defaults:
