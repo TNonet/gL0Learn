@@ -49,25 +49,24 @@ public:
 
   void restrict_active_set();
   std::tuple<coordinate_vector, std::vector<double>>
-  active_set_expansion(const coordinate_vector &search_space);
+  active_set_expansion(const coordinate_vector &search_space) const;
   void inner_fit();
   fitmodel fit();
   std::tuple<bool, arma::uword> psi_row_fit(arma::uword row_ix);
   fitmodel fitpsi();
-  double inline compute_objective();
+  double inline compute_objective() const;
   bool inline converged(double old_objective, double cur_objective,
-                        size_t cur_iter);
+                        size_t cur_iter) const;
 
-  std::tuple<double, double> calc_ab(std::tuple<arma::uword, arma::uword> ij,
-                                     const arma::vec &theta_diag);
+  double inline a(arma::uword i, arma::uword j) const;
+  arma::vec inline a(arma::uword i, const arma::uvec &js) const;
+  double inline b(arma::uword i, arma::uword j) const;
+  arma::vec inline b(arma::uword i, const arma::uvec &js) const;
+  double inline b_update(arma::uword i, arma::uword j) const;
 
-  std::tuple<arma::vec, arma::vec> calc_ab(arma::uword i, arma::uvec js,
-                                           const arma::vec &theta_diag);
-
-  // Use SFINAE to overload when new_theta == 0;
-  void remove_from_support(std::tuple<arma::uword, arma::uword> ij);
-  void update_support(std::tuple<arma::uword, arma::uword> ij, double theta);
-  void add_to_support(std::tuple<arma::uword, arma::uword> ij, double theta);
+  void set_theta_zero(arma::uword i, arma::uword j);
+  void set_theta(arma::uword, arma::uword j, double theta_ij);
+  void update_diag(arma::uword i);
 
   // Helper functions!
   // active_set_of_row;
@@ -196,12 +195,9 @@ void CD<TY, TR, TT, TP>::restrict_active_set() {
 template <class TY, class TR, class TT, class TP>
 std::tuple<coordinate_vector, std::vector<double>>
 CD<TY, TR, TT, TP>::active_set_expansion(
-    const coordinate_vector &search_space) {
+    const coordinate_vector &search_space) const {
 
   const size_t p = this->Y.n_cols;
-  const arma::vec theta_diag = arma::vec(this->theta.diag());
-
-  const arma::mat ytr = this->Y.t() * this->R;
 
   coordinate_vector items_to_expand_active_set_by;
   items_to_expand_active_set_by.reserve(p);
@@ -224,10 +220,9 @@ CD<TY, TR, TT, TP>::active_set_expansion(
     const auto ij = search_space[*it];
     const arma::uword i = std::get<0>(ij);
     const arma::uword j = std::get<1>(ij);
-    const double a =
-        this->S_diag(j) / theta_diag(i) + this->S_diag(i) / theta_diag(j);
-    const double b =
-        2 * ytr(j, i) / theta_diag(i) + 2 * ytr(i, j) / theta_diag(j);
+
+    const auto a = this->a(i, j);
+    const auto b = this->b(i, j);
 
     const double q_ij = this->params.oracle.Q(a, b, i, j);
 
@@ -267,17 +262,10 @@ void CD<TY, TR, TT, TP>::inner_fit() {
     const double old_theta_ij = this->theta(i, j);
     // old_theta_ij is identical to old_theta_ji;
     // const double old_theta_ji = this->theta(j, i);
-    const double old_theta_ii = this->theta(i, i);
-    const double old_theta_jj = this->theta(j, j);
 
-    const double a =
-        this->S_diag(j) / old_theta_ii + this->S_diag(i) / old_theta_jj;
-    const double b = 2 * ((arma::dot(this->Y.col(j), this->R.col(i)) -
-                           old_theta_ij * this->S_diag(j)) /
-                              old_theta_ii +
-                          (arma::dot(this->Y.col(i), this->R.col(j)) -
-                           old_theta_ij * this->S_diag(i)) /
-                              old_theta_jj);
+    const auto a = this->a(i, j);
+    const auto b = this->b_update(i, j);
+
     const double new_theta = this->params.oracle.Q(a, b, i, j);
 
     this->theta(i, j) = new_theta;
@@ -289,10 +277,7 @@ void CD<TY, TR, TT, TP>::inner_fit() {
 
   for (auto i = 0; i < p; i++) {
     // Usually at least 1 item per column, so we always update every diagonal
-    this->R.col(i) -= this->theta(i, i) * this->Y.col(i);
-    this->theta(i, i) =
-        R_nl(this->S_diag(i), arma::dot(this->R.col(i), this->R.col(i)));
-    this->R.col(i) += this->theta(i, i) * this->Y.col(i);
+    this->update_diag(i);
   }
 }
 
@@ -326,13 +311,7 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
       if (swap) {
         for (arma::uword row : {row_ix, std::get<1>(row_fit)}) {
           // Only updates the two items that changed!
-          this->R.col(row_ix) -=
-              this->theta(row_ix, row_ix) * this->Y.col(row_ix);
-          this->theta(row_ix, row_ix) =
-              R_nl(this->S_diag(row_ix),
-                   arma::dot(this->R.col(row_ix), this->R.col(row_ix)));
-          this->R.col(row_ix) +=
-              this->theta(row_ix, row_ix) * this->Y.col(row_ix);
+          this->update_diag(row);
         }
         break;
       }
@@ -400,42 +379,28 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
   for (; non_zeros_it != it_end; ++non_zeros_it) {
     const arma::uword j = non_zero_indices[*non_zeros_it];
-    R.col(row_ix) -= this->theta(row_ix, j) * this->Y.col(j);
-    R.col(j) -= this->theta(j, row_ix) * this->Y.col(row_ix);
-    this->theta(j, row_ix) = 0;
-    this->theta(row_ix, j) = 0;
+    this->set_theta_zero(row_ix, j);
 
-    const double aj = this->S_diag[row_ix] / theta_diag(j) +
-                      this->S_diag[j] / theta_diag(row_ix);
-    const double bj =
-        2 *
-        ((arma::dot(this->Y.col(j), this->R.col(row_ix)) / theta_diag(row_ix)) +
-         (arma::dot(this->Y.col(row_ix), this->R.col(j)) / theta_diag(j)));
+    const auto a = this->a(row_ix, j);
+    const auto b = this->b(row_ix, j);
 
     const std::tuple<double, double> theta_f =
-        this->params.oracle.Qobj(aj, bj, row_ix, j);
+        this->params.oracle.Qobj(a, b, row_ix, j);
 
     const double theta_j = std::get<0>(theta_f);
     const double f = std::get<1>(theta_f);
 
-    const arma::vec a_vec = (this->S_diag(row_ix) / theta_diag(zeros) +
-                             this->S_diag(zeros) / theta_diag(row_ix));
-    const arma::vec b_vec =
-        2 *
-        (((this->Y.cols(zeros).t() * this->R.col(row_ix)) /
-          theta_diag(row_ix)) +
-         ((this->R.cols(zeros).t() * this->Y.col(row_ix)) / theta_diag(zeros)));
+    const arma::vec a_vec = this->a(row_ix, zeros);
+    const arma::vec b_vec = this->b(row_ix, zeros);
 
     const std::tuple<arma::vec, arma::vec> thetas_fs =
         this->params.oracle.Qobj(a_vec, b_vec, row_ix, zeros);
+
     const arma::vec thetas = std::get<0>(thetas_fs);
     const arma::vec fs = std::get<1>(thetas_fs);
 
     if (f < fs.min()) {
-      this->theta(row_ix, j) = theta_j;
-      this->theta(j, row_ix) = theta_j;
-      this->R.col(row_ix) += theta_j * this->Y.col(j);
-      this->R.col(j) += theta_j * this->Y.col(row_ix);
+      this->set_theta(row_ix, j, theta_j);
     } else {
       /* If a swap is accepted, (`k` <- NNZ for `j` <- 0) in row `row_ix`,
        * We will need to updated AS to ensure it contains `k`. Lucikly,
@@ -453,10 +418,7 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
       const auto k = zeros(ell);
       const auto k_theta = thetas(ell);
 
-      this->theta(row_ix, k) = k_theta;
-      this->theta(k, row_ix) = k_theta;
-      this->R.col(row_ix) += k_theta * this->Y.col(k);
-      this->R.col(k) += k_theta * this->Y.col(row_ix);
+      this->set_theta(row_ix, k, k_theta);
 
       // Find location to remove (row_ix, j) from active set!
       const coordinate row_ix_j = {row_ix, j};
@@ -498,14 +460,14 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 template <class TY, class TR, class TT, class TP>
 bool inline CD<TY, TR, TT, TP>::converged(const double old_objective,
                                           const double cur_objective,
-                                          const size_t cur_iter) {
+                                          const size_t cur_iter) const {
   return ((cur_iter > 1) &&
           (relative_gap(old_objective, cur_objective, this->params.gap_method,
                         this->params.one_normalize) <= this->params.tol));
 }
 
 template <class TY, class TR, class TT, class TP>
-double inline CD<TY, TR, TT, TP>::compute_objective() {
+double inline CD<TY, TR, TT, TP>::compute_objective() const {
   /*
    *  Objective = \sum_{i=1}^{p}(||<Y, theta[i, :]>||_2 - log(theta[i, i]))
    *
@@ -519,54 +481,70 @@ double inline CD<TY, TR, TT, TP>::compute_objective() {
 }
 
 template <class TY, class TR, class TT, class TP>
-std::tuple<double, double>
-CD<TY, TR, TT, TP>::calc_ab(std::tuple<arma::uword, arma::uword> ij,
-                            const arma::vec &theta_diag) {
-  const arma::uword i = std::get<0>(ij);
-  const arma::uword j = std::get<1>(ij);
-
-  const double a =
-      this->S_diag[i] / theta_diag(j) + this->S_diag[j] / theta_diag(i);
-  const double b =
-      2 * ((arma::dot(this->Y.col(j), this->R.col(i)) / theta_diag(i)) +
-           (arma::dot(this->Y.col(i), this->R.col(j)) / theta_diag(j)));
-  return {a, b};
+double inline CD<TY, TR, TT, TP>::a(const arma::uword i,
+                                    const arma::uword j) const {
+  return this->S_diag[j] / this->theta(i, i) +
+         this->S_diag[i] / this->theta(j, j);
 }
 
 template <class TY, class TR, class TT, class TP>
-std::tuple<arma::vec, arma::vec>
-CD<TY, TR, TT, TP>::calc_ab(const arma::uword i, const arma::uvec js,
-                            const arma::vec &theta_diag) {
-  const arma::vec a_vec =
-      (this->S_diag(i) / theta_diag(js) + this->S_diag(js) / theta_diag(i));
-  const arma::vec b_vec =
-      2 * (((this->Y.cols(js).t() * this->R.col(i)) / theta_diag(i)) +
-           ((this->R.cols(js).t() * this->Y.col(i)) / theta_diag(js)));
-  return {a_vec, b_vec};
+arma::vec inline CD<TY, TR, TT, TP>::a(const arma::uword i,
+                                       const arma::uvec &js) const {
+  const arma::vec theta_diag = this->theta.diag();
+  return (this->S_diag(i) / theta_diag(js) + this->S_diag(js) / theta_diag(i));
 }
 
 template <class TY, class TR, class TT, class TP>
-void CD<TY, TR, TT, TP>::remove_from_support(
-    std::tuple<arma::uword, arma::uword> ij) {
-  const arma::uword i = std::get<0>(ij);
-  const arma::uword j = std::get<1>(ij);
+double inline CD<TY, TR, TT, TP>::b(const arma::uword i,
+                                    const arma::uword j) const {
+  return 2 * ((arma::dot(this->Y.col(j), this->R.col(i)) / this->theta(i, i)) +
+              (arma::dot(this->Y.col(i), this->R.col(j)) / this->theta(j, j)));
+}
 
+template <class TY, class TR, class TT, class TP>
+arma::vec inline CD<TY, TR, TT, TP>::b(const arma::uword i,
+                                       const arma::uvec &js) const {
+  const arma::vec theta_diag = this->theta.diag();
+  return 2 * (((this->Y.cols(js).t() * this->R.col(i)) / theta_diag(i)) +
+              ((this->R.cols(js).t() * this->Y.col(i)) / theta_diag(js)));
+}
+
+template <class TY, class TR, class TT, class TP>
+double CD<TY, TR, TT, TP>::b_update(const arma::uword i,
+                                    const arma::uword j) const {
+  const double theta_ij = this->theta(i, j);
+  return 2 * ((arma::dot(this->Y.col(j), this->R.col(i)) -
+               theta_ij * this->S_diag(j)) /
+                  this->theta(i, i) +
+              (arma::dot(this->Y.col(i), this->R.col(j)) -
+               theta_ij * this->S_diag(i)) /
+                  this->theta(j, j));
+}
+
+template <class TY, class TR, class TT, class TP>
+void inline CD<TY, TR, TT, TP>::set_theta_zero(const arma::uword i,
+                                               const arma::uword j) {
   R.col(i) -= this->theta(i, j) * this->Y.unsafe_col(j);
   R.col(j) -= this->theta(j, i) * this->Y.unsafe_col(i);
-  this->theta(j, j) = 0;
-  this->theta(j, j) = 0;
+  this->theta(i, j) = 0;
+  this->theta(j, i) = 0;
 }
 
 template <class TY, class TR, class TT, class TP>
-void CD<TY, TR, TT, TP>::add_to_support(std::tuple<arma::uword, arma::uword> ij,
-                                        const double theta) {
-  const arma::uword i = std::get<0>(ij);
-  const arma::uword j = std::get<1>(ij);
+void CD<TY, TR, TT, TP>::set_theta(const arma::uword i, const arma::uword j,
+                                   const double theta_ij) {
+  R.col(i) += theta_ij * this->Y.unsafe_col(j);
+  R.col(j) += theta_ij * this->Y.unsafe_col(i);
+  this->theta(i, j) = theta_ij;
+  this->theta(j, i) = theta_ij;
+}
 
-  R.col(i) += theta * this->Y.unsafe_col(j);
-  R.col(j) += theta * this->Y.unsafe_col(i);
-  this->theta(i, j) = theta;
-  this->theta(j, i) = theta;
+template <class TY, class TR, class TT, class TP>
+void CD<TY, TR, TT, TP>::update_diag(const arma::uword i) {
+  this->R.col(i) -= this->theta(i, i) * this->Y.col(i);
+  this->theta(i, i) =
+      R_nl(this->S_diag(i), arma::dot(this->R.col(i), this->R.col(i)));
+  this->R.col(i) += this->theta(i, i) * this->Y.col(i);
 }
 
 #endif // CD_H

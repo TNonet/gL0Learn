@@ -27,6 +27,7 @@
           <option value="utils_hypothesis" />
           <option value="afdag.base.InfersSuccessors.*" />
           <option value="afdag.base.InfersPredecessors.*" />
+          <option value="utils" />
         </list>
       </option>
     </inspection_tool>

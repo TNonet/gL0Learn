@@ -7,3 +7,4 @@
     - Return more informative active_set and costs
         Actual list of lists of iterations!
     - Move gurobi tests to Python dir!
+    - Use <i, j> instead of unpacking it everytime

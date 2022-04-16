@@ -6,7 +6,7 @@ from hypothesis.strategies import integers, random_module, just, floats
 
 from gl0learn.synthetic import preprocess
 
-from tests.utils.utils import (
+from utils import (
     random_penalty,
     random_penalty_values,
     overlap_covariance_matrix,

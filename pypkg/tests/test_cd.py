@@ -6,11 +6,12 @@ import pytest
 from gl0learn import fit, synthetic, Penalty
 from gl0learn.metrics import nonzeros, pseudo_likelihood_loss
 from gl0learn.utils import triu_nnz_indicies
-from hypothesis import given, settings, assume, HealthCheck
+from hypothesis import given, settings, assume, HealthCheck, note
 from hypothesis.strategies import just, booleans, floats, integers, random_module
 from conftest import MAX_OVERLAPS
 
-from tests.utils.utils import (
+
+from utils import (
     sample_from_cov,
     overlap_covariance_matrix,
     is_scipy_installed,
@@ -192,7 +193,7 @@ def test_super_active_set(algorithm, p, module, overlaps, lXs):
         values_strategies={"l0": floats(0.1, 10), "l2": floats(0.1, 10)},
     ),
 )
-@settings(deadline=None)
+@settings(deadline=None, suppress_health_check=[HealthCheck(2)])
 def test_cd_vs_mosek(n, p, module, overlaps, lXs):
     from gl0learn.opt import MIO_mosek
     from mosek.fusion import SolutionError
@@ -246,7 +247,7 @@ def test_cd_vs_mosek(n, p, module, overlaps, lXs):
         y, np.array(cd_results.theta), penalty, active_set=CD_active_set
     )
 
-    assert cd_loss <= MIO_loss
+    assert cd_loss <= MIO_loss + 1e-6 * abs(MIO_loss)
 
 
 @pytest.mark.skipif(not is_mosek_installed(), reason="`mosek` is not installed.")
@@ -323,6 +324,7 @@ def test_cd_keeps_mio_results(max_iter, algorithm, n, p, module, overlaps, lXs):
 )
 @settings(max_examples=250, deadline=None)
 def test_cd_learns_mio_results_from_support(algorithm, n, p, module, overlaps, lXs):
+    # note({"n": n, "p": p, "module":module, overlaps: "overlaps", "lXs": lXs})
     from gl0learn.opt import MIO_mosek
 
     theta_truth = overlap_covariance_matrix(

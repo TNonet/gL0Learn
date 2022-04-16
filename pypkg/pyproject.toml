@@ -12,4 +12,4 @@ build-backend = "setuptools.build_meta"
 plugins = "numpy.typing.mypy_plugin"
 
 [tool.pytest.ini_options]
-norecursedirs= "tests/utils"
+norecursedirs= "tests/helper"

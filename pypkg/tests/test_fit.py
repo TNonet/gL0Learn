@@ -5,7 +5,7 @@ from hypothesis import given, settings, assume
 from hypothesis.strategies import integers, floats, random_module, just, booleans
 
 from conftest import MAX_OVERLAPS
-from tests.utils.utils import (
+from utils import (
     random_penalty_values,
     random_penalty,
     overlap_covariance_matrix,
