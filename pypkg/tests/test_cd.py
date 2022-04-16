@@ -1,18 +1,16 @@
-import random
-from copy import copy, deepcopy
-from typing import Callable, Tuple
+from copy import deepcopy
+
 
 import numpy as np
 import pytest
-from gl0learn import fit, synthetic
-from gl0learn.metrics import nonzeros
-from gl0learn.opt import MIO_mosek
-from hypothesis import given, settings, HealthCheck, assume, note
+from gl0learn import fit, synthetic, Penalty
+from gl0learn.metrics import nonzeros, pseudo_likelihood_loss
+from gl0learn.utils import triu_nnz_indicies
+from hypothesis import given, settings, assume, HealthCheck
 from hypothesis.strategies import just, booleans, floats, integers, random_module
+from conftest import MAX_OVERLAPS
 
 from tests.utils.utils import (
-    _sample_data,
-    _sample_data2,
     sample_from_cov,
     overlap_covariance_matrix,
     is_scipy_installed,
@@ -56,7 +54,7 @@ def test_cd_limited_active_set(p, module):
         values_strategies={"l1": floats(0.01, 10), "l2": floats(0.01, 10)},
     ),
 )
-@settings(max_examples=1000)
+@settings(max_examples=100, deadline=None)
 def test_cd_example_2(p, module, nnz, algorithm, lXs):
     theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
     x = sample_from_cov(n=30 * p**2, cov=theta_truth)
@@ -109,6 +107,7 @@ def test_cd_example_2(p, module, nnz, algorithm, lXs):
 @given(
     p=integers(3, 10),
     module=random_module(),
+    overlaps=integers(1, MAX_OVERLAPS - 1),
     lXs=random_penalty_values(
         penalty_strategies=random_penalty(l0=just(True), l1=booleans(), l2=booleans()),
         values_strategies={
@@ -118,11 +117,16 @@ def test_cd_example_2(p, module, nnz, algorithm, lXs):
         },
     ),
 )
-@settings(max_examples=1000)
-def test_super_active_set(algorithm, p, module, lXs):
+@settings(suppress_health_check=[HealthCheck(2)], deadline=None)
+def test_super_active_set(algorithm, p, module, overlaps, lXs):
     # TODO: Figure out this hypothesis bug. When lXs aren't deep copied, the tracebacks provided by hypothesis are wrong.
     lX2s = deepcopy(lXs)
-    theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
+    theta_truth = overlap_covariance_matrix(
+        p=p,
+        seed=module.seed,
+        max_overlaps=overlaps,
+        decay=1 - np.exp(overlaps - MAX_OVERLAPS),
+    )
     x = sample_from_cov(n=30 * p**2, cov=theta_truth)
 
     _, _, _, _, Y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
@@ -180,24 +184,97 @@ def test_super_active_set(algorithm, p, module, lXs):
 @pytest.mark.skipif(not is_mosek_installed(), reason="`mosek` is not installed.")
 @given(
     p=integers(3, 10),
-    overlaps=integers(1, 5),
+    n=floats(0, 1000),
+    overlaps=integers(1, MAX_OVERLAPS - 1),
     module=random_module(),
     lXs=random_penalty_values(
         penalty_strategies=random_penalty(l0=just(True), l1=just(False), l2=just(True)),
-        values_strategies={"l0": floats(0.01, 10), "l2": floats(0.01, 10)},
+        values_strategies={"l0": floats(0.1, 10), "l2": floats(0.1, 10)},
     ),
 )
-@settings(max_examples=20, deadline=None)
-def test_cd_vs_mosek_high_data(p, module, overlaps, lXs):
-    num_samples = 30 * p**2
+@settings(deadline=None)
+def test_cd_vs_mosek(n, p, module, overlaps, lXs):
+    from gl0learn.opt import MIO_mosek
+    from mosek.fusion import SolutionError
+
+    num_samples = max(1, int(n * p**2))
     theta_truth = overlap_covariance_matrix(
-        p=p, seed=module.seed, max_overlaps=overlaps, decay=1 - np.exp(overlaps - 6)
+        p=p,
+        seed=module.seed,
+        max_overlaps=overlaps,
+        decay=1 - np.exp(overlaps - MAX_OVERLAPS),
     )
 
     assume(all(np.linalg.eigvalsh(theta_truth) > 0))
     x = sample_from_cov(n=num_samples, cov=theta_truth)
 
-    np.cov(x)
+    _, _, _, _, y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
+
+    m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
+    int_tol = 1e-4
+
+    try:
+        MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol, max_time=10)
+    except SolutionError:
+        assume(False)
+
+    cd_results = fit(
+        y,
+        **lXs,
+        scale_x=False,
+        theta_init=None,
+        active_set=0.0,
+        max_iter=1000,
+        super_active_set=0.0,
+        max_active_set_ratio=1.0,
+        tol=1e-12
+    )
+
+    MIO_active_set = triu_nnz_indicies(MIO_results.theta_hat)
+    CD_active_set = triu_nnz_indicies(cd_results.theta)
+
+    if MIO_active_set.shape != CD_active_set.shape:
+        assume(False)
+    else:
+        assume((MIO_active_set == CD_active_set).all())
+
+    penalty = Penalty(**lXs)
+    MIO_loss = pseudo_likelihood_loss(
+        y, np.array(MIO_results.theta_hat), penalty, active_set=MIO_active_set
+    )
+    cd_loss = pseudo_likelihood_loss(
+        y, np.array(cd_results.theta), penalty, active_set=CD_active_set
+    )
+
+    assert cd_loss <= MIO_loss
+
+
+@pytest.mark.skipif(not is_mosek_installed(), reason="`mosek` is not installed.")
+@pytest.mark.parametrize("max_iter", [1, 1000])
+@pytest.mark.parametrize("algorithm", ["CD", "CDPSI"])
+@given(
+    n=integers(3, 1000),
+    p=integers(3, 10),
+    overlaps=integers(1, MAX_OVERLAPS - 1),
+    module=random_module(),
+    lXs=random_penalty_values(
+        penalty_strategies=random_penalty(l0=just(True), l1=just(False), l2=just(True)),
+        values_strategies={"l0": floats(0.1, 10), "l2": floats(0.1, 10)},
+    ),
+)
+@settings(max_examples=250, deadline=None)
+def test_cd_keeps_mio_results(max_iter, algorithm, n, p, module, overlaps, lXs):
+    from gl0learn.opt import MIO_mosek
+
+    theta_truth = overlap_covariance_matrix(
+        p=p,
+        seed=module.seed,
+        max_overlaps=overlaps,
+        decay=1 - np.exp(overlaps - MAX_OVERLAPS),
+    )
+
+    assume(all(np.linalg.eigvalsh(theta_truth) > 0))
+    x = sample_from_cov(n=n, cov=theta_truth)
 
     _, _, _, _, y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
 
@@ -208,12 +285,81 @@ def test_cd_vs_mosek_high_data(p, module, overlaps, lXs):
     cd_results = fit(
         y,
         **lXs,
-        theta_init=None,
+        scale_x=False,
+        theta_init=MIO_results.theta_hat,
+        max_iter=max_iter,
+        algorithm=algorithm,
         active_set=0.0,
         super_active_set=0.0,
         max_active_set_ratio=1.0
     )
 
-    np.testing.assert_array_equal(
-        np.abs(MIO_results.theta_hat) > int_tol, np.abs(cd_results.theta) > 0
+    try:
+        np.testing.assert_array_equal(MIO_results.theta_hat, cd_results.theta)
+    except AssertionError:
+        penalty = Penalty(**lXs)
+        active_set = np.asarray(np.triu_indices(p, k=1), order="C", dtype=np.uint64).T
+        MIO_loss = pseudo_likelihood_loss(
+            y, np.array(MIO_results.theta_hat), penalty, active_set=active_set
+        )
+        cd_loss = pseudo_likelihood_loss(
+            y, np.array(cd_results.theta), penalty, active_set=active_set
+        )
+
+        assert cd_loss <= MIO_loss
+
+
+@pytest.mark.skipif(not is_mosek_installed(), reason="`mosek` is not installed.")
+@pytest.mark.parametrize("algorithm", ["CD", "CDPSI"])
+@given(
+    n=integers(3, 1000),
+    p=integers(3, 10),
+    overlaps=integers(1, MAX_OVERLAPS - 1),
+    module=random_module(),
+    lXs=random_penalty_values(
+        penalty_strategies=random_penalty(l0=just(True), l1=just(False), l2=just(True)),
+        values_strategies={"l0": floats(0.1, 10), "l2": floats(0.1, 10)},
+    ),
+)
+@settings(max_examples=250, deadline=None)
+def test_cd_learns_mio_results_from_support(algorithm, n, p, module, overlaps, lXs):
+    from gl0learn.opt import MIO_mosek
+
+    theta_truth = overlap_covariance_matrix(
+        p=p,
+        seed=module.seed,
+        max_overlaps=overlaps,
+        decay=1 - np.exp(overlaps - MAX_OVERLAPS),
     )
+
+    assume(all(np.linalg.eigvalsh(theta_truth) > 0))
+    x = sample_from_cov(n=n, cov=theta_truth)
+
+    _, _, _, _, y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
+
+    m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
+    int_tol = 1e-4
+
+    MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol)
+    active_set = triu_nnz_indicies(MIO_results.theta_hat)
+    cd_results = fit(
+        y,
+        **lXs,
+        scale_x=False,
+        theta_init=None,
+        max_iter=1000,
+        algorithm=algorithm,
+        active_set=active_set,
+        super_active_set=active_set,
+        max_active_set_ratio=1.0
+    )
+
+    penalty = Penalty(**lXs)
+    MIO_loss = pseudo_likelihood_loss(
+        y, np.array(MIO_results.theta_hat), penalty, active_set=active_set
+    )
+    cd_loss = pseudo_likelihood_loss(
+        y, np.array(cd_results.theta), penalty, active_set=active_set
+    )
+
+    assert cd_loss <= MIO_loss + int_tol * abs(MIO_loss)

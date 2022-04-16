@@ -4,7 +4,6 @@ import pytest
 from hypothesis import given, settings, assume, note
 from hypothesis.strategies import integers, random_module, just, floats
 
-from gl0learn.opt import MIO_mosek, mosek_level_values
 from gl0learn.synthetic import preprocess
 
 from tests.utils.utils import (
@@ -27,32 +26,35 @@ from tests.utils.utils import (
 )
 @settings(deadline=None, max_examples=1000)
 def test_init_levels(p, module, lXs):
+    from gl0learn.opt import MIO_mosek, mosek_level_values
+
     theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
     x = sample_from_cov(cov=theta_truth, n=30 * p**2, seed=module.seed)
 
     _, _, _, _, Y, _ = preprocess(x, assume_centered=False, cholesky=False)
 
-    M = np.max(np.abs(theta_truth * (1 - np.eye(p))))
+    m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
     try:
         results = MIO_mosek(
-            Y, M=M, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, maxtime=10
+            Y, m=m, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, max_time=10
         )
     except mosek.MosekException:
         assume(False)
+    else:
 
-    theta_tril, z, s, t, lg, residuals = mosek_level_values(
-        theta=results.theta_hat, Y=Y, int_tol=int_tol
-    )
+        theta_tril, z, s, t, lg, residuals = mosek_level_values(
+            theta=results.theta_hat, Y=Y, int_tol=int_tol
+        )
 
-    np.testing.assert_array_equal(results.theta_hat[np.tril_indices(p)], theta_tril)
+        np.testing.assert_array_equal(results.theta_hat[np.tril_indices(p)], theta_tril)
 
-    np.testing.assert_array_equal(results.z[np.tril_indices(p)] > int_tol, z)
+        np.testing.assert_array_equal(results.z[np.tril_indices(p)] > int_tol, z)
 
-    decimals = int(-np.log10(int_tol) + 1)
+        decimals = int(-np.log10(int_tol) + 1)
 
-    np.testing.assert_array_almost_equal(results.s, s, decimal=decimals)
-    np.testing.assert_array_almost_equal(results.t, t, decimal=decimals)
-    np.testing.assert_array_almost_equal(
-        results.residuals.reshape(p, p), residuals, decimal=decimals
-    )
+        np.testing.assert_array_almost_equal(results.s, s, decimal=decimals)
+        np.testing.assert_array_almost_equal(results.t, t, decimal=decimals)
+        np.testing.assert_array_almost_equal(
+            results.residuals.reshape(p, p), residuals, decimal=decimals
+        )

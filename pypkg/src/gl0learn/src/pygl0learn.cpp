@@ -39,7 +39,9 @@ PYBIND11_MODULE(gl0learn_core, m) {
   init_fitmodel(m);
   init_fit(m);
 
-  m.def("check_coordinate_matrix", &check_coordinate_matrix);
+  m.def("check_coordinate_matrix", &check_coordinate_matrix,
+        py::arg("coords_matrix"), py::arg("for_order") = true,
+        py::arg("for_upper_triangle") = true);
   m.def("check_is_coordinate_subset", &check_is_coordinate_subset,
         py::call_guard<py::scoped_ostream_redirect,
                        py::scoped_estream_redirect>());

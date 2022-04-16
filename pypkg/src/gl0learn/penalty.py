@@ -127,7 +127,12 @@ class Penalty:
     ) -> float:
         if active_set is None:
             p = theta.shape[0]
-            active_set = np.asarray(np.triu_indices(p, k=1), order="F").T
+            active_set = np.asarray(
+                np.triu_indices(p, k=1), order="C", dtype=np.uint64
+            ).T
+        else:
+            # TODO validate active_set! Use decorator to validate all functions?
+            pass
 
         if not check_coordinate_matrix(
             active_set, for_order=True, for_upper_triangle=True

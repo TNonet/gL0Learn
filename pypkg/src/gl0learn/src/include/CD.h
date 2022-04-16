@@ -40,7 +40,7 @@ public:
      const coordinate_vector &super_active_set)
       : Y{Y}, S_diag{arma::sum(arma::square(Y), 0)}, params{params},
         super_active_set{super_active_set} {
-    this->theta = TT(theta);
+    this->theta = TT(theta);                          // Take a copy of theta!
     this->active_set = coordinate_vector(active_set); // Ensure a copy is taken.
     this->R = this->Y * this->theta;
     this->costs.reserve(this->params.max_iter);
@@ -85,7 +85,8 @@ private:
   const TP params;
   coordinate_vector active_set;
   coordinate_vector super_active_set;
-  std::vector<double> costs;
+  std::vector<double> costs; // TODO: Should be a map of where this value was
+                             // from. {"initial_objective": X, "CD_1"
   std::vector<std::size_t> active_set_size;
 };
 
@@ -122,18 +123,14 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   double cur_objective = std::numeric_limits<double>::infinity();
 
   std::size_t cur_iter = 0;
-  COUT << "fit 1\n";
   // RUN CD on AS until convergence
   while (cur_iter <= this->params.max_iter) {
-    COUT << "fit loop" << cur_iter << "\n";
     this->inner_fit(); // Fits on active_set
     old_objective = cur_objective;
     cur_objective = this->compute_objective();
     this->costs.push_back(cur_objective);
     this->active_set_size.push_back(this->active_set.size());
     cur_iter++;
-    COUT << "current_iter: " << cur_iter << " cur_objective = " << cur_objective
-         << "\n";
 
     if (this->converged(old_objective, cur_objective, cur_iter)) {
       const coordinate_vector values_to_check =
@@ -152,12 +149,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
 
       if (new_active_set_size > this->params.max_active_set_size) {
         const std::vector<double> q_values = std::get<1>(tmp);
-        COUT << "this->params.max_active_set_size = "
-             << this->params.max_active_set_size << "\n";
-        COUT << "this->active_set.size() = " << this->active_set.size() << "\n";
         const std::size_t n_to_keep =
             this->params.max_active_set_size - this->active_set.size();
-        COUT << "n_to_keep = " << n_to_keep << "\n";
         const std::vector<size_t> indices =
             nth_largest_indices(q_values, n_to_keep);
 
@@ -272,14 +265,15 @@ void CD<TY, TR, TT, TP>::inner_fit() {
     const arma::uword j = std::get<1>(ij);
 
     const double old_theta_ij = this->theta(i, j);
-    const double old_theta_ji = this->theta(j, i);
+    // old_theta_ij is identical to old_theta_ji;
+    // const double old_theta_ji = this->theta(j, i);
     const double old_theta_ii = this->theta(i, i);
     const double old_theta_jj = this->theta(j, j);
 
     const double a =
         this->S_diag(j) / old_theta_ii + this->S_diag(i) / old_theta_jj;
     const double b = 2 * ((arma::dot(this->Y.col(j), this->R.col(i)) -
-                           old_theta_ji * this->S_diag(j)) /
+                           old_theta_ij * this->S_diag(j)) /
                               old_theta_ii +
                           (arma::dot(this->Y.col(i), this->R.col(j)) -
                            old_theta_ij * this->S_diag(i)) /
@@ -290,10 +284,11 @@ void CD<TY, TR, TT, TP>::inner_fit() {
     this->theta(j, i) = new_theta;
 
     this->R.col(i) += (new_theta - old_theta_ij) * this->Y.col(j);
-    this->R.col(j) += (new_theta - old_theta_ji) * this->Y.col(i);
+    this->R.col(j) += (new_theta - old_theta_ij) * this->Y.col(i);
   }
 
   for (auto i = 0; i < p; i++) {
+    // Usually at least 1 item per column, so we always update every diagonal
     this->R.col(i) -= this->theta(i, i) * this->Y.col(i);
     this->theta(i, i) =
         R_nl(this->S_diag(i), arma::dot(this->R.col(i), this->R.col(i)));
@@ -304,21 +299,17 @@ void CD<TY, TR, TT, TP>::inner_fit() {
 template <class TY, class TR, class TT, class TP>
 fitmodel CD<TY, TR, TT, TP>::fitpsi() {
   // std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  COUT << "fitpsi called \n";
   static_cast<void>(this->fit());
-  COUT << "Pre psi cost: " << this->compute_objective() << " \n";
   const arma::uword p = this->Y.n_cols;
 
-  for (auto i = 0; i < this->params.max_swaps;
-       i++) { // TODO: Elevant 100 to Parameter
-    COUT << "PSI iter: " << i << " \n";
-    // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  for (auto i = 0; i < this->params.max_swaps; i++) {
 
     arma::uvec feature_order;
+    // No need to swap on the last row
     if (this->params.shuffle_feature_order) {
-      feature_order = arma::randperm(p);
+      feature_order = arma::randperm(p - 1);
     } else {
-      feature_order = arma::linspace<arma::uvec>(0, p - 1, p);
+      feature_order = arma::linspace<arma::uvec>(0, p - 2, p - 1);
     }
 
     arma::uvec::const_iterator it = feature_order.begin();
@@ -329,14 +320,11 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
     for (; it != it_end; ++it) {
       const arma::uword row_ix = *it;
 
-      // No need to swap on last row!
-      COUT << "PSI iter: " << i << " Swapping row: " << row_ix << "\n";
       // TODO: This needs to properly update the active set.
       const auto row_fit = this->psi_row_fit(row_ix);
       swap = swap || std::get<0>(row_fit);
       if (swap) {
         for (arma::uword row : {row_ix, std::get<1>(row_fit)}) {
-          // TODO: Do we need to update every diagonal? Only need to update
           // Only updates the two items that changed!
           this->R.col(row_ix) -=
               this->theta(row_ix, row_ix) * this->Y.col(row_ix);
@@ -353,11 +341,7 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
     if (!swap) {
       break;
     } else {
-      COUT << "PSI iter: " << i
-           << " Post Swap cost: " << this->compute_objective() << " \n";
       static_cast<void>(this->fit());
-      COUT << "PSI iter: " << i
-           << " Post Swap Fit cost: " << this->compute_objective() << " \n";
     }
   }
 
@@ -367,9 +351,6 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
 template <class TY, class TR, class TT, class TP>
 std::tuple<bool, arma::uword>
 CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
-  COUT << "psi_row_fit row =  " << row_ix << " \n";
-  // std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
   // TODO: Check if this can be {row_ix, row_ix+1}
   // TODO: Check if we should be storing active_set in column major sort order?
   const coordinate row_ix_0 = {row_ix, 0};
@@ -382,9 +363,6 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
   auto it_tmp = it;
   auto end =
       std::lower_bound(it_tmp, this->super_active_set.end(), row_ix_p1_0);
-
-  COUT << "selected super_active_set start =  " << *it << " \n";
-  COUT << "selected super_active_set end =  " << *end << " \n";
 
   std::vector<arma::uword> zero_indices;
   std::vector<arma::uword> non_zero_indices;
@@ -406,13 +384,8 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
   const arma::uvec zeros(zero_indices);
   const arma::uvec non_zeros(non_zero_indices);
-
-  COUT << "zero_indices =  " << zeros << " \n";
-  COUT << "non_zero_indices =  " << non_zeros << " \n";
-
   const arma::vec theta_diag = arma::vec(this->theta.diag());
 
-  // TODO: Have parameter to shuffle order of iteration
   arma::uvec non_zero_order;
   if (this->params.shuffle_feature_order) {
     non_zero_order = arma::randperm(non_zero_indices.size());
@@ -421,13 +394,12 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
     non_zero_order = arma::linspace<arma::uvec>(0, non_zero_indices.size() - 1,
                                                 non_zero_indices.size());
   }
+
   arma::uvec::const_iterator non_zeros_it = non_zero_order.begin();
   const arma::uvec::const_iterator it_end = non_zero_order.end();
 
   for (; non_zeros_it != it_end; ++non_zeros_it) {
-    const arma::uword j = non_zero_order[*non_zeros_it];
-    COUT << "Non Zero Index Loop: (" << row_ix << ", " << j << ") \n";
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    const arma::uword j = non_zero_indices[*non_zeros_it];
     R.col(row_ix) -= this->theta(row_ix, j) * this->Y.col(j);
     R.col(j) -= this->theta(j, row_ix) * this->Y.col(row_ix);
     this->theta(j, row_ix) = 0;
@@ -440,10 +412,6 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
         ((arma::dot(this->Y.col(j), this->R.col(row_ix)) / theta_diag(row_ix)) +
          (arma::dot(this->Y.col(row_ix), this->R.col(j)) / theta_diag(j)));
 
-    // COUT << "Non Zero Index Loop: " << j << " overleaf_Q_L0L2reg_obj \n";
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    // const std::tuple<double, double> theta_f = this->params.oracle.Qobj(aj,
-    // bj);
     const std::tuple<double, double> theta_f =
         this->params.oracle.Qobj(aj, bj, row_ix, j);
 
@@ -457,34 +425,17 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
         (((this->Y.cols(zeros).t() * this->R.col(row_ix)) /
           theta_diag(row_ix)) +
          ((this->R.cols(zeros).t() * this->Y.col(row_ix)) / theta_diag(zeros)));
-    // COUT << "Non Zero Index Loop: " << j << " theta_diag " << theta_diag << "
-    // \n"; COUT << "Non Zero Index Loop: " << j << " b_vec " << b_vec << " \n";
-    // COUT << "Non Zero Index Loop: " << j << " overleaf_Q_L0L2reg_obj vec \n";
-
-    // COUT << "params.oracle.Qobj(a_vec, b_vec, row_ix) \n";
-    // COUT << "params.oracle.Qobj(" << a_vec.size() << ", " <<  b_vec.size() <<
-    // ", " << row_ix << ")\n"; COUT << "zeros.size() = " << zeros.size()
-    // <<"\n"; std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    // const std::tuple<arma::vec, arma::vec> thetas_fs =
-    // this->params.oracle.Qobj(a_vec, b_vec);
 
     const std::tuple<arma::vec, arma::vec> thetas_fs =
         this->params.oracle.Qobj(a_vec, b_vec, row_ix, zeros);
     const arma::vec thetas = std::get<0>(thetas_fs);
     const arma::vec fs = std::get<1>(thetas_fs);
 
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    // COUT << "After this = " << zeros.size() <<"\n";
-    // COUT << "Non Zero Index Loop: " << j << " fs: " << fs << " \n";
-    // COUT << "Non Zero Index Loop: " << j << " thetas: "<< thetas <<"\n";
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     if (f < fs.min()) {
-      // COUT << "Non Zero Index Loop: " << j << "f <= fs.min()" << "\n";
       this->theta(row_ix, j) = theta_j;
       this->theta(j, row_ix) = theta_j;
       this->R.col(row_ix) += theta_j * this->Y.col(j);
       this->R.col(j) += theta_j * this->Y.col(row_ix);
-      COUT << "No swap for (" << row_ix << ", " << j << ") \n";
     } else {
       /* If a swap is accepted, (`k` <- NNZ for `j` <- 0) in row `row_ix`,
        * We will need to updated AS to ensure it contains `k`. Lucikly,
@@ -497,15 +448,11 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
        * (row_ix, k), using `lower_bound`. We then insert (row_ix, k)
        *  before u.
        */
-      // COUT << "Non Zero Index Loop: " << j << " Else" << "\n";
+
       const auto ell = arma::index_min(fs);
-      // COUT << "Non Zero Index Loop: " << j << " ell = " << ell << "\n";
       const auto k = zeros(ell);
-      // COUT << "Non Zero Index Loop: " << j << " k = zeros(ell) = " << k <<
-      // "\n";
       const auto k_theta = thetas(ell);
-      // COUT << "Non Zero Index Loop: " << j << "k_theta = " << k_theta <<
-      // "\n";
+
       this->theta(row_ix, k) = k_theta;
       this->theta(k, row_ix) = k_theta;
       this->R.col(row_ix) += k_theta * this->Y.col(k);
@@ -540,42 +487,7 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
       auto low_k = std::lower_bound(k_begin, k_end, row_ix_k);
 
       const std::size_t loc_k = low_k - this->active_set.begin();
-
-      // START: Debug Printing statements
-      const auto cur_active_set_size = this->active_set.size();
-
-      COUT << "Swap for (" << row_ix << ", " << j << ") with (" << row_ix
-           << ", " << k << ")\n";
-      COUT << "AS before insert:\n";
-      COUT << "AS size = " << cur_active_set_size << " \n";
-
-      const auto min_loc_kj = std::min(loc_k, loc_j);
-      const auto tmp = (long long)(min_loc_kj - 2);
-      const long long start_print_index = std::max(tmp - 2, 0LL);
-
-      const auto end_print_index =
-          std::min(std::max(loc_k + 2, loc_j + 2), cur_active_set_size - 1);
-      index_print(COUT, this->active_set.begin() + start_print_index,
-                  this->active_set.begin() + end_print_index,
-                  start_print_index);
-
-      if (loc_k >= cur_active_set_size) {
-        COUT << " AS has no loc element -> Swapped item " << row_ix_k
-             << "Is the last item in AS\n";
-      } else {
-        COUT << " AS(loc)= " << this->active_set.at(loc_k) << "\n";
-        if (loc_k + 1 >= cur_active_set_size) {
-          COUT << " AS has no loc+1 element\n";
-        } else {
-          COUT << " AS(loc+1)= " << this->active_set.at(loc_k + 1) << "\n";
-        }
-      }
-      // END: Debug Printing statements
-
-      // if (this->active_set.at(loc_k - 1) != row_ix_k){
       this->active_set.insert(low_k, row_ix_k);
-      //}
-
       return {true, k};
     }
   }

@@ -121,11 +121,16 @@ def check_make_valid_coordinate_matrix(
     return x
 
 
-def triu_nnz_indicies(x, tol: float = 0):
-    return np.asarray(np.where(np.abs(np.triu(x, k=1)) > tol)).T
+def triu_nnz_indicies(
+    x: npt.NDArray[np.float64], tol: float = 0, order: str = "F"
+) -> npt.NDArray[np.uint64]:
+    order = "C" if order == "F" else "F"
+    return np.asarray(
+        np.where(np.abs(np.triu(x, k=1)) > tol), order=order, dtype=np.uint64
+    ).T
 
 
-def set_post_broadcasting_flags(arr: npt.NDArray):
+def set_post_broadcasting_flags(arr: npt.NDArray) -> None:
     with warnings.catch_warnings():
         arr.flags["WRITEABLE"] = True
 
