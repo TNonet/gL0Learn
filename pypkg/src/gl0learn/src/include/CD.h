@@ -124,6 +124,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   std::size_t cur_iter = 0;
   // RUN CD on AS until convergence
   while (cur_iter <= this->params.max_iter) {
+    UserInterrupt();
     this->inner_fit(); // Fits on active_set
     old_objective = cur_objective;
     cur_objective = this->compute_objective();
@@ -288,6 +289,7 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
   const arma::uword p = this->Y.n_cols;
 
   for (auto i = 0; i < this->params.max_swaps; i++) {
+    UserInterrupt();
 
     arma::uvec feature_order;
     // No need to swap on the last row

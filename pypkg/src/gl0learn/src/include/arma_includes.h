@@ -20,6 +20,11 @@ private:
   std::string message;
 };
 
+void inline UserInterrupt() {
+  if (PyErr_CheckSignals() != 0)
+    throw py::error_already_set();
+}
+
 #define STOP throw PyException
 
 #endif // INCLUDES_H

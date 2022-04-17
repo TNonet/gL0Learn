@@ -11,4 +11,6 @@
 #define COUT Rcpp::Rcout
 #define STOP Rcpp::stop
 
+void inline UserInterrupt() { Rcpp::checkUserInterrupt(); }
+
 #endif // INCLUDES_H
