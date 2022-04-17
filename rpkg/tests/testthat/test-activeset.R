@@ -1,39 +1,6 @@
 library("gL0Learn")
 
 
-test_that("Active set difference works as expected", {
-  larger <- 1:10
-  smaller <- 1:3
-  expect_equal(test_sorted_vector_difference2(larger, smaller), 4:10)
-
-  smaller <- 1:10
-  expect_equal(length(test_sorted_vector_difference2(larger, smaller)), 0)
-
-  smaller <- 5:10
-  expect_equal(test_sorted_vector_difference2(larger, smaller), 1:4)
-
-  smaller <- seq(1, 10, 2)
-  expect_equal(test_sorted_vector_difference2(larger, smaller), seq(2, 10, 2))
-
-  smaller <- integer(0)
-  expect_equal(test_sorted_vector_difference2(larger, smaller), larger)
-})
-
-
-test_that("Active set insert works as expected", {
-  x1 <- 1:10
-  x2 <- 1:10
-
-  expect_equal(test_insert_sorted_vector_into_sorted_vector(x1, x2), rep(1:10, each = 2))
-
-  x1 <- 1:10
-  x2 <- seq(1, 10, by = 2)
-  expect_equal(
-    test_insert_sorted_vector_into_sorted_vector(x1, x2),
-    c(1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10)
-  )
-})
-
 test_that("Coordinate to vector to coorindate works as expected", {
   x <- matrix(1:10, 5, 2)
   expect_equal(x, test_coordinate_matrix_to_vector_to_matrix(x))
