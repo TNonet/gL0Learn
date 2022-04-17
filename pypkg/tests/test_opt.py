@@ -1,4 +1,3 @@
-import mosek
 import numpy as np
 import pytest
 from hypothesis import given, settings, assume, note
@@ -26,6 +25,7 @@ from utils import (
 )
 @settings(deadline=None, max_examples=1000)
 def test_init_levels(p, module, lXs):
+    import mosek
     from gl0learn.opt import MIO_mosek, mosek_level_values
 
     theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
