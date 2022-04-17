@@ -55,7 +55,7 @@ jobs:
         run: |
           export CC=${{matrix.compiler[0]}}
           export CXX=${{matrix.compiler[1]}}
-          pip install --verbose .[test]
+          pip install --verbose .[test, opt]
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn
       - name: Coveralls
