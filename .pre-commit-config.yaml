@@ -10,7 +10,7 @@ repos:
     - id: dirs_check
       name: dirs_check
       pass_filenames: false
-      entry: python scripts/dirs_check.py rpkg/src/src/include pypkg/src/gl0learn/src/include --ignore arma_includes.h .DS_Store
+      entry: python scripts/dirs_check.py rpkg/src/src pypkg/src/gl0learn/src/src --ignore arma_includes.h .DS_Store
       language: python
     - id: lintr
       name: run_lintr

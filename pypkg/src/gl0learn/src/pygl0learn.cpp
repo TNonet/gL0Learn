@@ -18,8 +18,7 @@ double compute_objective(const arma::mat &theta, const arma::mat &residuals) {
 PYBIND11_MODULE(gl0learn_core, m) {
   m.attr("__name__") =
       "gl0learn.gl0learn_core"; // The default would be just "foo"
-  m.def("union_of_correlated_features2",
-        &union_of_correlated_features2<arma::mat>,
+  m.def("union_of_correlated_features2", &union_of_correlated_features2,
         R"pbdoc(
           Example function performing OLS.
           Parameters

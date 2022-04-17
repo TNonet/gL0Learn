@@ -99,30 +99,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test_sorted_vector_difference2
-std::vector<int> test_sorted_vector_difference2(const std::vector<int> larger, const std::vector<int> smaller);
-RcppExport SEXP _gL0Learn_test_sorted_vector_difference2(SEXP largerSEXP, SEXP smallerSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::vector<int> >::type larger(largerSEXP);
-    Rcpp::traits::input_parameter< const std::vector<int> >::type smaller(smallerSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_sorted_vector_difference2(larger, smaller));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_insert_sorted_vector_into_sorted_vector
-std::vector<int> test_insert_sorted_vector_into_sorted_vector(const std::vector<int> x1, const std::vector<int> x2);
-RcppExport SEXP _gL0Learn_test_insert_sorted_vector_into_sorted_vector(SEXP x1SEXP, SEXP x2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::vector<int> >::type x1(x1SEXP);
-    Rcpp::traits::input_parameter< const std::vector<int> >::type x2(x2SEXP);
-    rcpp_result_gen = Rcpp::wrap(test_insert_sorted_vector_into_sorted_vector(x1, x2));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_coordinate_matrix_to_vector_to_matrix
 arma::umat test_coordinate_matrix_to_vector_to_matrix(const arma::umat& coords_ma);
 RcppExport SEXP _gL0Learn_test_coordinate_matrix_to_vector_to_matrix(SEXP coords_maSEXP) {
@@ -227,8 +203,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gL0Learn_test_oracle_L0L1L2", (DL_FUNC) &_gL0Learn_test_oracle_L0L1L2, 6},
     {"_gL0Learn_test_union_of_correlated_features", (DL_FUNC) &_gL0Learn_test_union_of_correlated_features, 2},
     {"_gL0Learn_test_union_of_correlated_features2", (DL_FUNC) &_gL0Learn_test_union_of_correlated_features2, 2},
-    {"_gL0Learn_test_sorted_vector_difference2", (DL_FUNC) &_gL0Learn_test_sorted_vector_difference2, 2},
-    {"_gL0Learn_test_insert_sorted_vector_into_sorted_vector", (DL_FUNC) &_gL0Learn_test_insert_sorted_vector_into_sorted_vector, 2},
     {"_gL0Learn_test_coordinate_matrix_to_vector_to_matrix", (DL_FUNC) &_gL0Learn_test_coordinate_matrix_to_vector_to_matrix, 1},
     {"_gL0Learn_test_unravel_indices", (DL_FUNC) &_gL0Learn_test_unravel_indices, 2},
     {"_gL0Learn_is_sympd", (DL_FUNC) &_gL0Learn_is_sympd, 1},

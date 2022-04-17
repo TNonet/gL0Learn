@@ -1,56 +1,6 @@
-#ifndef H_ACTIVE_SET
-#define H_ACTIVE_SET
-#include "arma_includes.h"
-#include <tuple>
-#include <vector>
+#include "active_set.h"
 
-typedef std::tuple<arma::uword, arma::uword> coordinate;
-typedef std::vector<coordinate> coordinate_vector;
-
-template <typename T>
-std::ostream &operator<<(std::ostream &stream, const std::tuple<T, T> &c) {
-  return stream << "{" << std::get<0>(c) << ", " << std::get<1>(c) << "}";
-}
-
-template <typename T>
-std::ostream &operator<<(std::ostream &stream,
-                         const std::vector<std::tuple<T, T>> &c) {
-  for (auto c_i : c) {
-    stream << c_i << "\n";
-  }
-
-  return stream;
-}
-
-template <class iterator_type>
-std::ostream &index_print(std::ostream &stream, iterator_type it,
-                          iterator_type end,
-                          const std::size_t start_index = 0) {
-  auto index = start_index;
-  while (it != end) {
-    stream.width(10);
-    stream << "Index: " << index << " = " << *it << "\n";
-    it++;
-    index++;
-  }
-  return stream;
-}
-
-inline coordinate inc(const coordinate c, const arma::uword p) {
-  const auto i = std::get<0>(c);
-  const auto j = std::get<1>(c);
-  if (std::get<1>(c) < p - 1) {
-    return {i, j + 1};
-  } else if (std::get<0>(c) < p - 1) {
-    return {i + 1, 0};
-  } else {
-    COUT << "Cannot increment coordinate (" << i << ", " << j
-         << ")as it is already at maximium";
-    STOP("Error in coordinate inc");
-  }
-};
-
-inline coordinate_vector upper_triangle_coordinate_vector(const arma::uword p) {
+coordinate_vector upper_triangle_coordinate_vector(const arma::uword p) {
   coordinate_vector coord_vec;
   coord_vec.reserve(p * (p - 1));
   for (arma::uword i = 0; i < p; i++) {
@@ -62,9 +12,9 @@ inline coordinate_vector upper_triangle_coordinate_vector(const arma::uword p) {
   return coord_vec;
 }
 
-template <typename T>
-inline coordinate_vector
-union_of_correlated_features(const T &x, const double correlation_threshold) {
+coordinate_vector
+union_of_correlated_features(const arma::mat &x,
+                             const double correlation_threshold) {
   /*
    *  Returns the coordinates of the upper triangle of xtx where xtx[i,j] >
    * correlation_threshold
@@ -92,8 +42,8 @@ union_of_correlated_features(const T &x, const double correlation_threshold) {
   return active_set;
 }
 
-inline arma::umat unravel_ut_indices(const arma::uvec &transposed_indices,
-                                     const arma::uword p) {
+arma::umat unravel_ut_indices(const arma::uvec &transposed_indices,
+                              const arma::uword p) {
   /*
    * Unravels upper triangular indices of an matrix into lexigraphically
    *  sorted coordinates of a matrix.
@@ -139,8 +89,8 @@ inline arma::umat unravel_ut_indices(const arma::uvec &transposed_indices,
   return coords;
 }
 
-bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
-                                       const arma::umat &smaller_coord_set) {
+bool check_is_coordinate_subset(const arma::umat &larger_coord_set,
+                                const arma::umat &smaller_coord_set) {
   /*
    *  Determines if `smaller_coord_set` is contained in `larger_coord_set`.
    *
@@ -170,9 +120,8 @@ bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
                        smaller_indices.begin(), smaller_indices.end());
 }
 
-bool inline check_coordinate_matrix(const arma::umat &coords_ma,
-                                    const bool for_order = true,
-                                    const bool for_upper_triangle = true) {
+bool check_coordinate_matrix(const arma::umat &coords_ma, const bool for_order,
+                             const bool for_upper_triangle) {
   /*
    *  Checks `coords_ma` to ensure:
    *      if `for_order` is true, that the ordering is lexicographically
@@ -200,9 +149,8 @@ bool inline check_coordinate_matrix(const arma::umat &coords_ma,
   return check;
 }
 
-template <typename T>
-inline arma::umat
-union_of_correlated_features2(const T &x, const double correlation_threshold) {
+arma::umat union_of_correlated_features2(const arma::mat &x,
+                                         const double correlation_threshold) {
   /*
    *  Returns the coordinates of the upper triangle, not including diagonal
    *   of xtx where xtx[i,j] > correlation_threshold
@@ -223,8 +171,7 @@ union_of_correlated_features2(const T &x, const double correlation_threshold) {
   return unravel_ut_indices(highly_correlated_indicies, p);
 }
 
-inline coordinate_vector
-coordinate_vector_from_matrix(const arma::umat &coords_ma) {
+coordinate_vector coordinate_vector_from_matrix(const arma::umat &coords_ma) {
   const arma::uword n = coords_ma.n_rows;
 
   coordinate_vector coords_vec;
@@ -241,8 +188,7 @@ coordinate_vector_from_matrix(const arma::umat &coords_ma) {
   return coords_vec;
 }
 
-inline arma::umat
-coordinate_matrix_from_vector(const coordinate_vector &coord_vec) {
+arma::umat coordinate_matrix_from_vector(const coordinate_vector &coord_vec) {
   const auto n = coord_vec.size();
   arma::umat coords_ma(n, 2);
 
@@ -258,9 +204,8 @@ coordinate_matrix_from_vector(const coordinate_vector &coord_vec) {
   return coords_ma;
 }
 
-template <typename T>
-inline coordinate_vector
-support_from_active_set(const T &x, const coordinate_vector &active_set) {
+coordinate_vector support_from_active_set(const arma::mat &x,
+                                          const coordinate_vector &active_set) {
 
   coordinate_vector support = coordinate_vector(active_set.size());
   for (auto ij : active_set) {
@@ -275,39 +220,15 @@ support_from_active_set(const T &x, const coordinate_vector &active_set) {
   return support;
 }
 
-// template <typename T>
-// std::vector<T> sorted_vector_difference(const std::vector<T>& larger, const
-// std::vector<T>& smaller){
-//     /*
-//      *  Returns all items in `larger` that aren't in `smaller`.
-//      *  Assumes both larger and smaller are sorted in the same fashion.
-//      */
-//     auto larger_size = larger.size();
-//     auto smaller_size = smaller.size();
-//     std::vector<T> difference  = {};
-//     difference.reserve(larger_size - smaller_size);
-//
-//     auto alpha = 0;
-//     for (auto const &ij: larger){
-//         if ((alpha < smaller_size) && (ij == smaller[alpha])){
-//             ++alpha;
-//         } else {
-//             difference.push_back(ij);
-//         }
-//     }
-//     return difference;
-// }
-
-template <typename T>
-std::vector<T> sorted_vector_difference2(const std::vector<T> &larger,
-                                         const std::vector<T> &smaller) {
+coordinate_vector sorted_vector_difference2(const coordinate_vector &larger,
+                                            const coordinate_vector &smaller) {
   /*
    *  Returns all items in `larger` that aren't in `smaller`.
    *  Assumes both larger and smaller are sorted in the same fashion.
    */
   auto larger_size = larger.size();
   auto smaller_size = smaller.size();
-  std::vector<T> difference = {};
+  coordinate_vector difference = {};
   difference.reserve(larger_size - smaller_size);
 
   std::set_difference(larger.begin(), larger.end(), smaller.begin(),
@@ -317,20 +238,17 @@ std::vector<T> sorted_vector_difference2(const std::vector<T> &larger,
   return difference;
 }
 
-template <typename T>
-std::vector<T>
-insert_sorted_vector_into_sorted_vector(const std::vector<T> &x1,
-                                        const std::vector<T> &x2) {
+coordinate_vector
+insert_sorted_vector_into_sorted_vector(const coordinate_vector &x1,
+                                        const coordinate_vector &x2) {
   /*
    *  Combines `base` and `by`
    *  Assumes both larger and smaller are sorted in the same fashion.
    */
-  std::vector<T> merged;
+  coordinate_vector merged;
   merged.reserve(x1.size() + x2.size());
   std::merge(x1.begin(), x1.end(), x2.begin(), x2.end(),
              std::back_inserter(merged));
 
   return merged;
 }
-
-#endif // H_ACTIVE_SET

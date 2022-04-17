@@ -20,9 +20,15 @@ pybind11_add_module(gl0learn_core MODULE
     src/gl0learn/src/pyoracle.cpp
     src/gl0learn/src/pyfitmodel.cpp
     src/gl0learn/src/pyfit.cpp
+    src/gl0learn/src/src/utils.cpp
+    src/gl0learn/src/src/gap.cpp
+    src/gl0learn/src/src/oracle.cpp
+    src/gl0learn/src/src/active_set.cpp
 )
 
-target_include_directories(gl0learn_core PRIVATE src/gl0learn/src/include)
+
+target_include_directories(gl0learn_core PRIVATE src/gl0learn/src/src/include)
+
 target_include_directories(gl0learn_core PRIVATE src/gl0learn/src)
 
 TARGET_LINK_LIBRARIES(gl0learn_core PRIVATE carma::carma BLAS::BLAS LAPACK::LAPACK)

@@ -99,29 +99,6 @@ arma::umat test_union_of_correlated_features2(const arma::mat &x,
   return union_of_correlated_features2(x, threshold);
 }
 
-// // [[Rcpp::export]]
-// std::vector<int> test_sorted_vector_difference(const std::vector<int> larger,
-//                                    const std::vector<int> smaller){
-//
-//     return sorted_vector_difference(larger, smaller);
-// }
-
-// [[Rcpp::export]]
-std::vector<int>
-test_sorted_vector_difference2(const std::vector<int> larger,
-                               const std::vector<int> smaller) {
-
-  return sorted_vector_difference2(larger, smaller);
-}
-
-// [[Rcpp::export]]
-std::vector<int>
-test_insert_sorted_vector_into_sorted_vector(const std::vector<int> x1,
-                                             const std::vector<int> x2) {
-
-  return insert_sorted_vector_into_sorted_vector(x1, x2);
-}
-
 // [[Rcpp::export]]
 arma::umat
 test_coordinate_matrix_to_vector_to_matrix(const arma::umat &coords_ma) {

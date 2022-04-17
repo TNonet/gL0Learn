@@ -25,14 +25,6 @@ test_union_of_correlated_features2 <- function(x, threshold) {
     .Call(`_gL0Learn_test_union_of_correlated_features2`, x, threshold)
 }
 
-test_sorted_vector_difference2 <- function(larger, smaller) {
-    .Call(`_gL0Learn_test_sorted_vector_difference2`, larger, smaller)
-}
-
-test_insert_sorted_vector_into_sorted_vector <- function(x1, x2) {
-    .Call(`_gL0Learn_test_insert_sorted_vector_into_sorted_vector`, x1, x2)
-}
-
 test_coordinate_matrix_to_vector_to_matrix <- function(coords_ma) {
     .Call(`_gL0Learn_test_coordinate_matrix_to_vector_to_matrix`, coords_ma)
 }

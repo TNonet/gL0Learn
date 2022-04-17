@@ -1,16 +1,9 @@
-#ifndef H_GAP
-#define H_GAP
-#include "arma_includes.h"
-
-enum GapMethod : uint8_t { both = 0, first = 1, second = 2 };
+#include "gap.h"
 
 const double INF = std::numeric_limits<double>::infinity();
 
-inline double relative_gap(const double old_objective,
-                           const double new_objective,
-                           const GapMethod method,   // This BOTH
-                           const bool one_normalize) // This TRUE
-{
+double relative_gap(const double old_objective, const double new_objective,
+                    const GapMethod method, const bool one_normalize) {
   // Does the sign of this value matter?
   // ONly usage of this function is prompt made positive with an ABS
   if ((old_objective == INF) || (new_objective == -INF)) {
@@ -32,9 +25,5 @@ inline double relative_gap(const double old_objective,
     benchmark = std::max(benchmark, 1.0);
   }
 
-  // Use first one
-
   return (old_objective - new_objective) / benchmark;
 }
-
-#endif // H_GAP

@@ -68,14 +68,6 @@ public:
   void set_theta(arma::uword, arma::uword j, double theta_ij);
   void update_diag(arma::uword i);
 
-  // Helper functions!
-  // active_set_of_row;
-  // active_set_row_begin_iter;
-  // active_set_row_end_iter;
-  // a, b from {i, j}
-  // theta_diag
-  // update Residuals
-
 private:
   const TY Y;
   TR R;
@@ -424,9 +416,8 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
       // Find location to remove (row_ix, j) from active set!
       const coordinate row_ix_j = {row_ix, j};
-      auto low_j = std::lower_bound(this->active_set.begin(),
-                                    this->active_set.end(), row_ix_j);
-      const std::size_t loc_j = low_j - this->active_set.begin();
+      const auto low_j = std::lower_bound(this->active_set.begin(),
+                                          this->active_set.end(), row_ix_j);
 
       /* Since we just found the location of `(row_ix, j) and we know that item
        * `(row_ix, k)` is quite close to (row_ix, j). We can use this
@@ -448,9 +439,7 @@ CD<TY, TR, TT, TP>::psi_row_fit(const arma::uword row_ix) {
 
       // Find location to insert (row_ix, k)
       const coordinate row_ix_k = {row_ix, k};
-      auto low_k = std::lower_bound(k_begin, k_end, row_ix_k);
-
-      const std::size_t loc_k = low_k - this->active_set.begin();
+      const auto low_k = std::lower_bound(k_begin, k_end, row_ix_k);
       this->active_set.insert(low_k, row_ix_k);
       return {true, k};
     }

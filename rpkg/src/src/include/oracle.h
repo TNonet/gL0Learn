@@ -5,33 +5,7 @@
 #include "utils.h"
 #include <limits>
 
-template <class T> T inline R_nl(const T &a, const T &b) {
-  return (1 + arma::sqrt(1 + 4 % a % b)) / (2 * a);
-}
-
-double inline R_nl(const double a, const double b) {
-  return (1 + std::sqrt(1 + 4 * a * b)) / (2 * a);
-}
-
-double inline objective(const arma::mat &theta, const arma::mat &R) {
-  /*
-   *  Objective = \sum_{i=1}^{p}(||<Y, theta[i, :]>||_2 - log(theta[i, i]))
-   *
-   *  Notes
-   *  -----
-   *  If we use a sparse form of TT, the objective can be sped up in the active
-   * set calculation.
-   */
-  auto theta_diag = arma::vec(theta.diag());
-  double cost = -arma::sum(arma::log(theta_diag));
-
-  const auto p = R.n_cols;
-  for (auto i = 0; i < p; i++) {
-    cost += arma::dot(R.col(i), R.col(i)) / theta_diag[i];
-  }
-
-  return cost;
-}
+double objective(const arma::mat &theta, const arma::mat &R);
 
 template <class P>
 double inline objective(const arma::mat &theta, const arma::mat &R,
@@ -54,6 +28,14 @@ double inline objective(const arma::mat &theta, const arma::mat &R,
   }
 
   return cost;
+}
+
+template <class T> T inline R_nl(const T &a, const T &b) {
+  return (1 + arma::sqrt(1 + 4 % a % b)) / (2 * a);
+}
+
+double inline R_nl(const double a, const double b) {
+  return (1 + std::sqrt(1 + 4 * a * b)) / (2 * a);
 }
 
 template <size_t N, typename... Args>
@@ -324,19 +306,6 @@ template <class P, class B> struct Oracle {
   }
 };
 
-/*
- * TODO: _prox_wrapper is unecessary.
- *
- *  Instead create prox to accept Penalty and NoBounds and getitems. Then
- *
- *  For each P in [L0, L1, L2, L0L1, L0L2, L1L1, L0L1L2]:
- *      For each B in [Bounds, NoBounds]:
- *          define proxP(theta, P, B, getitems...)
- *          define proxP(theta, P, B, scale, getitems...)
- *          define _proxP(theta, ...)
- *
- */
-
 template <class T, class P> inline T proxL0(const T &theta, const P &l0) {
   return MULT(theta, ABS(theta) >= SQRT(2 * l0));
 }
@@ -372,8 +341,8 @@ inline auto prox_(const T &theta, const PenaltyL0<P> &penalty,
                   const NoBounds bounds, const T &scale,
                   const Args... getitems) {
   return proxL0(get_by_var_args(theta, getitems...),
-                eval(get_by_var_args(penalty.l0, getitems...) /
-                     get_by_var_args(scale, getitems...)));
+                DIVIDE(get_by_var_args(penalty.l0, getitems...),
+                       get_by_var_args(scale, getitems...)));
 }
 
 template <class T, class P, class B, typename... Args>
@@ -381,8 +350,8 @@ inline auto prox_(const T &theta, const PenaltyL0<P> &penalty,
                   const Bounds<B> bounds, const T &scale,
                   const Args... getitems) {
   return proxL0(get_by_var_args(theta, getitems...),
-                eval(get_by_var_args(penalty.l0, getitems...) /
-                     get_by_var_args(scale, getitems...)),
+                DIVIDE(get_by_var_args(penalty.l0, getitems...),
+                       get_by_var_args(scale, getitems...)),
                 get_by_var_args(bounds.lows, getitems...),
                 get_by_var_args(bounds.highs, getitems...));
 }
@@ -431,21 +400,20 @@ inline auto prox_(const T &theta, const PenaltyL0L2<P> &penalty,
 template <class T, class P, typename... Args>
 inline auto prox_(const T &theta, const PenaltyL0L2<P> &penalty,
                   const NoBounds &b, const T &scale, const Args... getitems) {
-  return proxL0L2(get_by_var_args(theta, getitems...),
-                  eval(get_by_var_args(penalty.l0, getitems...) /
-                       get_by_var_args(scale, getitems...)),
-                  eval(get_by_var_args(penalty.l2, getitems...) /
-                       get_by_var_args(scale, getitems...)));
+  const auto scale_items = get_by_var_args(scale, getitems...);
+  return proxL0L2(
+      get_by_var_args(theta, getitems...),
+      DIVIDE(get_by_var_args(penalty.l0, getitems...), scale_items),
+      DIVIDE(get_by_var_args(penalty.l2, getitems...), scale_items));
 }
 
 template <class T, class P, class B, typename... Args>
 inline auto prox_(const T &theta, const PenaltyL0L2<P> &penalty,
                   const Bounds<B> &b, const T &scale, const Args... getitems) {
+  const auto scale_items = get_by_var_args(scale, getitems...);
   return proxL0L2(get_by_var_args(theta, getitems...),
-                  eval(get_by_var_args(penalty.l0, getitems...) /
-                       get_by_var_args(scale, getitems...)),
-                  eval(get_by_var_args(penalty.l2, getitems...) /
-                       get_by_var_args(scale, getitems...)),
+                  DIVIDE(get_by_var_args(penalty.l0, getitems...), scale_items),
+                  DIVIDE(get_by_var_args(penalty.l2, getitems...), scale_items),
                   get_by_var_args(b.lows, getitems...),
                   get_by_var_args(b.highs, getitems...));
 }
@@ -489,13 +457,12 @@ inline auto prox_(const T &theta, const PenaltyL0L1L2<P> &penalty,
 template <class T, class P, typename... Args>
 inline auto prox_(const T &theta, const PenaltyL0L1L2<P> &penalty,
                   const NoBounds &b, const T &scale, const Args... getitems) {
-  return proxL0L1L2(get_by_var_args(theta, getitems...),
-                    eval(get_by_var_args(penalty.l0, getitems...) /
-                         get_by_var_args(scale, getitems...)),
-                    eval(get_by_var_args(penalty.l1, getitems...) /
-                         get_by_var_args(scale, getitems...)),
-                    eval(get_by_var_args(penalty.l2, getitems...) /
-                         get_by_var_args(scale, getitems...)));
+  const auto scale_items = get_by_var_args(scale, getitems...);
+  return proxL0L1L2(
+      get_by_var_args(theta, getitems...),
+      DIVIDE(get_by_var_args(penalty.l0, getitems...), scale_items),
+      DIVIDE(get_by_var_args(penalty.l1, getitems...), scale_items),
+      DIVIDE(get_by_var_args(penalty.l2, getitems...), scale_items));
 }
 
 template <class T, class P, class B, typename... Args>
@@ -512,15 +479,14 @@ inline auto prox_(const T &theta, const PenaltyL0L1L2<P> &penalty,
 template <class T, class P, class B, typename... Args>
 inline auto prox_(const T &theta, const PenaltyL0L1L2<P> &penalty,
                   const Bounds<B> &b, const T &scale, const Args... getitems) {
-  return proxL0L1L2(get_by_var_args(theta, getitems...),
-                    eval(get_by_var_args(penalty.l0, getitems...) /
-                         get_by_var_args(scale, getitems...)),
-                    eval(get_by_var_args(penalty.l1, getitems...) /
-                         get_by_var_args(scale, getitems...)),
-                    eval(get_by_var_args(penalty.l2, getitems...) /
-                         get_by_var_args(scale, getitems...)),
-                    get_by_var_args(b.lows, getitems...),
-                    get_by_var_args(b.highs, getitems...));
+  const auto scale_items = get_by_var_args(scale, getitems...);
+  return proxL0L1L2(
+      get_by_var_args(theta, getitems...),
+      DIVIDE(get_by_var_args(penalty.l0, getitems...), scale_items),
+      DIVIDE(get_by_var_args(penalty.l1, getitems...), scale_items),
+      DIVIDE(get_by_var_args(penalty.l2, getitems...), scale_items),
+      get_by_var_args(b.lows, getitems...),
+      get_by_var_args(b.highs, getitems...));
 }
 
 #endif // ORACLE_H

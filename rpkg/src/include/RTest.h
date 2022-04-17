@@ -1,12 +1,13 @@
 #ifndef RTEST_H
 #define RTEST_H
 
+#include <tuple>
+
 #include "Rutils.h"
 #include "active_set.h"
 #include "arma_includes.h"
 #include "oracle.h"
 #include "utils.h"
-#include <tuple>
 
 typedef Bounds<double> ScalarBounds;
 typedef Bounds<arma::vec> VectorBounds;
