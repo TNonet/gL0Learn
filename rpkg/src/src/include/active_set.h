@@ -7,6 +7,8 @@
 typedef std::tuple<arma::uword, arma::uword> coordinate;
 typedef std::vector<coordinate> coordinate_vector;
 
+arma::uvec coordinate_iter_order(std::size_t num_coords, bool shuffle);
+
 template <typename T>
 std::ostream &operator<<(std::ostream &stream, const std::tuple<T, T> &c) {
   return stream << "{" << std::get<0>(c) << ", " << std::get<1>(c) << "}";

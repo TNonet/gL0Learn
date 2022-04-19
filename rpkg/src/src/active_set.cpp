@@ -1,5 +1,16 @@
 #include "active_set.h"
 
+arma::uvec coordinate_iter_order(const std::size_t num_coords, bool shuffle) {
+  if (num_coords == 0) {
+    return {};
+  }
+  if (shuffle) {
+    return arma::randperm(num_coords);
+  } else {
+    return arma::linspace<arma::uvec>(0, num_coords - 1, num_coords);
+  }
+}
+
 coordinate_vector upper_triangle_coordinate_vector(const arma::uword p) {
   coordinate_vector coord_vec;
   coord_vec.reserve(p * (p - 1));

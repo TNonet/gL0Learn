@@ -198,13 +198,8 @@ CD<TY, TR, TT, TP>::active_set_expansion(
   std::vector<double> items_Q;
   items_Q.reserve(p);
 
-  arma::uvec feature_order;
-  if (this->params.shuffle_feature_order) {
-    feature_order = arma::randperm(search_space.size());
-  } else {
-    feature_order = arma::linspace<arma::uvec>(0, search_space.size() - 1,
-                                               search_space.size());
-  }
+  const arma::uvec feature_order = coordinate_iter_order(
+      search_space.size(), this->params.shuffle_feature_order);
 
   arma::uvec::const_iterator it = feature_order.begin();
   const arma::uvec::const_iterator it_end = feature_order.end();
@@ -231,18 +226,8 @@ template <class TY, class TR, class TT, class TP>
 void CD<TY, TR, TT, TP>::inner_fit() {
   const size_t p = this->Y.n_cols;
 
-  arma::uvec feature_order;
-  const arma::uword starting_active_set_size = this->active_set.size();
-  if (this->params.shuffle_feature_order) {
-    feature_order = arma::randperm(starting_active_set_size);
-  } else {
-    if (starting_active_set_size == 0) {
-      feature_order = arma::linspace<arma::uvec>(0, 0, 0);
-    } else {
-      feature_order = arma::linspace<arma::uvec>(
-          0, starting_active_set_size - 1, starting_active_set_size);
-    }
-  }
+  const arma::uvec feature_order = coordinate_iter_order(
+      active_set.size(), this->params.shuffle_feature_order);
 
   arma::uvec::const_iterator it = feature_order.begin();
   const arma::uvec::const_iterator it_end = feature_order.end();
