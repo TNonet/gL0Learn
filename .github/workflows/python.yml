@@ -56,6 +56,8 @@ jobs:
           export CC=${{matrix.compiler[0]}}
           export CXX=${{matrix.compiler[1]}}
           pip install --verbose ".[test, opt]"
+      - name: run python test file
+        run: python scripts/test_failing_func.py
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn -vv -s --capture=tee-sys -rx
       - name: Coveralls
