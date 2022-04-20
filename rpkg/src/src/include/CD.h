@@ -117,6 +117,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   // RUN CD on AS until convergence
   while (cur_iter <= this->params.max_iter) {
     UserInterrupt();
+    COUT << "inner_fit()";
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     this->inner_fit(); // Fits on active_set
     old_objective = cur_objective;
     cur_objective = this->compute_objective();
@@ -125,6 +127,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
     cur_iter++;
 
     if (this->converged(old_objective, cur_objective, cur_iter)) {
+      COUT << "values_to_check";
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const coordinate_vector values_to_check =
           sorted_vector_difference2(this->super_active_set, this->active_set);
 
@@ -132,6 +136,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         break;
       }
 
+      COUT << "active_set_expansion";
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const std::tuple<coordinate_vector, std::vector<double>> tmp =
           this->active_set_expansion(values_to_check);
       coordinate_vector add_to_active_set = std::get<0>(tmp);
@@ -143,6 +149,9 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         const std::vector<double> q_values = std::get<1>(tmp);
         const std::size_t n_to_keep =
             this->params.max_active_set_size - this->active_set.size();
+
+        COUT << "nth_largest_indices";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         const std::vector<size_t> indices =
             nth_largest_indices(q_values, n_to_keep);
 
@@ -157,10 +166,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         add_to_active_set = n_add_to_active_set;
       }
 
-      if (add_to_active_set.empty()) {
-        break;
-      }
-
+      COUT << "insert_sorted_vector_into_sorted_vector";
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
       this->active_set = insert_sorted_vector_into_sorted_vector(
           this->active_set, add_to_active_set);
     }
@@ -193,10 +200,13 @@ CD<TY, TR, TT, TP>::active_set_expansion(
   const size_t p = this->Y.n_cols;
 
   coordinate_vector items_to_expand_active_set_by;
-  items_to_expand_active_set_by.reserve(p);
-
   std::vector<double> items_Q;
-  items_Q.reserve(p);
+
+  const std::size_t reserve =
+      std::max(1UL, static_cast<std::size_t>(search_space.size() / p));
+  items_Q.reserve(reserve); // What should we predict as the number of items to
+                            // reserve here?
+  items_to_expand_active_set_by.reserve(reserve);
 
   const arma::uvec feature_order = coordinate_iter_order(
       search_space.size(), this->params.shuffle_feature_order);
