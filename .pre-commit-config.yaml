@@ -29,7 +29,7 @@ repos:
       args:
         - '--max-line-length=121'
         - '--ignore=C901,W503'
-        - '--exclude=pypkg/tests/*.py'
+        - '--exclude=pypkg/tests/*.py pypkg/scripts/*.py'
         - 'pypkg/src/gl0learn/'
         - 'pypkg/setup.py'
   - repo: https://github.com/pocc/pre-commit-hooks
