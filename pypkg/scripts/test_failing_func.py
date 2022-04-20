@@ -30,3 +30,7 @@ def test_cd_limited_active_set(p, module):
     i, j = np.unravel_index(np.argmax(theta_truth_copy), theta_truth.shape)
 
     assert results.theta[i, j] > np.mean(theta_truth_copy)
+
+
+if __name__ == "__main__":
+    test_cd_limited_active_set()
