@@ -63,7 +63,7 @@ jobs:
         if: always()
         with:
           name: python_seg_fault_logs
-          path: logs
+          path: scripts/logs # Should default to working-directory.
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn -vv -s --capture=tee-sys -rx
       - name: Coveralls
