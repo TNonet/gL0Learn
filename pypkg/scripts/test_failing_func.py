@@ -2,6 +2,8 @@ import numpy as np
 from gl0learn import fit, synthetic
 from hypothesis import given
 from hypothesis.strategies import integers, random_module
+import sys
+import time
 
 from utils import (
     sample_from_cov,
@@ -33,4 +35,5 @@ def test_cd_limited_active_set(p, module):
 
 
 if __name__ == "__main__":
+    sys.stdout = open(f"logs/output_{time.time_ns()}.txt", "wt")
     test_cd_limited_active_set()

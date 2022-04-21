@@ -117,7 +117,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   // RUN CD on AS until convergence
   while (cur_iter <= this->params.max_iter) {
     UserInterrupt();
-    COUT << "inner_fit()";
+    COUT << "inner_fit()\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     this->inner_fit(); // Fits on active_set
     old_objective = cur_objective;
@@ -127,7 +127,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
     cur_iter++;
 
     if (this->converged(old_objective, cur_objective, cur_iter)) {
-      COUT << "values_to_check";
+      COUT << "values_to_check\n";
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const coordinate_vector values_to_check =
           sorted_vector_difference2(this->super_active_set, this->active_set);
@@ -136,7 +136,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         break;
       }
 
-      COUT << "active_set_expansion";
+      COUT << "active_set_expansion\n";
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const std::tuple<coordinate_vector, std::vector<double>> tmp =
           this->active_set_expansion(values_to_check);
@@ -150,7 +150,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         const std::size_t n_to_keep =
             this->params.max_active_set_size - this->active_set.size();
 
-        COUT << "nth_largest_indices";
+        COUT << "nth_largest_indices\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         const std::vector<size_t> indices =
             nth_largest_indices(q_values, n_to_keep);
@@ -166,7 +166,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         add_to_active_set = n_add_to_active_set;
       }
 
-      COUT << "insert_sorted_vector_into_sorted_vector";
+      COUT << "insert_sorted_vector_into_sorted_vector\n";
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       this->active_set = insert_sorted_vector_into_sorted_vector(
           this->active_set, add_to_active_set);

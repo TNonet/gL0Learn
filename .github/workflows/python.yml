@@ -58,6 +58,12 @@ jobs:
           pip install --verbose ".[test, opt]"
       - name: run python test file
         run: python scripts/test_failing_func.py
+      - name: Upload logs!
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: python_seg_fault_logs
+          path: logs
       - name: Run Tests and Coverage
         run: pytest tests/ --cov=gl0learn -vv -s --capture=tee-sys -rx
       - name: Coveralls
