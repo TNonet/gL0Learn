@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 from gl0learn import fit, synthetic
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis.strategies import integers, random_module
 import sys
 import time
@@ -16,6 +16,7 @@ MAX_OVERLAPS = 6
 
 
 @given(p=integers(3, 10), module=random_module())
+@settings(deadline=None)
 def test_cd_limited_active_set(p, module):
     theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
     x = sample_from_cov(theta_truth, n=1000)
