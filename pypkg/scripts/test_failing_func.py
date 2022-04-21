@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from gl0learn import fit, synthetic
 from hypothesis import given
@@ -35,5 +37,11 @@ def test_cd_limited_active_set(p, module):
 
 
 if __name__ == "__main__":
-    sys.stdout = open(f"logs/output_{time.time_ns()}.txt", "wt")
+    file_name = os.path.splitext(os.path.basename(os.path.realpath(__file__)))[0]
+    log_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "logs")
+    if not os.path.exists(log_path):
+        os.mkdir(log_path)
+
+    save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
+    sys.stdout = open(save_path, "w")
     test_cd_limited_active_set()
