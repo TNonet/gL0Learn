@@ -131,7 +131,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const coordinate_vector values_to_check =
           sorted_vector_difference2(this->super_active_set, this->active_set);
-
+      COUT << "values_to_check_finished\n";
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
       if (values_to_check.empty()) {
         break;
       }
@@ -172,6 +173,8 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
           this->active_set, add_to_active_set);
     }
   }
+  COUT << "inner_fit loop finished\n";
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
   this->restrict_active_set();
   cur_objective = this->compute_objective();
   this->costs.push_back(cur_objective);
