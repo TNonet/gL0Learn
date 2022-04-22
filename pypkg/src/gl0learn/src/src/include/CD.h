@@ -179,6 +179,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   cur_objective = this->compute_objective();
   this->costs.push_back(cur_objective);
   this->active_set_size.push_back(this->active_set.size());
+  COUT << "fitmodel created\n";
   return fitmodel(this->theta, this->R, this->costs, this->active_set_size);
 }
 
