@@ -20,7 +20,10 @@ jobs:
         # clang shou;d work but keep getting #cstddef. Clang should be fully installed. May need to add to the path?
         include:
           - os: macos-latest
-            INSTALL_DEPS: brew install armadillo
+            INSTALL_DEPS: |
+              brew install openblas
+              brew install lapack
+              brew install armadillo
             compiler: [clang, clang++]
 #           - os: ubuntu-latest
 #             compiler: [gcc-11, g++-11]
