@@ -48,9 +48,10 @@ if __name__ == "__main__":
     save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
     sys.stdout = open(save_path, "w")
 
-    try:
-        test_cd_limited_active_set()
-    except:
-        extype, value, tb = sys.exc_info()
-        traceback.print_exc()
-        pdb.post_mortem(tb)
+    test_cd_limited_active_set()
+    # try:
+    #     test_cd_limited_active_set()
+    # except:
+    #     extype, value, tb = sys.exc_info()
+    #     traceback.print_exc()
+    #     pdb.post_mortem(tb)

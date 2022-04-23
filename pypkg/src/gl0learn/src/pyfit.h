@@ -21,12 +21,16 @@ fitmodel fit(const arma::mat &Y, const arma::mat &theta_init, const P &penalty,
              const size_t max_active_set_size, const size_t max_iter,
              const size_t seed, const size_t max_swaps,
              const bool shuffle_feature_order) {
+  try {
+    const Oracle<P, B> oracle = Oracle<P, B>(penalty, bounds);
 
-  const Oracle<P, B> oracle = Oracle<P, B>(penalty, bounds);
-
-  return gL0LearnFit(Y, theta_init, oracle, algorithm, initial_active_set,
-                     super_active_set, tol, max_active_set_size, max_iter, seed,
-                     max_swaps, shuffle_feature_order);
+    const fitmodel f =
+        gL0LearnFit(Y, theta_init, oracle, algorithm, initial_active_set,
+                    super_active_set, tol, max_active_set_size, max_iter, seed,
+                    max_swaps, shuffle_feature_order);
+  } catch (py::error_already_set &e) {
+    COUT << e.what() << "\n";
+  }
 }
 
 template fitmodel fit<PenaltyL0<double>, NoBounds>(
