@@ -166,6 +166,25 @@ def fit(
 
     print("Is this happening as we enter _fit?")
 
+    fit_args = (
+        y,
+        theta_init,
+        oracle.penalty.cxx_penalty,
+        oracle.bounds.cxx_bounds,
+        algorithm,
+        active_set,
+        super_active_set,
+        tol,
+        max_active_set_size,
+        max_iter,
+        seed,
+        max_swaps,
+        shuffle,
+    )
+
+    for i, arg in enumerate(fit_args):
+        print(i, type(arg), arg)
+
     return FitModel(
         _fit(
             y,

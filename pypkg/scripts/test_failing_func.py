@@ -23,6 +23,7 @@ def test_cd_limited_active_set(p, module):
     theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
     x = sample_from_cov(theta_truth, n=1000)
     _, _, _, _, Y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
+
     results = fit(
         x,
         l0=0,
