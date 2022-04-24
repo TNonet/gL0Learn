@@ -206,8 +206,8 @@ CD<TY, TR, TT, TP>::active_set_expansion(
   coordinate_vector items_to_expand_active_set_by;
   std::vector<double> items_Q;
 
-  const std::size_t reserve =
-      std::max(1UL, static_cast<std::size_t>(search_space.size() / p));
+  const std::size_t reserve = p;
+  //      std::max(1UL, static_cast<std::size_t>(search_space.size() / p));
   items_Q.reserve(reserve); // What should we predict as the number of items to
   // reserve here?
   items_to_expand_active_set_by.reserve(reserve);
