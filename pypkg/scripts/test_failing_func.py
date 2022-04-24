@@ -1,13 +1,8 @@
 import os
-import pdb
-import traceback
+import random
 
 import numpy as np
 from gl0learn import fit, synthetic
-from hypothesis import given, settings
-from hypothesis.strategies import integers, random_module
-import sys
-import time
 
 from utils import (
     sample_from_cov,
@@ -17,10 +12,8 @@ from utils import (
 MAX_OVERLAPS = 6
 
 
-@given(p=integers(3, 10), module=random_module())
-@settings(deadline=None)
-def test_cd_limited_active_set(p, module):
-    theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, decay=0.8)
+def test_cd_limited_active_set(p, seed):
+    theta_truth = overlap_covariance_matrix(p=p, seed=seed, decay=0.8)
     x = sample_from_cov(theta_truth, n=1000)
     _, _, _, _, Y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
 
@@ -46,13 +39,11 @@ if __name__ == "__main__":
     if not os.path.exists(log_path):
         os.mkdir(log_path)
 
-    save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
-    sys.stdout = open(save_path, "w")
+    # save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
+    # sys.stdout = open(save_path, "w")
 
-    test_cd_limited_active_set()
-    # try:
-    #     test_cd_limited_active_set()
-    # except:
-    #     extype, value, tb = sys.exc_info()
-    #     traceback.print_exc()
-    #     pdb.post_mortem(tb)
+    for _ in range(100):
+        p = random.randint(2, 10)
+        seed = random.randint(1, 100000)
+        print(f"p = {p}, seed = {seed}")
+        test_cd_limited_active_set(p=p, seed=seed)
