@@ -57,7 +57,8 @@ jobs:
           export CXX=${{matrix.compiler[1]}}
           pip install --verbose ".[test, opt]"
       - name: Run Tests and Coverage
-        run: pytest tests/ --cov=gl0learn --hypothesis-verbosity=debug -s
+        # https://github.com/pytest-dev/pytest-cov/issues/427
+        run: pytest tests/ --hypothesis-verbosity=debug -s
       - name: Coverall
         run: coveralls --service=github
         env:
