@@ -1,5 +1,7 @@
 import os
 import random
+import sys
+import time
 
 import numpy as np
 from gl0learn import fit, synthetic
@@ -39,8 +41,10 @@ if __name__ == "__main__":
     if not os.path.exists(log_path):
         os.mkdir(log_path)
 
-    # save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
-    # sys.stdout = open(save_path, "w")
+    save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
+    sys.stdout = open(save_path, "w")
+
+    print("There should be at least one line!")
 
     for _ in range(100):
         p = random.randint(2, 10)
