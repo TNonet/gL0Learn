@@ -15,8 +15,7 @@ std::ostream &operator<<(std::ostream &stream, const std::tuple<T, T> &c) {
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &stream,
-                         const std::vector<std::tuple<T, T>> &c) {
+std::ostream &operator<<(std::ostream &stream, const std::vector<T> &c) {
   for (auto c_i : c) {
     stream << c_i << "\n";
   }

@@ -164,7 +164,7 @@ def fit(
             "expected `initial_active_set` to be less than `max_active_set_size`, but isn't."
         )
 
-    print("Is this happening as we enter _fit?")
+    print("Is this happening as we enter _fit?", flush=True)
 
     fit_args = (
         y,
@@ -183,7 +183,7 @@ def fit(
     )
 
     for i, arg in enumerate(fit_args):
-        print(i, type(arg), arg)
+        print(i, type(arg), arg, flush=True)
 
     return FitModel(
         _fit(

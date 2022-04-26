@@ -44,10 +44,10 @@ if __name__ == "__main__":
     save_path = os.path.join(log_path, f"output_{time.time_ns()}.txt")
     sys.stdout = open(save_path, "w")
 
-    print("There should be at least one line!")
+    print("There should be at least one line!", flush=True)
 
     for _ in range(100):
         p = random.randint(2, 10)
         seed = random.randint(1, 100000)
-        print(f"p = {p}, seed = {seed}")
+        print(f"p = {p}, seed = {seed}", flush=True)
         test_cd_limited_active_set(p=p, seed=seed)

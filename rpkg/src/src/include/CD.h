@@ -117,7 +117,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
   // RUN CD on AS until convergence
   while (cur_iter <= this->params.max_iter) {
     UserInterrupt();
-    COUT << "inner_fit()\n";
+    COUT << "inner_fit()\n" << std::flush;
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     this->inner_fit(); // Fits on active_set
     old_objective = cur_objective;
@@ -127,17 +127,17 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
     cur_iter++;
 
     if (this->converged(old_objective, cur_objective, cur_iter)) {
-      COUT << "values_to_check\n";
+      COUT << "values_to_check\n" << std::flush;
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const coordinate_vector values_to_check =
           sorted_vector_difference2(this->super_active_set, this->active_set);
-      COUT << "values_to_check_finished\n";
+      COUT << "values_to_check_finished\n" << std::flush;
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       if (values_to_check.empty()) {
         break;
       }
 
-      COUT << "active_set_expansion\n";
+      COUT << "active_set_expansion\n" << std::flush;
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       const std::tuple<coordinate_vector, std::vector<double>> tmp =
           this->active_set_expansion(values_to_check);
@@ -151,7 +151,7 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         const std::size_t n_to_keep =
             this->params.max_active_set_size - this->active_set.size();
 
-        COUT << "nth_largest_indices\n";
+        COUT << "nth_largest_indices\n" << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         const std::vector<size_t> indices =
             nth_largest_indices(q_values, n_to_keep);
@@ -167,20 +167,44 @@ fitmodel CD<TY, TR, TT, TP>::fit() {
         add_to_active_set = n_add_to_active_set;
       }
 
-      COUT << "insert_sorted_vector_into_sorted_vector\n";
+      COUT << "insert_sorted_vector_into_sorted_vector\n" << std::flush;
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       this->active_set = insert_sorted_vector_into_sorted_vector(
           this->active_set, add_to_active_set);
     }
   }
-  COUT << "inner_fit loop finished\n";
+  COUT << "inner_fit loop finished\n" << std::flush;
   std::this_thread::sleep_for(std::chrono::milliseconds(10));
   this->restrict_active_set();
+  COUT << "restrict_active_set finished\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
   cur_objective = this->compute_objective();
   this->costs.push_back(cur_objective);
-  this->active_set_size.push_back(this->active_set.size());
-  COUT << "fitmodel created\n";
-  return fitmodel(this->theta, this->R, this->costs, this->active_set_size);
+  COUT << "cur_objective finished\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  COUT << "this->active_set.size()" << this->active_set.size() << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  COUT << "this->active_set" << this->active_set << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+  COUT << " this->active_set_size.size() " << this->active_set_size.size()
+       << "\n"
+       << std::flush;
+  COUT << " this->active_set_size.capacity() "
+       << this->active_set_size.capacity() << "\n"
+       << std::flush;
+  COUT << " this->active_set_size.push_back SLEEP 1000" << std::flush;
+  // COUT << " this->active_set_size" << this->active_set_size <<std::flush;
+  // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  // this->active_set_size.push_back(this->active_set.size());
+  COUT << "fitmodel started\n" << std::flush;
+
+  const auto f =
+      fitmodel(this->theta, this->R, this->costs, this->active_set_size);
+
+  COUT << "fitmodel created\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  return f;
 }
 
 template <class TY, class TR, class TT, class TP>
