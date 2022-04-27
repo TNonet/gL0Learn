@@ -89,6 +89,8 @@ def fit(
             f"expected `x` to have at least two rows and two columns, but got {n} rows and {p} columns."
         )
 
+    print("making Oracle", flush=True)
+    time.sleep(1)
     oracle = Oracle(Penalty(l0, l1, l2, validate=check), Bounds(lows, highs))
     if p not in oracle.num_features:
         raise ValueError(
@@ -137,6 +139,8 @@ def fit(
     if tol < 0:
         raise ValueError(f"expected `tol` to be a non-negative number, but got {tol}")
 
+    print("check_make_valid_coordinate_matrix active_Set", flush=True)
+    time.sleep(1)
     active_set = check_make_valid_coordinate_matrix(
         active_set, y, "initial_active_set", check=check
     )
@@ -146,17 +150,23 @@ def fit(
     # else:
     #     super_active_set = np.empty(shape=(0, 0), dtype='int', order='F')
 
+    print("check_make_valid_coordinate_matrix super_active_Set", flush=True)
+    time.sleep(1)
     super_active_set = check_make_valid_coordinate_matrix(
         super_active_set, y, "super_active_set", check=check
     )
 
     if check:
         # if algorithm == "CDPSI" and not check_is_coordinate_subset(super_active_set, initial_active_set):
+        print("check_is_coordinate_subset super_active_Set", flush=True)
+        time.sleep(1)
         if not check_is_coordinate_subset(super_active_set, active_set):
             raise ValueError(
                 "executed `initial_active_set` to be a subset of `super_active_set` but is not."
             )
 
+        print("check_is_coordinate_subset active_set", flush=True)
+        time.sleep(1)
         if not check_is_coordinate_subset(active_set, theta_init_support):
             raise ValueError(
                 "expected the support of `theta_init` to be a subset of `initial_active_set`, but is not"
