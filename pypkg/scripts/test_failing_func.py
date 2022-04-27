@@ -19,6 +19,7 @@ def test_cd_limited_active_set(p, seed):
     x = sample_from_cov(theta_truth, n=1000)
     _, _, _, _, Y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
 
+    print("fitting from python")
     results = fit(
         x,
         l0=0,
