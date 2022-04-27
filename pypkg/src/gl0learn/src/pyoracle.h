@@ -137,32 +137,25 @@ void declare_penalty_l0l1l2(py::module &m, const std::string &typestr) {
   m.def("objective", &compute_objective_penalty<Penalty_>);
 }
 
-template void declare_bounds<double>(py::module &m, const std::string &typestr);
-template void declare_bounds<arma::mat>(py::module &m,
-                                        const std::string &typestr);
-template void declare_penalty_l0<double>(py::module &m,
-                                         const std::string &typestr);
-template void declare_penalty_l0<arma::mat>(py::module &m,
-                                            const std::string &typestr);
-template void declare_penalty_l1<double>(py::module &m,
-                                         const std::string &typestr);
-template void declare_penalty_l1<arma::mat>(py::module &m,
-                                            const std::string &typestr);
-template void declare_penalty_l2<double>(py::module &m,
-                                         const std::string &typestr);
-template void declare_penalty_l2<arma::mat>(py::module &m,
-                                            const std::string &typestr);
-template void declare_penalty_l0l1<double>(py::module &m,
-                                           const std::string &typestr);
-template void declare_penalty_l0l1<arma::mat>(py::module &m,
-                                              const std::string &typestr);
-template void declare_penalty_l0l2<double>(py::module &m,
-                                           const std::string &typestr);
-template void declare_penalty_l0l2<arma::mat>(py::module &m,
-                                              const std::string &typestr);
-template void declare_penalty_l0l1l2<double>(py::module &m,
-                                             const std::string &typestr);
-template void declare_penalty_l0l1l2<arma::mat>(py::module &m,
-                                                const std::string &typestr);
+void init_oracle(py::module_ &m) {
+  declare_bounds<double>(m, "double");
+  declare_bounds<arma::mat>(m, "mat");
+  declare_penalty_l0<double>(m, "double");
+  declare_penalty_l0<arma::mat>(m, "mat");
+  declare_penalty_l1<double>(m, "double");
+  declare_penalty_l1<arma::mat>(m, "mat");
+  declare_penalty_l2<double>(m, "double");
+  declare_penalty_l2<arma::mat>(m, "mat");
+  declare_penalty_l0l1<double>(m, "double");
+  declare_penalty_l0l1<arma::mat>(m, "mat");
+  declare_penalty_l0l2<double>(m, "double");
+  declare_penalty_l0l2<arma::mat>(m, "mat");
+  declare_penalty_l0l1l2<double>(m, "double");
+  declare_penalty_l0l1l2<arma::mat>(m, "mat");
+
+  py::class_<NoBounds>(m, "_NoBounds")
+      .def(py::init())
+      .def("validate", &NoBounds::validate);
+}
 
 #endif // PY_ORACLE_H_
