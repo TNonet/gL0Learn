@@ -1,3 +1,4 @@
+import time
 from typing import Optional, Union
 
 import numpy as np
@@ -63,6 +64,8 @@ def fit(
     -------
 
     """
+
+    print("entered fit", flush=True)
 
     if isinstance(x, np.ndarray):
         x = ensure_well_behaved(x, name="x")
@@ -165,6 +168,8 @@ def fit(
         )
 
     print("Is this happening as we enter _fit?", flush=True)
+
+    time.sleep(1)
 
     fit_args = (
         y,
