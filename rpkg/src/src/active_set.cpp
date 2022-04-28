@@ -1,5 +1,8 @@
 #include "active_set.h"
 
+#include <chrono>
+#include <thread>
+
 arma::uvec coordinate_iter_order(const std::size_t num_coords, bool shuffle) {
   if (num_coords == 0) {
     return {};
@@ -171,14 +174,23 @@ arma::umat union_of_correlated_features2(const arma::mat &x,
    */
   const arma::rowvec s_diag = arma::sum(arma::square(x), 0);
   const auto p = x.n_cols;
+  COUT << "upper_triangle_indicator\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   arma::mat upper_triangle_indicator(p, p, arma::fill::zeros);
   upper_triangle_indicator
       .elem(arma::trimatu_ind(arma::size(upper_triangle_indicator), 1))
       .fill(1);
+  COUT << "upper_triangle_indicator.t()\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   const arma::mat xtx_upper_triangle =
       (arma::abs(x.t() * x) % upper_triangle_indicator).t();
+  COUT << "find\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   const arma::uvec highly_correlated_indicies = arma::find(
       xtx_upper_triangle.each_row() / s_diag > correlation_threshold);
+
+  COUT << "unravel_ut_indices\n" << std::flush;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   return unravel_ut_indices(highly_correlated_indicies, p);
 }
 
