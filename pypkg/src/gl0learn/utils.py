@@ -1,3 +1,4 @@
+import time
 import warnings
 from dataclasses import dataclass
 from numbers import Real
@@ -100,12 +101,18 @@ def check_make_valid_coordinate_matrix(
 
     if isinstance(x, float):
         if x <= 0:
+            print("upper_triangular_coords(p)", flush=True)
+            time.sleep(1)
             return upper_triangular_coords(p)
         else:
+            print("union_of_correlated_features2(y, x)", flush=True)
+            time.sleep(1)
             return union_of_correlated_features2(y, x)
 
     x = np.asarray(x, order="F")  # Not setting dtype on purpose. Let `asarray` decide.
 
+    print("check_coordinate_matrix(x)", flush=True)
+    time.sleep(1)
     if (
         x.ndim != 2
         or x.shape[1] != 2
