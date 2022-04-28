@@ -53,7 +53,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip 
-          python -m pip install --upgrade numpy wheel setuptools pytest-cov coveralls
+          python -m pip install --upgrade numpy --ignore-installed
+          python -m pip install --upgrade wheel setuptools pytest-cov coveralls
       - name: Build and install (with ${{matrix.compiler[0]}} compiler, for ${{matrix.os}})
         run: |
           export CC=${{matrix.compiler[0]}}
