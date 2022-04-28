@@ -181,6 +181,10 @@ arma::umat union_of_correlated_features2(const arma::mat &x,
       .elem(arma::trimatu_ind(arma::size(upper_triangle_indicator), 1))
       .fill(1);
   COUT << "upper_triangle_indicator.t()\n" << std::flush;
+  COUT << "x" << x << "\n" << std::flush;
+  COUT << "x.t()" << x.t() << "\n" << std::flush;
+  COUT << "upper_triangle_indicator" << upper_triangle_indicator << "\n"
+       << std::flush;
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   const arma::mat xtx_upper_triangle =
       (arma::abs(x.t() * x) % upper_triangle_indicator).t();
