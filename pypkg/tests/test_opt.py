@@ -7,7 +7,7 @@ from hypothesis.strategies import integers, random_module, just, floats
 from gl0learn.opt import MIO_mosek, mosek_level_values
 from gl0learn.synthetic import preprocess
 
-from tests.utils.utils import (
+from utils import (
     random_penalty,
     random_penalty_values,
     overlap_covariance_matrix,
@@ -35,15 +35,11 @@ def test_init_levels(p, module, lXs):
     M = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
     try:
-        results = MIO_mosek(
-            Y, M=M, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, maxtime=10
-        )
+        results = MIO_mosek(Y, M=M, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, maxtime=10)
     except mosek.MosekException:
         assume(False)
 
-    theta_tril, z, s, t, lg, residuals = mosek_level_values(
-        theta=results.theta_hat, Y=Y, int_tol=int_tol
-    )
+    theta_tril, z, s, t, lg, residuals = mosek_level_values(theta=results.theta_hat, Y=Y, int_tol=int_tol)
 
     np.testing.assert_array_equal(results.theta_hat[np.tril_indices(p)], theta_tril)
 
@@ -53,6 +49,4 @@ def test_init_levels(p, module, lXs):
 
     np.testing.assert_array_almost_equal(results.s, s, decimal=decimals)
     np.testing.assert_array_almost_equal(results.t, t, decimal=decimals)
-    np.testing.assert_array_almost_equal(
-        results.residuals.reshape(p, p), residuals, decimal=decimals
-    )
+    np.testing.assert_array_almost_equal(results.residuals.reshape(p, p), residuals, decimal=decimals)

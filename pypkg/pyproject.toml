@@ -16,4 +16,4 @@ plugins = "numpy.typing.mypy_plugin"
 line-length = 121
 
 [tool.pytest.ini_options]
-norecursedirs= "tests/utils"
+norecursedirs= "tests/helper"

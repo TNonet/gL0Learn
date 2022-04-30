@@ -41,9 +41,7 @@ def test_l0l2_Penalty(l0, l2):
         assert P.num_features == l0.shape[0]
 
 
-@pytest.mark.parametrize(
-    "l0, l1, l2", [(0.0, 0.0, 0.0), (np.ones([2, 2]), np.ones([2, 2]), np.ones([2, 2]))]
-)
+@pytest.mark.parametrize("l0, l1, l2", [(0.0, 0.0, 0.0), (np.ones([2, 2]), np.ones([2, 2]), np.ones([2, 2]))])
 def test_l0l1l2_Penalty(l0, l1, l2):
     P = Penalty(l0, l1, l2)
     np.testing.assert_equal(P.l0, l0)
@@ -55,9 +53,7 @@ def test_l0l1l2_Penalty(l0, l1, l2):
         assert P.num_features == l0.shape[0]
 
 
-@pytest.mark.parametrize(
-    "l0, l1, l2", [(0.0, -1.0, 0.0), (np.ones([2, 2]), np.ones([3, 3]), 0)]
-)
+@pytest.mark.parametrize("l0, l1, l2", [(0.0, -1.0, 0.0), (np.ones([2, 2]), np.ones([3, 3]), 0)])
 def test_bad_l0l1l2_Penalty(l0, l1, l2):
     with pytest.raises(ValueError):
         _ = Penalty(l0, l1, l2)

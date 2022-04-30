@@ -9,7 +9,7 @@ from gl0learn.opt import MIO_mosek
 from hypothesis import given, settings, HealthCheck, assume, note
 from hypothesis.strategies import just, booleans, floats, integers, random_module
 
-from tests.utils.utils import (
+from utils import (
     _sample_data,
     _sample_data2,
     sample_from_cov,
@@ -124,13 +124,7 @@ def test_super_active_set(algorithm, p, module, lXs):
 
     _, _, _, _, Y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
 
-    test_result = fit(
-        Y,
-        **lXs,
-        initial_active_set=np.inf,
-        super_active_set=0.0,
-        max_active_set_size=p**2
-    )
+    test_result = fit(Y, **lXs, initial_active_set=np.inf, super_active_set=0.0, max_active_set_size=p**2)
 
     print("----->", test_result.active_set_size[-1])
     assume(test_result.active_set_size[-1] > 0)
@@ -141,11 +135,7 @@ def test_super_active_set(algorithm, p, module, lXs):
     active_set_size = test_result.active_set_size[-1]
     if possible_active_set.shape[0] > 1:
         num_selected = np.random.randint(1, active_set_size)
-        idx = np.sort(
-            np.random.choice(
-                np.arange(active_set_size), size=num_selected, replace=False
-            )
-        )
+        idx = np.sort(np.random.choice(np.arange(active_set_size), size=num_selected, replace=False))
     else:
         num_selected = 1
         idx = [0]
@@ -184,9 +174,7 @@ def test_super_active_set(algorithm, p, module, lXs):
 )
 def test_cd_vs_mosek_high_data(p, module, overlaps, lXs):
     num_samples = 30 * p**2
-    theta_truth = overlap_covariance_matrix(
-        p=p, seed=module.seed, max_overlaps=overlaps, decay=1 - np.exp(overlaps - 6)
-    )
+    theta_truth = overlap_covariance_matrix(p=p, seed=module.seed, max_overlaps=overlaps, decay=1 - np.exp(overlaps - 6))
 
     assume(all(np.linalg.eigvalsh(theta_truth) > 0))
     x = sample_from_cov(n=num_samples, cov=theta_truth)
