@@ -117,29 +117,29 @@ def make_bisect_func(desired_nnz: int, Y: np.ndarray, verbose: bool = True, **kw
 
 
 def overlap_covariance_matrix(p: int, seed: int = 0, max_overlaps: int = 1, decay=0.99):
-
-    overlaps = {i: 0 for i in range(p)}
-    cov = np.eye(p)
-
     v = 1
 
     rng = np.random.RandomState(seed=seed)
-    while len(overlaps) >= 2:
-        rows = list(overlaps.keys())
+    cov = -1 * np.eye(1)
+    while min(np.linalg.eigvals(cov)) < 0:
+        overlaps = {i: 0 for i in range(p)}
+        cov = np.eye(p)
+        while len(overlaps) >= 2:
+            rows = list(overlaps.keys())
 
-        row, col = rng.choice(rows, size=2, replace=False)
+            row, col = rng.choice(rows, size=2, replace=False)
 
-        overlaps[row] += 1
-        overlaps[col] += 1
+            overlaps[row] += 1
+            overlaps[col] += 1
 
-        cov[row, col] += v
-        v *= decay
+            cov[row, col] += v
+            v *= decay
 
-        overlaps = {r: o for (r, o) in overlaps.items() if o < max_overlaps}
+            overlaps = {r: o for (r, o) in overlaps.items() if o < max_overlaps}
 
-    cov = (cov + cov.T) / 2
+        cov = (cov + cov.T) / 2
 
-    return cov
+    return np.asfortranarray(cov)
 
 
 def sample_from_cov(cov: np.ndarray, n: int = 1000, seed: int = 0) -> np.ndarray:
@@ -150,4 +150,4 @@ def sample_from_cov(cov: np.ndarray, n: int = 1000, seed: int = 0) -> np.ndarray
     rng = np.random.default_rng(seed)
     x = rng.multivariate_normal(mu, cov=np.linalg.inv(cov), size=n)
 
-    return x
+    return np.asfortranarray(x)

@@ -1,6 +1,6 @@
 import numpy as np
 from gl0learn.fitmodel import FitModel
-from gl0learn.gl0learn_core import _fitmodel
+from gl0learn.gl0learn import _fitmodel
 from hypothesis import given
 from hypothesis.strategies import lists, floats, integers
 from hypothesis.extra import numpy as npst

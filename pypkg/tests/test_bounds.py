@@ -31,6 +31,7 @@ def test_scalar_bad_bounds(bounds):
     ],
 )
 def test_matrix_bad_bounds(bounds):
+    bounds = tuple(np.asfortranarray(b) for b in bounds)
     with pytest.raises(ValueError):
         _ = Bounds(*bounds)
 
@@ -53,6 +54,7 @@ def test_matrix_bad_bounds(bounds):
     ],
 )
 def test_mixed_bad_bounds(bounds):
+    bounds = tuple(np.asfortranarray(b) for b in bounds)
     with pytest.raises(ValueError):
         _ = Bounds(*bounds)
 
@@ -66,7 +68,7 @@ def test_good_bounds_ex1():
 
 
 def test_good_bounds_ex2(n=2):
-    bounds = (-1, np.ones([n, n]))
+    bounds = (-1, np.ones([n, n], order="F"))
     b = Bounds(*bounds)
     numpy.testing.assert_equal(-np.ones([n, n]), b.lows)
     numpy.testing.assert_equal(bounds[1], b.highs)

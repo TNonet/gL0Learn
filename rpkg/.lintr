@@ -1,0 +1,11 @@
+linters: linters_with_defaults(
+    line_length_linter(120), 
+    object_length_linter = NULL,
+    object_name_linter = NULL,
+    object_usage_linter = NULL
+  )
+exclusions: c(
+	'R/RcppExports.R',
+ 	list.files(path = "tests", recursive = T, full.names = T)
+  )
+encoding: "UTF-8"

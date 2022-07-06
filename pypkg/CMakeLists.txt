@@ -5,33 +5,69 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-O3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-project(gl0learn_core VERSION 0.0.2)
+IF (NOT DEFINED GL0LEARN_VERSION_INFO)
+    SET(GL0LEARN_VERSION_INFO "0.0.0")
+ENDIF ()
 
-FIND_PACKAGE(BLAS REQUIRED)
-FIND_PACKAGE(LAPACK REQUIRED)
+SET(MODNAME "gl0learn")
 
-FIND_LIBRARY(ARMADILLO armadillo HINTS /usr/local/lib/ REQUIRED)
+PROJECT(
+        ${MODNAME}
+        VERSION ${GL0LEARN_VERSION_INFO}
+        DESCRIPTION "Python bindings for gL0Learn CD and CDPSI optimization."
+        LANGUAGES CXX
+)
+
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
 ADD_SUBDIRECTORY(external/pybind11)
+ADD_SUBDIRECTORY(external/armadillo-code)
 ADD_SUBDIRECTORY(external/carma)
 
-pybind11_add_module(gl0learn_core MODULE
-    src/gl0learn/src/pygl0learn.cpp
-    src/gl0learn/src/pyoracle.cpp
-    src/gl0learn/src/pyfitmodel.cpp
-    src/gl0learn/src/pyfit.cpp)
+# Add Armadillo and pybind11
+if($ENV{CIBUILDWHEEL})
+    set(ALLOW_OPENBLAS_MACOS ON CACHE BOOL "Allow detection of OpenBLAS on macOS" FORCE)
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
+endif()
+
+pybind11_add_module(${MODNAME} MODULE
+        gl0learn/src/pygl0learn.cpp
+        gl0learn/src/pyoracle.cpp
+        gl0learn/src/pyfitmodel.cpp
+        gl0learn/src/pyfit.cpp)
 
 
-target_include_directories(gl0learn_core PRIVATE src/gl0learn/src/src/include)
+target_include_directories(${MODNAME} PRIVATE gl0learn/src/src/include)
+target_include_directories(${MODNAME} PRIVATE gl0learn/src)
 
-target_include_directories(gl0learn_core PRIVATE src/gl0learn/src)
+TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
+TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
 
-TARGET_LINK_LIBRARIES(gl0learn_core PRIVATE carma::carma BLAS::BLAS LAPACK::LAPACK)
 
-target_compile_definitions(gl0learn_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+# Add -fPIC for Armadillo (and OpenBLAS if compiled)
+if(NOT MSVC)
+    # clang on Windows does not support -fPIC
+    if(NOT WIN32)
+        target_compile_options(armadillo PRIVATE -fPIC)
+    endif()
+endif()
 
-target_compile_options(gl0learn_core PRIVATE -std=c++14)
-add_link_options(-Wl,--no-undefined)
-set_target_properties(gl0learn_core PROPERTIES OUTPUT_NAME gl0learn/gl0learn_core)
+TARGET_INCLUDE_DIRECTORIES(${MODNAME}
+        PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        )
 
-# install(TARGETS gl0learn_core LIBRARY DESTINATION .)
+TARGET_COMPILE_OPTIONS(${MODNAME}
+        PUBLIC
+        "$<$<CONFIG:RELEASE>:${PROJECT_RELEASE_FLAGS}>"
+        )
+
+TARGET_COMPILE_DEFINITIONS(${MODNAME}
+        PUBLIC
+        "$<$<CONFIG:RELEASE>:${PROJECT_RELEASE_DEFINITIONS}>"
+        )
+
+
+INSTALL(TARGETS ${MODNAME} DESTINATION .)

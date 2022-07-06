@@ -210,6 +210,7 @@ def test_cd_vs_mosek(n, p, module, overlaps, lXs):
     x = sample_from_cov(n=num_samples, cov=theta_truth)
 
     _, _, _, _, y, _ = synthetic.preprocess(x, assume_centered=False, cholesky=True)
+    y = np.asfortranarray(y)
 
     m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
@@ -241,10 +242,10 @@ def test_cd_vs_mosek(n, p, module, overlaps, lXs):
 
     penalty = Penalty(**lXs)
     MIO_loss = pseudo_likelihood_loss(
-        y, np.array(MIO_results.theta_hat), penalty, active_set=MIO_active_set
+        y, np.asfortranarray(MIO_results.theta_hat), penalty, active_set=MIO_active_set
     )
     cd_loss = pseudo_likelihood_loss(
-        y, np.array(cd_results.theta), penalty, active_set=CD_active_set
+        y, np.asfortranarray(cd_results.theta), penalty, active_set=CD_active_set
     )
 
     assert cd_loss <= MIO_loss + 1e-6 * abs(MIO_loss)

@@ -21,7 +21,7 @@ gL0Learn.is.real_scalar <- function(x) {
 #' MISSING
 #' @export
 gL0Learn.is.real_matrix <- function(x, dims) {
-  return(is.matrix(x) && is.atomic(x) && identical(dim(x), dims))
+  return(is.matrix(x) && is.atomic(x) && all(dim(x) == dims))
 }
 
 #' @title gL0Learn.is.real_vector

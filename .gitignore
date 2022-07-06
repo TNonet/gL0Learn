@@ -282,3 +282,5 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 pypkg/cmake-build-debug/
+
+pypkg/_skbuild/

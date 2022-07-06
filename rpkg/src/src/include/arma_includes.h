@@ -1,11 +1,11 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
+#include <RcppArmadillo.h>
+
 #include <exception>
 #include <stdexcept>
 #include <utility>
-
-#include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 
 #define COUT Rcpp::Rcout
@@ -13,4 +13,4 @@
 
 void inline UserInterrupt() { Rcpp::checkUserInterrupt(); }
 
-#endif // INCLUDES_H
+#endif  // INCLUDES_H

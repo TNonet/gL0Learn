@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/armadillo-code" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/carma" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/carma/extern/armadillo-code" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/pybind11" vcs="Git" />

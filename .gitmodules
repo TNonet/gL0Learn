@@ -4,3 +4,6 @@
 [submodule "pypkg/external/carma"]
 	path = pypkg/external/carma
 	url = https://github.com/RUrlus/carma
+[submodule "pypkg/external/armadillo-code"]
+	path = pypkg/external/armadillo-code
+	url = https://gitlab.com/conradsnicta/armadillo-code.git

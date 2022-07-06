@@ -4,5 +4,5 @@ PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 PKG_CXXFLAGS = -Iinclude -Isrc/include
 # Include all C++ files in src/
-SOURCES = RcppExports.cpp RTest.cpp RgL0Learn.cpp
+SOURCES = RcppExports.cpp RTest.cpp RgL0Learn.cpp ROracle.cpp
 OBJECTS = $(SOURCES:.cpp=.o)

@@ -20,31 +20,32 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(comment = "#>", warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(comment = "#>", warning = FALSE, message = FALSE)
 ```
 ```{r echo = FALSE}
 # Thanks to Yihui Xie for providing this code
 library(knitr)
 hook_output <- knit_hooks$get("output")
 knit_hooks$set(output = function(x, options) {
-   lines <- options$output.lines
-   if (is.null(lines)) {
-     return(hook_output(x, options))  # pass to default hook
-   }
-   x <- unlist(strsplit(x, "\n"))
-   more <- "..."
-   if (length(lines)==1) {        # first n lines
-     if (length(x) > lines) {
-       # truncate the output, but add ....
-       x <- c(head(x, lines), more)
-     }
-   } else {
-     x <- c(more, x[lines], more)
-   }
-   # paste these lines together
-   x <- paste(c(x, ""), collapse = "\n")
-   hook_output(x, options)
- })
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options)) # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines) == 1) {
+    # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
 ```
 
 ```{r}
@@ -53,36 +54,43 @@ library("gL0Learn")
 
 
 ```{r}
-n = 10
-p = 100
+n <- 10
+p <- 100
 data <- gL0Learn.generate_synthetic(n,
-                                    p,
-                                    "independent",
-                                    normalize = "covariance",
-                                    seed = 1,
-                                    rho=0.5)
-
-
+  p,
+  "independent",
+  normalize = "covariance",
+  seed = 1,
+  rho = 0.5
+)
 ```
 
 ```{r}
 data$theta[0:min(10, p), 0:min(10, p)]
-
 ```
 
 ```{r}
-Y = data$X/sqrt(n)
-theta_init = data$theta
+Y <- data$X / sqrt(n)
+theta_init <- data$theta
 ```
 
 ```{r}
-#sink("test_crash11.txt")
-fit <- gL0Learn.gfit(Y, theta_init, l0=0.2, l1=0, l2=.1, scale_x = FALSE, algorithm = "CDPSI", initial_active_set = 0.7, super_active_set = 0, max_iter=100)
-#sink()
+fit <- gL0Learn.gfit(Y,
+  theta_init,
+  l0 = 0.2,
+  l1 = 0,
+  l2 = .1,
+  scale_x = FALSE,
+  algorithm = "CDPSI",
+  initial_active_set = 0.7,
+  super_active_set = 0,
+  max_iter = 100
+)
 ```
+
+
 ```{r}
 fit$costs
-
 ```
 
 
@@ -96,7 +104,13 @@ fit$theta[0:min(10, p), 0:min(10, p)]
 
 
 ```{r}
-#sink('swap_test6.text')
-fit <- gL0Learn.gfit(Y, theta_init, l0=0.2, l1=0, l2=0.01, scale_x = FALSE, algorithm = "CDPSI", max_iter=100)
-#sink()
+fit <- gL0Learn.gfit(Y,
+  theta_init,
+  l0 = 0.2,
+  l1 = 0,
+  l2 = 0.01,
+  scale_x = FALSE,
+  algorithm = "CDPSI",
+  max_iter = 100
+)
 ```

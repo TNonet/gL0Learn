@@ -1,7 +1,7 @@
 fail_fast: false
 repos:
   - repo: https://github.com/psf/black
-    rev: 22.1.0
+    rev: 22.6.0
     hooks:
     - id: black
       args: ['pypkg/', '--extend-exclude', 'external/']
@@ -10,18 +10,8 @@ repos:
     - id: dirs_check
       name: dirs_check
       pass_filenames: false
-      entry: python scripts/dirs_check.py rpkg/src/src pypkg/src/gl0learn/src/src --ignore arma_includes.h .DS_Store
+      entry: python scripts/dirs_check.py rpkg/src/src/include pypkg/gl0learn/src/src/include --ignore arma_includes.h .DS_Store
       language: python
-    - id: lintr
-      name: run_lintr
-      language: r
-      additional_dependencies: ['lintr']
-      entry: Rscript -e "Sys.setenv(NOT_CRAN = 'true'); lintr::expect_lint_free(path='rpkg/R/', linters = lintr::with_defaults(object_length_linter = NULL, object_name_linter=NULL, object_usage_linter=NULL), exclusions = c('rpkg/R/RcppExports.R', list.files('rpkg/tests', recursive=TRUE, full.names=TRUE)))"
-    - id: styler
-      name: run_styler
-      additional_dependencies: ['styler']
-      entry: Rscript -e "styler::style_pkg('rpkg/R/', dry='off')"
-      language: r
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
@@ -30,21 +20,58 @@ repos:
         - '--max-line-length=121'
         - '--ignore=C901,W503'
         - '--exclude=pypkg/tests/*.py'
-        - 'pypkg/src/gl0learn/'
+        - 'pypkg/gl0learn/'
         - 'pypkg/setup.py'
   - repo: https://github.com/pocc/pre-commit-hooks
-    rev: master
+    rev: v1.3.5
     hooks:
     - id: clang-format
       # Find files with  find . -name \*.h -not -path  "./pypkg/external/*" -print -o -name \*.cpp -not -path  "./pypkg/external/*" -print
-      args: ['-i']
+      args: [--style=Google, -i]
       exclude: '^rpkg/src/RcppExports.cpp'
-#    - id: clang-tidy
-#    - id: oclint
-#    - id: uncrustify
-#    - id: cppcheck
-#    - id: cpplint
-#    - id: include-what-you-use
+    # - id: clang-tidy
+    # - id: oclint
+    # - id: uncrustify
+    #   exclude: '^rpkg/src/RcppExports.cpp'
+    #   args: [--replace, --no-backup]
+    - id: cppcheck
+      exclude: '^rpkg/src/RcppExports.cpp'
+      args: [--language=c++, --enable=all, --suppressions-list=suppressions.txt]
+    - id: cpplint
+      exclude: '^rpkg/src/RcppExports.cpp'
+    # - id: include-what-you-use
+    #   exclude: '^rpkg/src/RcppExports.cpp'
 
-
-
+  - repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.3.2
+    hooks: 
+    - id: style-files
+      args: [--style_pkg=styler, --style_fun=tidyverse_style]    
+      exclude: '^rpkg/R/RcppExports.R'
+    - id: roxygenize
+    # codemeta must be above use-tidy-description when both are used
+    - id: codemeta-description-updated
+    - id: use-tidy-description
+    - id: lintr # See rpkg/.lintr for settings
+    - id: readme-rmd-rendered
+    - id: parsable-R
+    - id: no-browser-statement
+    - id: no-debug-statement
+    # - id: deps-in-desc
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks: 
+    - id: check-added-large-files
+      args: ['--maxkb=200']
+    - id: file-contents-sorter
+      files: '^\.Rbuildignore$'
+    - id: end-of-file-fixer
+      exclude: '\.Rd'
+  - repo: local
+    hooks:
+    - id: forbid-to-commit
+      name: Don't commit common R artifacts
+      entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
+      language: fail
+      files: '\.(Rhistory|RData|Rds|rds)$'
+      # `exclude: <regex>` to allow committing specific files
