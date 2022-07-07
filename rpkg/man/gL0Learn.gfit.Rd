@@ -27,26 +27,36 @@ gL0Learn.gfit(
 \item{x}{The data matrix of shape (n, p) where each row x[i, ] is believed to
 be drawn from N(0, theta)}
 
-\item{theta_init}{The initial guess of theta}
+\item{theta_init}{The initial guess of theta.
+Defaults to the identity matrix.
+If provided, must be a symmetric matrix of shape (p, p) such that all
+non-zero upper triangle values of `theta_init` are included in `active_set`.}
 
-\item{super_active_set}{Can be any value that active_set can be.}
+\item{super_active_set}{The set of coordinates that the global optimization
+algorithim can swap in and out of `active_set`.
+Can be any value that is provided to `active_set`.
+Must be larger or equal to `active_set`.}
 
 \item{scale_x}{A boolean flag whether x needs to be scaled by 1/sqrt(n).
-If scale_x is false (i.e the matrix is scaled), the solver will not save a
-local copy of x.}
+If scale_x is false (i.e the matrix is already scaled), the solver will not
+save a local copy of x and thus reduce memory usage.}
 
-\item{active_set}{Can be one of:
-1. 'full' -> Every value in the (p, p) theta matrix is looped over every
-iteration at first. The active set may decrease in size from there.
-2. a scalar value, t will be used to find the elements of xtx that have
-an absolute value larger than t. These values are the initial active_set.
-3. Integer Matrix of shape (m, 2) encoding for the coordinates of the
-active_set. Row k (active_set[k, ]), corresponds to the coordinate in
-theta, theta[active_set[k, 1], active_set[k, 2]], is in the active_set.
-*NOTE* All rows of active_set must encode for valid coordinates of theta
-(i.e. all(x>0) and all(x<p+1)).
-*NOTE* The rows of active_set must be lexicographically sorted such that
-active_set[k] < active_set[j] -> k < j.}
+\item{active_set}{The set of coordinates that the local optimization
+algorithm quickly iterates as potential support values of theta.
+Can be one of:
+    1. 'full' -> Every value in the (p, p) theta matrix is looped over every
+    iteration at first. The active set may decrease in size from there.
+    2. a scalar value, t, will be used to find the values of x'x that have
+    an absolute value larger than t. The coordinates of these values are the
+    initial active_set.
+    3. Integer Matrix of shape (m, 2) encoding for the coordinates of the
+    active_set. Row k (active_set[k, ]), corresponds to the coordinate in
+    theta, theta[active_set[k, 1], active_set[k, 2]], is in the active_set.
+    *NOTE* All rows of active_set must encode for valid upper triangle
+    coordinates of theta
+    (i.e. all(x>0) and all(x<p+1)).
+    *NOTE* The rows of active_set must be lexicographically sorted such that
+    active_set[k] < active_set[j] -> k < j.}
 
 \item{check_inputs}{Not implemented atm. TODO:
 If TRUE, checks inputs for validity.
