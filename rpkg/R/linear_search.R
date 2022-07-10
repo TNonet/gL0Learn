@@ -1,12 +1,20 @@
 #' @importFrom pracma linspace
-#' @title linear_search
-#' @description Linearly searches a linspace from `lows` to `highs` to find min
-#' value of |theta_opt - x| + l0|x|_0 + l1|x|_1 + + l2|x|_2
-#' @param x
-#' @examples
-#' MISSING
+#' @title Linear grid search minimization of gL0Learn regularized loss.  
+#' @description Linearly searches a linspace from `lows` to `highs` to find arg 
+#' min value of x for:
+#'  L(theta_opt, x) = (|theta_opt - x|)**2 + l0|x|_0 + l1|x|_1 + + l2|x|_2
+#' We ensure that 0 is included in search space.
+#' @param theta_opt Optimal theta value that we are minimizing approximation off
+#' @param l0 L0 regularization penalty. Must be a non-negative scalar
+#' @param l1 L1 regularization penalty. Must be a non-negative scalar
+#' @param l2 L2 regularization penalty. Must be a non-negative scalar
+#' @param lows lower bound for x. Can be 0 but `highs` must not be 0 at the 
+#' same time
+#' @param highs upper bound for x. Can be 0 but `lows` must not be 0 at the same time
+#' @param atol Step size between each successive point in linspace
+#' @param return_all boolean flag wheter or not to return L(x, theta) for each 
+#' value in linspace or just the arg min.
 #' @export
-NULL
 gL0Learn.linear_search <- function(theta_opt, # nolint
                                    l0 = 0,
                                    l1 = 0,
@@ -36,14 +44,18 @@ gL0Learn.linear_search <- function(theta_opt, # nolint
 
 #' @importFrom pracma linspace
 #' @importFrom ggplot2 geom_line aes
-#' @title linear_plot
-#' @description Linearly searches a linspace from `lows` to `highs` to find min
-#' value of |theta_opt - x| + l0|x|_0 + l1|x|_1 + + l2|x|_2
-#' @param x
-#' @examples
-#' MISSING
+#' @title Linear Plot of gL0Learn regularized loss.  
+#' @description Plots value of L(theta_opt, x) over a linspace from `lows` to 
+#' `highs` to display shape of L for:
+#'  L(theta_opt, x) = (|theta_opt - x|)**2 + l0|x|_0 + l1|x|_1 + + l2|x|_2
+#' @param theta_opt See `gL0Learn.linear_search`
+#' @param l0 See `gL0Learn.linear_search`
+#' @param l1 See `gL0Learn.linear_search`
+#' @param l2 See `gL0Learn.linear_search`
+#' @param lows See `gL0Learn.linear_search`
+#' @param highs See `gL0Learn.linear_search`
+#' @param atol See `gL0Learn.linear_search`
 #' @export
-NULL
 gL0Learn.linear_plot <- function(theta_opt, # nolint
                                  l0 = 0,
                                  l1 = 0,
@@ -62,5 +74,5 @@ gL0Learn.linear_plot <- function(theta_opt, # nolint
     return_all = TRUE
   )
   data <- data.frame(x = data$x, y = data$f_x)
-  plot(data, aes(x = x, y = f_x)) + geom_line()
+  plot(data) + geom_line()
 }

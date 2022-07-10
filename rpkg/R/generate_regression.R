@@ -3,33 +3,30 @@
 #' @title Generate a regression data set for gL0Learn
 #'
 #' @description Computes the ...
-#' @param n The number of observations to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param p The number of features to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param rwo The correlation for ...
-#' @param normalize The method for normalizing data
-#' Currently only "covariance" is supported
-#' @param seed A seed to a random number generated
-#'
+#' @param n See `gL0Learn.generate_synthetic` for details
+#' @param p See `gL0Learn.generate_synthetic` for details
+#' @param k [TODO: Add documentation]
+#' @param val [TODO: Add documentation]
+#' @param normalize See `gL0Learn.generate_synthetic` for details
+#' @param seed See `gL0Learn.generate_synthetic` for details
 #' @export
 gL0Learn.generate_regression <- function(n,
                                          p,
                                          k,
                                          val,
                                          normalize,
-                                         seed = 1,
-                                         ...) {
+                                         seed = 1
+                                         ) {
   if (k > p - 1) {
     stop("k  must be in less than or equal to p - 1")
   }
   set.seed(seed)
-  X <- matrix(rnorm(n * (p - 1)), n, p - 1)
+  X <- matrix(stats::rnorm(n * (p - 1)), n, p - 1)
   beta <- rep(0, p - 1)
   nnz_beta_ix <- sample(1:(p - 1), k, replace = FALSE)
   nnz_beta_values <- (2 * sample(0:1, k, replace = TRUE) - 1) * val
   beta <- replace(beta, nnz_beta_ix, nnz_beta_values)
-  noise <- rnorm(n)
+  noise <- stats::rnorm(n)
   y <- X %*% beta + noise
   X <- cbind(y, X)
 

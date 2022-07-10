@@ -2,17 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{gL0Learn.is.real_matrix}
 \alias{gL0Learn.is.real_matrix}
-\title{gL0Learn.is.scalar}
+\title{gL0Learn.is.real_matrix}
 \usage{
 gL0Learn.is.real_matrix(x, dims)
 }
 \arguments{
-\item{x}{The value to check for "scalar"-ness}
+\item{x}{The matrix to check for realness (i.e x should exist in |R^{m, n})}
+
+\item{dims}{the dimension of the matrix (m, n)}
 }
 \description{
 Determine if a value is a real matrix with dim `dims`
 Source: # https://stackoverflow.com/questions/38088392/how-do-you-check-for-a-scalar-in-r/38088874 # nolint
-}
-\examples{
-MISSING
 }

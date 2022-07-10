@@ -13,6 +13,3 @@ gL0Learn.is.real_scalar(x)
 Determine if a value is a scalar
 Source: # https://stackoverflow.com/questions/38088392/how-do-you-check-for-a-scalar-in-r/38088874 # nolint
 }
-\examples{
-MISSING
-}

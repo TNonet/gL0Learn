@@ -1,9 +1,11 @@
 library("pracma")
+library("gL0Learn")
+
 
 P <- 10
 atol <- 1e-5
 
-theta <- matrix(rnorm(P * P), P, P)
+theta <- matrix(stats::rnorm(P * P), P, P)
 theta <- (theta + t(theta)) / 2
 
 lows <- matrix(runif(P * P), P, P)
@@ -37,7 +39,7 @@ test_that("Oracle matches graphed solution for L0 with bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         lows = lows[i, j],
         highs = highs[i, j],
@@ -55,7 +57,7 @@ test_that("Oracle matches graphed solution for L0 without bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         lows = min(-0.1, 1.1 * theta[i, j]),
         highs = max(+0.1, 1.1 * theta[i, j]),
@@ -73,7 +75,7 @@ test_that("Oracle matches graphed solution for L0L2 with bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         l2 = l2[i, j],
         lows = lows[i, j],
@@ -92,7 +94,7 @@ test_that("Oracle matches graphed solution for L0L2 without bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         l2 = l2[i, j],
         lows = min(-0.1, 1.1 * theta[i, j]),
@@ -111,7 +113,7 @@ test_that("Oracle matches graphed solution for L0L1L2 with bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         l1 = l1[i, j],
         l2 = l2[i, j],
@@ -131,7 +133,7 @@ test_that("Oracle matches graphed solution for L0L1L2 without bounds", {
   theta_opt <- matrix(NA, P, P)
   for (i in 1:P) {
     for (j in 1:P) {
-      theta_opt[i, j] <- linear_search(theta[i, j],
+      theta_opt[i, j] <- gL0Learn.linear_search(theta[i, j],
         l0 = l0[i, j],
         l1 = l1[i, j],
         l2 = l2[i, j],

@@ -7,16 +7,13 @@
 gL0Learn.generate_independent(n, p, normalize, seed = 1)
 }
 \arguments{
-\item{n}{The number of observations to generated.
-This will create a data matrix of shape (n, p)}
+\item{n}{See `gL0Learn.generate_synthetic` for details}
 
-\item{p}{The number of features to generated.
-This will create a data matrix of shape (n, p).}
+\item{p}{See `gL0Learn.generate_synthetic` for details}
 
-\item{normalize}{The method for normalizing data
-Currently only "covariance" is supported}
+\item{normalize}{See `gL0Learn.generate_synthetic` for details}
 
-\item{seed}{A seed to a random number generated}
+\item{seed}{See `gL0Learn.generate_synthetic` for details}
 }
 \description{
 Computes the ...

@@ -4,22 +4,19 @@
 \alias{gL0Learn.generate_toeplitz}
 \title{Generate a synthetic Toeplitz correlated data set for gL0Learn}
 \usage{
-gL0Learn.generate_toeplitz(n, p, rho, normalize, seed = 1, ...)
+gL0Learn.generate_toeplitz(n, p, rho, normalize, seed = 1)
 }
 \arguments{
-\item{n}{The number of observations to generated.
-This will create a data matrix of shape (n, p)}
+\item{n}{See `gL0Learn.generate_synthetic` for details}
 
-\item{p}{The number of features to generated.
-This will create a data matrix of shape (n, p)}
+\item{p}{See `gL0Learn.generate_synthetic` for details}
 
-\item{normalize}{The method for normalizing data
-Currently only "covariance" is supported}
+\item{rho}{[TODO: Add documentation]}
 
-\item{seed}{A seed to a random number generated}
+\item{normalize}{See `gL0Learn.generate_synthetic` for details}
 
-\item{rwo}{The correlation for ...}
+\item{seed}{See `gL0Learn.generate_synthetic` for details}
 }
 \description{
-Computes the ...
+Generate a synthetic Toeplitz correlated data set for gL0Learn
 }

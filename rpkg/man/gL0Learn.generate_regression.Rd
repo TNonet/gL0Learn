@@ -4,21 +4,20 @@
 \alias{gL0Learn.generate_regression}
 \title{Generate a regression data set for gL0Learn}
 \usage{
-gL0Learn.generate_regression(n, p, k, val, normalize, seed = 1, ...)
+gL0Learn.generate_regression(n, p, k, val, normalize, seed = 1)
 }
 \arguments{
-\item{n}{The number of observations to generated.
-This will create a data matrix of shape (n, p)}
+\item{n}{See `gL0Learn.generate_synthetic` for details}
 
-\item{p}{The number of features to generated.
-This will create a data matrix of shape (n, p)}
+\item{p}{See `gL0Learn.generate_synthetic` for details}
 
-\item{normalize}{The method for normalizing data
-Currently only "covariance" is supported}
+\item{k}{[TODO: Add documentation]}
 
-\item{seed}{A seed to a random number generated}
+\item{val}{[TODO: Add documentation]}
 
-\item{rwo}{The correlation for ...}
+\item{normalize}{See `gL0Learn.generate_synthetic` for details}
+
+\item{seed}{See `gL0Learn.generate_synthetic` for details}
 }
 \description{
 Computes the ...

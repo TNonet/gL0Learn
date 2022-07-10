@@ -3,17 +3,13 @@
 #' @title Generate a constantly correlated data set for gL0Learn
 #'
 #' @description Computes the ...
-#' @param n The number of observations to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param p The number of features to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param rho The correlation for ...
-#' @param normalize The method for normalizing data
-#' Currently only "covariance" is supported
-#' @param seed A seed to a random number generated
-#'
+#' @param n See `gL0Learn.generate_synthetic` for details
+#' @param p See `gL0Learn.generate_synthetic` for details
+#' @param rho [TODO: Add documentation]
+#' @param normalize See `gL0Learn.generate_synthetic` for details
+#' @param seed See `gL0Learn.generate_synthetic` for details
 #' @export
-gL0Learn.generate_constant <- function(n, p, rho, normalize, seed = 1, ...) {
+gL0Learn.generate_constant <- function(n, p, rho, normalize, seed = 1) {
   if ((rho < 0) || (rho > 1)) {
     stop("rho must be in [0, 1]")
   }
@@ -22,10 +18,10 @@ gL0Learn.generate_constant <- function(n, p, rho, normalize, seed = 1, ...) {
   }
   set.seed(seed)
 
-  X <- matrix(rnorm(n * p), n, p)
+  X <- matrix(stats::rnorm(n * p), n, p)
 
   if (rho != 0) {
-    X <- X * sqrt(1 - rho) + sqrt(rho) * matrix(rnorm(n), n, 1)
+    X <- X * sqrt(1 - rho) + sqrt(rho) * matrix(stats::rnorm(n), n, 1)
   }
 
   sigma <- rho * matrix(1, p, p)

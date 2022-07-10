@@ -2,22 +2,18 @@
 #'
 #' @title Generate a synthetic Toeplitz correlated data set for gL0Learn
 #'
-#' @description Computes the ...
-#' @param n The number of observations to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param p The number of features to generated.
-#' This will create a data matrix of shape (n, p)
-#' @param rwo The correlation for ...
-#' @param normalize The method for normalizing data
-#' Currently only "covariance" is supported
-#' @param seed A seed to a random number generated
+#' @param n See `gL0Learn.generate_synthetic` for details
+#' @param p See `gL0Learn.generate_synthetic` for details
+#' @param rho [TODO: Add documentation]
+#' @param normalize See `gL0Learn.generate_synthetic` for details
+#' @param seed See `gL0Learn.generate_synthetic` for details
 #' @export
-gL0Learn.generate_toeplitz <- function(n, p, rho, normalize, seed = 1, ...) {
+gL0Learn.generate_toeplitz <- function(n, p, rho, normalize, seed = 1) {
   if ((rho < 0) || (rho > 1)) {
     stop("rho must be in [0, 1]")
   }
   set.seed(seed)
-  X <- matrix(rnorm(n * p), n, p)
+  X <- matrix(stats::rnorm(n * p), n, p)
   q <- sqrt(1 - rho**2)
   if (rho != 0) {
     for (i in 2:p) {

@@ -5,16 +5,68 @@
 #' @importFrom methods is
 #' @import Matrix
 #' @title Fit an L0-regularized graphical model
-#' @description Computes the ...
+#' @description TODO: Fill in description
 #' @param x The data matrix of shape (n, p) where each row x[i, ] is believed to
 #' be drawn from N(0, theta)
-#' @param theta_init The initial guess of theta.
-#' Defaults to the identity matrix.
+#' @param theta_init The initial guess of theta. Default is the identity matrix.
 #' If provided, must be a symmetric matrix of shape (p, p) such that all
 #' non-zero upper triangle values of `theta_init` are included in `active_set`.
-#' @param scale_x A boolean flag whether x needs to be scaled by 1/sqrt(n).
-#' If scale_x is false (i.e the matrix is already scaled), the solver will not
-#' save a local copy of x and thus reduce memory usage.
+#' Recommended that `check_inputs` be keep as `True` when providing `theta_init`
+#' @param l0 The L0 regularization penalty.
+#' Must be one of:
+#'     1. Positive scalar. Applies the same L0 regularization to each coordinate
+#'        of `theta`
+#'     2. Symmetric Matrix with only positive values of shape (p, p). Applies
+#'        L0 regularization coordinate by coordinate to `theta`
+#' @param l1 The L1 regularization penalty.
+#' Must be one of:
+#'     1. Positive scalar. Applies the same L1 regularization to each coordinate
+#'        of `theta`
+#'     2. Symmetric Matrix with only positive values of shape (p, p). Applies
+#'        L1 regularization coordinate by coordinate to `theta`
+#' @param l2 The L2 regularization penalty.
+#' Must be one of:
+#'     1. Positive scalar. Applies the same L2 regularization to each coordinate
+#'        of `theta`
+#'     2. Symmetric Matrix with only positive values of shape (p, p). Applies
+#'        L2 regularization coordinate by coordinate to `theta`
+#' @param highs The maximum value that `theta` can take:
+#' Must be one of:
+#'     1. Non-negative scalar. Applies the same bound to each value of `theta`
+#'     2. Symmetric Matrix with only non-negative values of shape (p, p). 
+#'        Applies bounds coordinate by coordinate to `theta`.
+#'     **Note** Both `highs` and `lows` cannot limit a value of `theta` to 0
+#'     at the same time. 
+#' @param lows The minimum value that `theta` can take:
+#' Must be one of:
+#'     1. Non-positive scalar. Applies the same bound to each value of `theta`
+#'     2. Symmetric Matrix with only non-positive values of shape (p, p). 
+#'        Applies bounds coordinate by coordinate to `theta`.
+#'     **Note** Both `highs` and `lows` cannot limit a value of `theta` to 0
+#'     at the same time. 
+#' @param check_inputs Flag whether or not to check user provided input
+#'     If TRUE, checks inputs for validity.
+#'     If FALSE, runs on inputs and may error if values are not valid.
+#'     Only use this is speed is required and you know what you are doing.
+#' @param max_iter The maximum number of iterations the algorithm can make
+#' before exiting. May exit before this number of iterations if convergence is 
+#' found.
+#' @param max_active_set_size The maximum number of non-zero values in `theta` 
+#' expressed in terms of percentage of p**2
+#' The size of provided `active_set` must be less than this number.
+#' @param algorithm The type of algorithm used to minimize the objective
+#' function. 
+#' Must be one of:
+#'     1. "CD" A variant of cyclic coordinate descent and runs very fast. 
+#'     2. "CDPSI" performs local combinatorial search on top of CD and typically 
+#'     achieves higher quality solutions (at the expense of increased 
+#'     running time).
+#' @param tol The tolerance for determining convergence. 
+#' Graphical Models have non standard convergence criteria. 
+#' See [TODO: Convergence Documentation] for more details.
+#' @param seed The seed value used to set randomness. 
+#' The same input values with the same seed run on the same version of 
+#' `gL0learn` will always result in the same value 
 #' @param active_set The set of coordinates that the local optimization
 #' algorithm quickly iterates as potential support values of theta.
 #' Can be one of:
@@ -32,13 +84,16 @@
 #'     *NOTE* The rows of active_set must be lexicographically sorted such that
 #'     active_set[k] < active_set[j] -> k < j.
 #' @param super_active_set The set of coordinates that the global optimization
-#' algorithim can swap in and out of `active_set`.
-#' Can be any value that is provided to `active_set`.
-#' Must be larger or equal to `active_set`.
-#' @param check_inputs Not implemented atm. TODO:
-#'     If TRUE, checks inputs for validity.
-#'     If FALSE, runs on inputs and may error if values are not valid.
-#'     Only use this is speed is required and you know what you are doing.
+#' algorithm can swap in and out of `active_set`. See `active_set` parameter
+#' for valid values. When evaluated, all items in `active_set` must be contained
+#' in `super_active_set`.
+#' @param max_swaps The maximum number of swaps the "CDPSI" algorithm will 
+#' perform per iteration.
+#' @param shuffle_feature_order A boolean flag whether or not to shuffle the 
+#' iteration order of `active_set` when optimizing.
+#' @param scale_x A boolean flag whether x needs to be scaled by 1/sqrt(n).
+#' If scale_x is false (i.e the matrix is already scaled), the solver will not
+#' save a local copy of x and thus reduce memory usage.
 #' @export
 gL0Learn.gfit <- function(x, # nolint
                           theta_init = NULL,
@@ -47,14 +102,16 @@ gL0Learn.gfit <- function(x, # nolint
                           l2 = 0,
                           lows = -Inf,
                           highs = Inf,
+                          check_inputs = TRUE,
                           max_iter = 100,
                           max_active_set_size = .1,
                           algorithm = "CD",
-                          atol = 1e-6,
-                          rtol = 1e-6,
-                          initial_active_set = 0.7,
+                          tol = 1e-6,
+                          seed = 1,
+                          active_set = 0.7,
                           super_active_set = 0.5,
-                          swap_iters = NULL,
+                          max_swaps = 100,
+                          shuffle_feature_order = FALSE,
                           scale_x = FALSE) {
   x_dims <- dim(x)
   if (length(x_dims) != 2) {
@@ -81,38 +138,40 @@ gL0Learn.gfit <- function(x, # nolint
 
   if (is.null(theta_init)) {
     theta_init <- diag(p)
-  } else if (dim(theta_init) != c(p, p) || !gL0Learn.is.sympd(theta_init)) {
-    stop("expected theta_init to be NULL or a semi-positive-definite
-             matrix of side length p")
+  } else if (check_inputs && (dim(theta_init) != c(p, p) || !all(x == t(x)))) {
+    stop("expected theta_init to be NULL or symmetric matrix of side length p")
   }
 
-  if (gL0Learn.is.real_scalar(l0)) {
-    if (!gL0Learn.is.real_scalar(l1)) {
-      stop("expected that l1 be a scalar if l0 is.")
-    }
-    if (!gL0Learn.is.real_scalar(l2)) {
-      stop("expected that l2 be a scalar if l0 is.")
-    }
-  } else if (gL0Learn.is.real_matrix(l0, c(p, p))) {
-    if (!(gL0Learn.is.real_matrix(l1, c(p, p)) || (gL0Learn.is.real_scalar(l1) && l1 == 0))) {
-      stop("expected that l1 be a matrix of dims (p, p) or scalar 0 if l0 is a matrix.")
-      if (gL0Learn.is.real_scalar(l1)) {
-        l1 <- matrix(rep(0, p * p), p, p)
-      }
-    }
-    if (!(gL0Learn.is.real_matrix(l2, c(p, p)) || (gL0Learn.is.real_scalar(l2) && l2 == 0))) {
-      stop("expected that l2 be a matrix of dims (p, p) or scalar 0 if l0 is a matrix.")
-      if (gL0Learn.is.real_scalar(l2)) {
-        l2 <- matrix(rep(0, p * p), p, p)
-      }
-    }
-  } else {
-    # TODO: Improve wording here.
-    stop("expected that l0, l1, and l2 statisfy one of the following two conditions:
+  if (check_inputs){
+      if (gL0Learn.is.real_scalar(l0)) {
+          if (!gL0Learn.is.real_scalar(l1)) {
+              stop("expected that l1 be a scalar if l0 is.")
+          }
+          if (!gL0Learn.is.real_scalar(l2)) {
+              stop("expected that l2 be a scalar if l0 is.")
+          }
+      } else if (gL0Learn.is.real_matrix(l0, c(p, p))) {
+          if (!(gL0Learn.is.real_matrix(l1, c(p, p)) || (gL0Learn.is.real_scalar(l1) && l1 == 0))) {
+              stop("expected that l1 be a matrix of dims (p, p) or scalar 0 if l0 is a matrix.")
+              if (gL0Learn.is.real_scalar(l1)) {
+                  l1 <- matrix(rep(0, p * p), p, p)
+              }
+          }
+          if (!(gL0Learn.is.real_matrix(l2, c(p, p)) || (gL0Learn.is.real_scalar(l2) && l2 == 0))) {
+              stop("expected that l2 be a matrix of dims (p, p) or scalar 0 if l0 is a matrix.")
+              if (gL0Learn.is.real_scalar(l2)) {
+                  l2 <- matrix(rep(0, p * p), p, p)
+              }
+          }
+      } else {
+          # TODO: Improve wording here.
+          stop("expected that l0, l1, and l2 statisfy one of the following two conditions:
            1) All non-negative scalars
            2) l0 is a non-negative matricies of dims (p, p)
            and l1 and l2 are either 0 or non-negaitve matricies of dims (p, p)")
+      }
   }
+  
 
   if (max_iter < 1) {
     stop("expected max_iter to be a positive integer, but isn't")
@@ -122,21 +181,16 @@ gL0Learn.gfit <- function(x, # nolint
     stop("expected algorithm to be a `CD` or `CDPSI`, but isn't")
   }
 
-  if (atol < 0) {
+  if (tol < 0) {
     stop("expected atol to be a positive number, but isn't")
   }
 
-  if (rtol < 0 || rtol >= 1) {
-    stop("expected rtol to be a number between 0 and 1 (exlusive),
-           but isn't.")
-  }
-
   penalty <- gL0Learn.penalty(l0, l1, l2)
-  if (!penalty$validate()) {
+  if (check_inputs && !penalty$validate()) {
     stop("Penalty values are invalid see DOCUEMENTATION")
   }
 
-  if (!(
+  if (check_inputs && !(
     (gL0Learn.is.real_scalar(lows) && gL0Learn.is.real_scalar(highs)) ||
       (gL0Learn.is.real_matrix(lows, c(p, p)) && gL0Learn.is.real_matrix(highs, c(p, p)))
   )
@@ -145,51 +199,48 @@ gL0Learn.gfit <- function(x, # nolint
   }
 
   bounds <- gL0Learn.bounds(lows, highs)
-  if (!bounds$object$validate()) {
+  if (check_inputs && !bounds$object$validate()) {
     stop("Bounds are invalid. SEE DOCUMENTATION ")
   }
 
   # Notes:
-  #   1. initial_active_set and super_active_set will enter as
+  #   1. active_set and super_active_set will enter as
   #     (K, 2) integer matrices
-  #   2. initial_active_set must be a subset of super_active_set
+  #   2. active_set must be a subset of super_active_set
   #   3. support of non-zero non-diagonal values of theta_init must be a
-  #     subset of initial_active_set
+  #     subset of active_set
 
-  initial_active_set <- check_make_valid_coordinate_matrix(
-    "initial_active_set", initial_active_set, y, p
+  active_set <- check_make_valid_coordinate_matrix(
+    active_set, y, "active_set", check_inputs = check_inputs
   )
 
   super_active_set <- check_make_valid_coordinate_matrix(
-    "super_active_set", super_active_set, y, p
+    super_active_set, y, "super_active_set", check_inputs = check_inputs
   )
 
-  if (!check_is_valid_coordinate_subset(
+  if (check_inputs && !check_is_valid_coordinate_subset(
     super_active_set,
-    initial_active_set
+    active_set
   )) {
-    stop("expected `initial_active_set` be a subset of `super_active_set`,
+    stop("expected `active_set` be a subset of `super_active_set`,
            but is not. Please see documentation on how `super_active_set` and
-           `initial_active_set` are selected")
+           `active_set` are selected")
   }
 
-  theta_init_support <- test_unravel_indices(
-    which(t(theta_init * upper.tri(theta_init)) != 0, arr.ind = FALSE) - 1, p
-  )
-
-  if (!check_is_valid_coordinate_subset(
-    initial_active_set,
-    theta_init_support
-  )) {
-    stop("expected support of `theta_init` to be a subset of
-      `initial_active_set`, but is not. Please see documentation on how
-      `theta_init` and `initial_active_set` are selected")
+  if (check_inputs){
+      theta_init_support <- test_unravel_indices(
+          which(t(theta_init * upper.tri(theta_init)) != 0, arr.ind = FALSE) - 1, p
+      )
+      
+      if (!check_is_valid_coordinate_subset(
+          active_set,
+          theta_init_support
+      )) {
+          stop("expected support of `theta_init` to be a subset of
+      `active_set`, but is not. Please see documentation on how
+      `theta_init` and `active_set` are selected")
+      }
   }
-
-  tol <- 1e-6
-  seed <- 1
-  max_swaps <- 100
-  shuffle_feature_order <- FALSE
 
   fit_bound_method <- eval(parse(text = paste("penalty$fit", bounds$type, sep = "_")))
 
@@ -198,7 +249,7 @@ gL0Learn.gfit <- function(x, # nolint
     theta_init,
     algorithm,
     bounds$object,
-    initial_active_set,
+    active_set,
     super_active_set,
     tol,
     max_active_set_size,
@@ -209,12 +260,38 @@ gL0Learn.gfit <- function(x, # nolint
   ))
 }
 
-
-
-check_make_valid_coordinate_matrix <- function(parameter_name,
-                                               coordinate_matrix,
+# import C++ compiled code
+#' @useDynLib gL0Learn
+#' @importFrom Rcpp evalCpp
+#' @importFrom methods as
+#' @importFrom methods is
+#' @import Matrix
+#' @title Make or Check coordinate matrix  
+#' @description TODO: Fill in description
+#' @param coordinate_matrix 
+#' Must be one of:
+#'     1. Non-negative scalar: Indicates that the coordinate matrix should be 
+#'     coordinates (i, j) of yty st |yty[i, j]| >= t
+#'     2. "full": Indicates that the coordinate matrix should be the full 
+#'     upper triangle coordinate matrix 
+#'     3. Integer matrix of shape (m, 2) such that coordinate_matrix[i, ] is
+#'     a coordinate (i, j). Must be sorted lexigraphically.
+#' @param y The scaled data matrix of shape (n, p) where each row x[i, ],
+#'  x being the un-scaled data matrix, is believed to be drawn from N(0, theta)
+#'  Only used when `coordinate_matrix` is a non-negative scalar.
+#' @param parameter_name The name of the parameter being checked. 
+#' Used for error propagation
+#' @param check_inputs Flag whether or not to check user provided input
+#'     If TRUE, checks `coordinate_matrix` for validity.
+#'     If FALSE, does not check `coordinate_matrix` for validity.
+#' @export
+check_make_valid_coordinate_matrix <- function(coordinate_matrix,
                                                y,
-                                               p) {
+                                               parameter_name = "",
+                                               check_inputs = TRUE) {
+    
+    y_dims <- dim(y)
+    p <- y_dims[[2]]
   if (gL0Learn.is.real_scalar(coordinate_matrix) && coordinate_matrix >= 0) {
     return(test_union_of_correlated_features2(y, coordinate_matrix))
   } else if (coordinate_matrix == "full") {
@@ -230,7 +307,7 @@ check_make_valid_coordinate_matrix <- function(parameter_name,
         parameter_name, as.character(should_be_two)
       ))
     }
-    if (!check_coordinate_matrix_is_valid(coordinate_matrix)) {
+    if (check_inputs && !check_coordinate_matrix_is_valid(coordinate_matrix)) {
       stop(sprintf("expected `%s` to be sorted lexographically and refer to
                    only upper triangle values, but is not.", parameter_name))
     }

@@ -16,7 +16,7 @@ test_that("Union of union_of_correlated_features2 works as expected", {
   for (i in 1:10) {
     N <- as.integer(runif(1, min = 5, 20))
     P <- N - 2
-    x <- matrix(rnorm(N * P), N, P)
+    x <- matrix(stats::rnorm(N * P), N, P)
     xtx <- t(x) %*% x
     xtx[lower.tri(xtx, diag = TRUE)] <- 0
 

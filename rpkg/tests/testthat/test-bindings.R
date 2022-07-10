@@ -1,4 +1,4 @@
-
+library("gL0Learn")
 
 penalties <- c("L0", "L0L2", "L0L1L2") # "L1", "L2", "L0L1", "L1L2" Not supported ATM
 for (penalty in penalties) {
@@ -88,11 +88,3 @@ for (penalty_list in penalties) {
     })
   }
 }
-
-gL0Learn.gfit(data$X,
-  l0 = 1,
-  l1 = 0,
-  l2 = 0,
-  lows = -1 * matrix(1, 2, 2),
-  highs = 1 * matrix(1, 2, 2)
-)

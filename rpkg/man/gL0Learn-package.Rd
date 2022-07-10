@@ -6,7 +6,7 @@
 \alias{gL0Learn-package}
 \title{gL0Learn: Efficient Algorithms for Graphical Learning Problems}
 \description{
-Efficient Algorithms for Graphical Learning Problems
+Efficient algorithms for regularization Graphical Learning Problems.
 }
 \details{
 gL0learn is a package ....
