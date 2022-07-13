@@ -2,6 +2,19 @@ name: Python CI
 
 # Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+    paths:
+      - "pypkg/**"
+      - '.github/workflows/python.yml'
+
+  pull_request:
+    branches: [ master ]
+    paths:
+      - "pypkg/**"
+      - '.github/workflows/python.yml'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -13,52 +26,32 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
-        # Bug with g++ <= 10.X.Y. Unresolved template functions see "Unresolved overloaded function type in gcc"
-        # Must use g++ > 10
-        # https://stackoverflow.com/questions/60633892/unresolved-overloaded-function-type-in-gcc
-        # clang shou;d work but keep getting #cstddef. Clang should be fully installed. May need to add to the path?
+        python-version: [3.7, 3.8, 3.9, '3.10']
         include:
           - os: macos-latest
-            INSTALL_DEPS: brew install armadillo
-            compiler: [clang, clang++]
-#           - os: ubuntu-latest
-#             compiler: [gcc-11, g++-11]
-#             INSTALL_DEPS: |
-#               sudo apt-get install liblapack-dev
-#               sudo apt-get install libblas-dev
-#               sudo apt-get install libboost-dev
-#               sudo apt-get install libarmadillo-dev
-#               # sudo apt-get install build-essential
-#               sudo apt install -y g++-11
-#               # sudo apt-get install libc++-dev libc++abi-dev
-#               # sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+          - os: ubuntu-latest
+            INSTALL_DEPS: |
+              sudo apt-get install -y liblapack-dev
+              bash scripts/install_linux_libs.sh
     defaults:
       run:
         working-directory: ./pypkg
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout l0learn
+        uses: actions/checkout@v2
         with:
           submodules: true
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: install-dependencies
         run: ${{ matrix.INSTALL_DEPS }}
-      - name: Install dependencies
+
+      - name: Install gL0Learn
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --upgrade wheel setuptools pytest-cov coveralls
-      - name: Build and install (with ${{matrix.compiler[0]}} compiler, for ${{matrix.os}})
-        run: |
-          export CC=${{matrix.compiler[0]}}
-          export CXX=${{matrix.compiler[1]}}
-          pip install --verbose ".[test, opt]"
-      - name: Run Tests and Coverage
-        run: pytest tests/ --cov=gl0learn
-      - name: Coveralls
-        run: coveralls --service=github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pip install .

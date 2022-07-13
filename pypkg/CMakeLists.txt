@@ -31,6 +31,10 @@ if($ENV{CIBUILDWHEEL})
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
 endif()
 
+INCLUDE_DIRECTORIES(gl0learn)
+INCLUDE_DIRECTORIES(gl0learn/src/include)
+INCLUDE_DIRECTORIES(gl0learn/src/src/include)
+
 pybind11_add_module(${MODNAME} MODULE
         gl0learn/src/pygl0learn.cpp
         gl0learn/src/pyoracle.cpp
@@ -38,8 +42,6 @@ pybind11_add_module(${MODNAME} MODULE
         gl0learn/src/pyfit.cpp)
 
 
-target_include_directories(${MODNAME} PRIVATE gl0learn/src/src/include)
-target_include_directories(${MODNAME} PRIVATE gl0learn/src)
 
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
