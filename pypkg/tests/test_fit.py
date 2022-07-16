@@ -10,6 +10,7 @@ from utils import (
     random_penalty,
     overlap_covariance_matrix,
     sample_from_cov,
+    numpy_as_fortran
 )
 
 
@@ -24,6 +25,7 @@ from utils import (
         np.ones([1, 3]),  # wrong number of rows
     ),
 )
+@numpy_as_fortran
 def test_fit_bad_x(x):
     with pytest.raises(ValueError):
         _ = fit(x)

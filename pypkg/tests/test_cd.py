@@ -1,4 +1,5 @@
 from copy import deepcopy
+import warnings
 
 
 import numpy as np
@@ -216,7 +217,8 @@ def test_cd_vs_mosek(n, p, module, overlaps, lXs):
     int_tol = 1e-4
 
     try:
-        MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol, max_time=10)
+        with warnings.catch_warnings(record=True):
+            MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol, max_time=10)
     except SolutionError:
         assume(False)
 
@@ -283,7 +285,8 @@ def test_cd_keeps_mio_results(max_iter, algorithm, n, p, module, overlaps, lXs):
     m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
 
-    MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol)
+    with warnings.catch_warnings(record=True):
+        MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol)
     cd_results = fit(
         y,
         **lXs,
@@ -343,7 +346,8 @@ def test_cd_learns_mio_results_from_support(algorithm, n, p, module, overlaps, l
     m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
 
-    MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol)
+    with warnings.catch_warnings(record=True):
+        MIO_results = MIO_mosek(y=y, m=m, **lXs, int_tol=int_tol)
     active_set = triu_nnz_indicies(MIO_results.theta_hat)
     cd_results = fit(
         y,

@@ -29,10 +29,12 @@ jobs:
         python-version: [3.7, 3.8, 3.9, '3.10']
         include:
           - os: macos-latest
-          # - os: ubuntu-latest
-          #   INSTALL_DEPS: |
-          #     sudo apt-get install -y liblapack-dev
-          #     bash scripts/install_linux_libs.sh
+          - os: ubuntu-latest
+              INSTALL_DEPS: |
+                sudo apt-get install -y liblapack-dev
+                bash scripts/install_linux_libs.sh
+              CC:   gcc-10
+              CXX:  g++-10
     defaults:
       run:
         working-directory: ./pypkg
@@ -54,4 +56,11 @@ jobs:
       - name: Install gL0Learn
         run: |
           python -m pip install --upgrade pip
-          pip install .
+          pip install ".[test]"
+        env:
+          CC: $${{matrix.CC}}
+          CXX: $${{matrix.CXX}}
+
+      - name: Test python
+        run: |
+          pytest test/

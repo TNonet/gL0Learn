@@ -79,7 +79,7 @@ def mosek_level_values(theta: np.ndarray, Y: np.ndarray, int_tol: float = 1e-4):
 
     non_zero_values = np.abs(theta_no_diag) > int_tol
 
-    z_values = non_zero_values[tril_indicies]
+    z_values = non_zero_values[tril_indicies].astype(int)
     s_values = theta_no_diag[tril_indicies] ** 2
 
     t_values = np.linalg.norm(Y @ theta, axis=0) ** 2 / np.diag(theta)

@@ -4,6 +4,7 @@ import pytest
 
 from gl0learn import Bounds
 from gl0learn.utils import ClosedInterval
+from utils import numpy_as_fortran
 
 
 @pytest.mark.parametrize(
@@ -30,8 +31,8 @@ def test_scalar_bad_bounds(bounds):
         (-np.arange(0, 9).reshape(3, 3), np.ones([3, 3])),
     ],
 )
+@numpy_as_fortran
 def test_matrix_bad_bounds(bounds):
-    bounds = tuple(np.asfortranarray(b) for b in bounds)
     with pytest.raises(ValueError):
         _ = Bounds(*bounds)
 
@@ -53,8 +54,8 @@ def test_matrix_bad_bounds(bounds):
         (-1, np.NAN * np.ones([2, 2])),
     ],
 )
+@numpy_as_fortran
 def test_mixed_bad_bounds(bounds):
-    bounds = tuple(np.asfortranarray(b) for b in bounds)
     with pytest.raises(ValueError):
         _ = Bounds(*bounds)
 

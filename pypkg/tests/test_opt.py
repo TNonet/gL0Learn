@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 import pytest
 from hypothesis import given, settings, assume, note
@@ -36,9 +37,10 @@ def test_init_levels(p, module, lXs):
     m = np.max(np.abs(theta_truth * (1 - np.eye(p))))
     int_tol = 1e-4
     try:
-        results = MIO_mosek(
-            Y, m=m, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, max_time=10
-        )
+        with warnings.catch_warnings(record=True):
+            results = MIO_mosek(
+                Y, m=m, l0=lXs["l0"], l2=lXs["l2"], int_tol=int_tol, max_time=10
+            )
     except mosek.MosekException:
         assume(False)
     else:
