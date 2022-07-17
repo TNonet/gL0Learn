@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 import numpy.typing as npt
 from .penalty import Penalty
-from .gl0learn import objective
+from .gl0learn import residual_cost
 
 
 def pseudo_likelihood_loss(
@@ -13,7 +13,7 @@ def pseudo_likelihood_loss(
     if penalty:
         return penalty.objective(theta, residuals, active_set=active_set)
     else:
-        return objective(theta, residuals)
+        return residual_cost(theta, residuals)
 
 
 def pseudo_likelihood_loss_(y, theta, l0=0, l1=0, l2=0, abs_tol: float = 1e-6):

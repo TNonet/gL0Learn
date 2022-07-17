@@ -11,10 +11,6 @@ arma::umat upper_triangular_coords(const arma::uword p) {
   return coordinate_matrix_from_vector(upper_triangle_coordinate_vector(p));
 }
 
-double compute_objective(const arma::mat &theta, const arma::mat &residuals) {
-  return objective(theta, residuals);
-}
-
 PYBIND11_MODULE(gl0learn, m) {
   m.def("union_of_correlated_features2", &union_of_correlated_features2,
         R"pbdoc(
@@ -42,8 +38,8 @@ PYBIND11_MODULE(gl0learn, m) {
   m.def("check_is_coordinate_subset", &check_is_coordinate_subset,
         py::call_guard<py::scoped_ostream_redirect,
                        py::scoped_estream_redirect>());
+  m.def("residual_cost", &residual_cost);
   m.def("upper_triangular_coords", &upper_triangular_coords);
-  m.def("objective", &compute_objective);
   m.def("coordinate_vector_from_matrix", &coordinate_vector_from_matrix);
   m.def("coordinate_matrix_from_vector", &coordinate_matrix_from_vector);
 }

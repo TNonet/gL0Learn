@@ -14,7 +14,7 @@ from .utils import check_make_valid_coordinate_matrix, ensure_well_behaved
 def fit(
     x: npt.ArrayLike,
     theta_init: Optional[Union[npt.ArrayLike, float]] = None,
-    l0: Optional[Union[npt.ArrayLike, float]] = None,
+    l0: Union[npt.ArrayLike, float] = 0,
     l1: Optional[Union[npt.ArrayLike, float]] = None,
     l2: Optional[Union[npt.ArrayLike, float]] = None,
     lows: Optional[Union[npt.ArrayLike, float]] = None,

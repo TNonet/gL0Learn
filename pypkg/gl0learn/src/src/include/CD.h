@@ -460,7 +460,7 @@ double inline CD<TY, TR, TT, TP>::compute_objective() const {
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the objective can be sped up in the active
+   *  If we use a sparse form of TT, the residual can be sped up in the active
    * set calculation.
    */
   return objective(this->theta, this->R, this->active_set,

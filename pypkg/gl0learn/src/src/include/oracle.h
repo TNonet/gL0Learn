@@ -6,13 +6,13 @@
 #include "arma_includes.h"
 #include "utils.h"
 
-double inline objective(const arma::mat &theta, const arma::mat &R) {
+double inline residual_cost(const arma::mat &theta, const arma::mat &R) {
   /*
    *  Objective = \sum_{i=1}^{p}(||<Y, theta[i, :]>||_2 - log(theta[i, i]))
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the objective can be sped up in the active
+   *  If we use a sparse form of TT, the residual can be sped up in the active
    * set calculation.
    */
   auto theta_diag = arma::vec(theta.diag());
@@ -35,10 +35,46 @@ double inline objective(const arma::mat &theta, const arma::mat &R,
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the objective can be sped up in the active
+   *  If we use a sparse form of TT, the residual can be sped up in the active
    * set calculation.
    */
-  auto cost = objective(theta, R);
+  auto cost = residual_cost(theta, R);
+
+  for (auto const &ij : active_set) {
+    const auto i = std::get<0>(ij);
+    const auto j = std::get<1>(ij);
+    const auto theta_ij = theta(i, j);
+    cost += penalty.cost(theta_ij, i, j);
+  }
+
+  return cost;
+}
+
+template <class P>
+double inline objective(const arma::mat &theta,
+                        const arma::mat &R,
+                        const P &penalty) {
+  return residual_cost(theta, R) + penalty_cost(theta, penalty);
+}
+
+template <class P>
+double inline penalty_cost(const arma::mat &theta, const P &penalty) {
+   return arma::accu(penalty.cost(theta));
+}
+
+template <class P>
+double inline penalty_cost(const arma::mat &theta,
+                           const coordinate_vector &active_set,
+                           const P &penalty) {
+  /*
+   *  Objective = \sum_{i=1}^{p}(||<Y, theta[i, :]>||_2 - log(theta[i, i]))
+   *
+   *  Notes
+   *  -----
+   *  If we use a sparse form of TT, the residual can be sped up in the active
+   * set calculation.
+   */
+  auto cost = 0;
 
   for (auto const &ij : active_set) {
     const auto i = std::get<0>(ij);
