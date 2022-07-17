@@ -78,7 +78,7 @@ def fit(
             f"expected `x` to be a 2D array but got {x.ndim}D array."
         ) from e
 
-    if n < 1 or p < 1:
+    if n <= 1 or p <= 1:
         raise ValueError(
             f"expected `x` to have at least two rows and two columns, but got {n} rows and {p} columns."
         )

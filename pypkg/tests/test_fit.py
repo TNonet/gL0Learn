@@ -55,7 +55,7 @@ def test_fit_is_reproducible(
     n, p, max_iter, module, overlaps, active_set, super_active_set, lXs, tol, algorithm
 ):
     assume(active_set > super_active_set)
-    num_samples = max(1, int(n * p**2))
+    num_samples = max(2, int(n * p**2))
     theta_truth = overlap_covariance_matrix(
         p=p,
         seed=module.seed,

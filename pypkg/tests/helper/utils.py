@@ -1,7 +1,6 @@
 import functools
 from typing import List, Dict, Iterable, Callable, TypeVar
 
-import decorator as decorator
 import hypothesis
 import numpy as np
 from gl0learn import fit
