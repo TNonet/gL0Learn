@@ -19,6 +19,7 @@ def size_and_subset(draw: st.DrawFn, max_columns: int = 10):
     return n, np.asarray(sorted(subset_indices), dtype=int)
 
 
+
 @given(size_and_subset(max_columns=20))
 def test_check_is_coordinate_subset(x):
     n, subset_indices = x

@@ -90,9 +90,9 @@ def penalty_and_theta(draw: st.DrawFn, shape: Union[Tuple[int, ...], SearchStrat
 
 
 @st.composite
-def penalty_and_theta(draw, shape):
-    penalty_float_strategy = floats(min_value=0, allow_nan=False)
-    theta_float_strategy = floats(allow_nan=False)
+def penalty_and_theta(draw, shape, max_value=1e6):
+    penalty_float_strategy = floats(min_value=0, allow_nan=False, max_value=max_value)
+    theta_float_strategy = floats(allow_nan=False, max_value=max_value)
     if shape is None:
         return draw(penalty_float_strategy), draw(theta_float_strategy)
     elif not isinstance(shape, tuple):
@@ -111,8 +111,5 @@ def penalty_and_theta(draw, shape):
 @numpy_as_fortran
 def test_l0_cost(l0_theta):
     l0, theta = l0_theta
-    n, p = l0.shape
-    i = np.random.randint(0, n)
-    j = np.random.randint(0, p)
     p = Penalty(l0=l0, validate=False)
-    np.testing.assert_equal(p.cxx_penalty.cost(theta, i, j), int(theta[i, j] != 0) * l0[i, j])
+    np.testing.assert_almost_equal(p.cxx_penalty.penalty_cost(theta), np.sum((theta != 0).astype(int) * l0))

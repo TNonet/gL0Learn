@@ -77,7 +77,7 @@ void declare_penalty_common(P &penalty_py_class){
       .def("objective_from_active_set_mat", &W::objective_from_active_set_mat)
       .def("objective_from_active_set", &W::objective_from_active_set)
       .def("objective", &W::objective_)
-      .def("penalty_cost_", &W::penalty_cost_)
+      .def("penalty_cost", &W::penalty_cost_)
       .def("penalty_cost_from_active_set", &W::penalty_cost_from_active_set)
       .def("prox_mat_", &W::template prox<NoBounds>)
       .def("prox_mat_double", &W::template prox<Bounds<double> >)
