@@ -63,4 +63,4 @@ jobs:
 
       - name: Test python
         run: |
-          pytest test/
+          pytest tests/
