@@ -15,8 +15,7 @@ gL0Learn.generate_regression <- function(n,
                                          k,
                                          val,
                                          normalize,
-                                         seed = 1
-                                         ) {
+                                         seed = 1) {
   if (k > p - 1) {
     stop("k  must be in less than or equal to p - 1")
   }

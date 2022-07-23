@@ -79,13 +79,16 @@ def test_bad_l0l1l2_Penalty(l0, l1, l2):
 
 
 @overload
-def penalty_and_theta(draw: st.DrawFn, shape: None) -> SearchStrategy[Tuple[float, float]]:
+def penalty_and_theta(
+    draw: st.DrawFn, shape: None
+) -> SearchStrategy[Tuple[float, float]]:
     ...
 
 
 @overload
-def penalty_and_theta(draw: st.DrawFn, shape: Union[Tuple[int, ...], SearchStrategy[Tuple[int, ...]]]) -> Tuple[
-    np.ndarray, np.ndarray]:
+def penalty_and_theta(
+    draw: st.DrawFn, shape: Union[Tuple[int, ...], SearchStrategy[Tuple[int, ...]]]
+) -> Tuple[np.ndarray, np.ndarray]:
     ...
 
 
@@ -98,18 +101,20 @@ def penalty_and_theta(draw, shape, max_value=1e6):
     elif not isinstance(shape, tuple):
         shape = draw(shape)
 
-    return draw(npst.arrays(
-        dtype=np.float64, shape=shape, elements=penalty_float_strategy
-    )), draw(npst.arrays(
-        dtype=np.float64, shape=shape, elements=theta_float_strategy
-    ))
+    return draw(
+        npst.arrays(dtype=np.float64, shape=shape, elements=penalty_float_strategy)
+    ), draw(npst.arrays(dtype=np.float64, shape=shape, elements=theta_float_strategy))
 
 
 @given(
-    l0_theta=penalty_and_theta(tuples(integers(min_value=2, max_value=10), integers(min_value=2, max_value=10))
-                               ))
+    l0_theta=penalty_and_theta(
+        tuples(integers(min_value=2, max_value=10), integers(min_value=2, max_value=10))
+    )
+)
 @numpy_as_fortran
 def test_l0_cost(l0_theta):
     l0, theta = l0_theta
     p = Penalty(l0=l0, validate=False)
-    np.testing.assert_almost_equal(p.cxx_penalty.penalty_cost(theta), np.sum((theta != 0).astype(int) * l0))
+    np.testing.assert_almost_equal(
+        p.cxx_penalty.penalty_cost(theta), np.sum((theta != 0).astype(int) * l0)
+    )

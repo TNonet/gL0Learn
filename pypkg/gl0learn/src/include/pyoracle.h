@@ -13,9 +13,9 @@ namespace py = pybind11;
 
 void init_oracle(py::module_ &m);
 
-template <template <typename ...> class W, typename P>
-P unwrapped(const W<P> &wrappedPenalty){
-  const P& unwrappedPenalty = wrappedPenalty;
+template <template <typename...> class W, typename P>
+P unwrapped(const W<P> &wrappedPenalty) {
+  const P &unwrappedPenalty = wrappedPenalty;
   return unwrappedPenalty;
 }
 
@@ -23,8 +23,7 @@ template <typename P>
 struct WrappedPenalty : public P {
   using P::P;
 
-  double objective_(const arma::mat &theta,
-                    const arma::mat &residuals) {
+  double objective_(const arma::mat &theta, const arma::mat &residuals) {
     return objective(theta, residuals, unwrapped(*this));
   }
 
@@ -72,7 +71,7 @@ void declare_bounds(py::module &m, const std::string &typestr) {
 }
 
 template <class W, class P>
-void declare_penalty_common(P &penalty_py_class){
+void declare_penalty_common(P &penalty_py_class) {
   penalty_py_class
       .def("objective_from_active_set_mat", &W::objective_from_active_set_mat)
       .def("objective_from_active_set", &W::objective_from_active_set)
@@ -80,9 +79,8 @@ void declare_penalty_common(P &penalty_py_class){
       .def("penalty_cost", &W::penalty_cost_)
       .def("penalty_cost_from_active_set", &W::penalty_cost_from_active_set)
       .def("prox_mat_", &W::template prox<NoBounds>)
-      .def("prox_mat_double", &W::template prox<Bounds<double> >)
-      .def("prox_mat_mat", &W::template prox<Bounds<arma::mat> >);
-
+      .def("prox_mat_double", &W::template prox<Bounds<double>>)
+      .def("prox_mat_mat", &W::template prox<Bounds<arma::mat>>);
 }
 
 template <class T>
@@ -98,31 +96,31 @@ void declare_penalty_l0(py::module &m, const std::string &typestr) {
   declare_penalty_common<Penalty_>(py_class);
 }
 
-//template <class T>
-//void declare_penalty_l1(py::module &m, const std::string &typestr) {
-//  using Penalty_ = WrappedPenalty<PenaltyL1<T>>;
-//  std::string pyclass_name = std::string("_PenaltyL1_") + typestr;
-//  auto py_class =
-//      py::class_<Penalty_>(m, pyclass_name.c_str(), py::buffer_protocol(),
-//                           py::dynamic_attr())
-//          .def(py::init<const T>())
-//          .def_readonly("l1", &Penalty_::l1)
-//          .def("validate", &Penalty_::validate);
-//  declare_penalty_common<Penalty_>(py_class);
-//}
+// template <class T>
+// void declare_penalty_l1(py::module &m, const std::string &typestr) {
+//   using Penalty_ = WrappedPenalty<PenaltyL1<T>>;
+//   std::string pyclass_name = std::string("_PenaltyL1_") + typestr;
+//   auto py_class =
+//       py::class_<Penalty_>(m, pyclass_name.c_str(), py::buffer_protocol(),
+//                            py::dynamic_attr())
+//           .def(py::init<const T>())
+//           .def_readonly("l1", &Penalty_::l1)
+//           .def("validate", &Penalty_::validate);
+//   declare_penalty_common<Penalty_>(py_class);
+// }
 //
-//template <class T>
-//void declare_penalty_l2(py::module &m, const std::string &typestr) {
-//  using Penalty_ = WrappedPenalty<PenaltyL2<T>>;
-//  std::string pyclass_name = std::string("_PenaltyL2_") + typestr;
-//  auto py_class =
-//      py::class_<Penalty_>(m, pyclass_name.c_str(), py::buffer_protocol(),
-//                           py::dynamic_attr())
-//          .def(py::init<const T>())
-//          .def_readonly("l2", &Penalty_::l2)
-//          .def("validate", &Penalty_::validate);
-//  declare_penalty_common<Penalty_>(py_class);
-//}
+// template <class T>
+// void declare_penalty_l2(py::module &m, const std::string &typestr) {
+//   using Penalty_ = WrappedPenalty<PenaltyL2<T>>;
+//   std::string pyclass_name = std::string("_PenaltyL2_") + typestr;
+//   auto py_class =
+//       py::class_<Penalty_>(m, pyclass_name.c_str(), py::buffer_protocol(),
+//                            py::dynamic_attr())
+//           .def(py::init<const T>())
+//           .def_readonly("l2", &Penalty_::l2)
+//           .def("validate", &Penalty_::validate);
+//   declare_penalty_common<Penalty_>(py_class);
+// }
 
 template <class T>
 void declare_penalty_l0l1(py::module &m, const std::string &typestr) {
@@ -174,14 +172,14 @@ template void declare_penalty_l0<double>(py::module &m,
                                          const std::string &typestr);
 template void declare_penalty_l0<arma::mat>(py::module &m,
                                             const std::string &typestr);
-//template void declare_penalty_l1<double>(py::module &m,
-//                                         const std::string &typestr);
-//template void declare_penalty_l1<arma::mat>(py::module &m,
-//                                            const std::string &typestr);
-//template void declare_penalty_l2<double>(py::module &m,
-//                                         const std::string &typestr);
-//template void declare_penalty_l2<arma::mat>(py::module &m,
-//                                            const std::string &typestr);
+// template void declare_penalty_l1<double>(py::module &m,
+//                                          const std::string &typestr);
+// template void declare_penalty_l1<arma::mat>(py::module &m,
+//                                             const std::string &typestr);
+// template void declare_penalty_l2<double>(py::module &m,
+//                                          const std::string &typestr);
+// template void declare_penalty_l2<arma::mat>(py::module &m,
+//                                             const std::string &typestr);
 template void declare_penalty_l0l1<double>(py::module &m,
                                            const std::string &typestr);
 template void declare_penalty_l0l1<arma::mat>(py::module &m,

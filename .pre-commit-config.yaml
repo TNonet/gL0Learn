@@ -19,6 +19,7 @@ repos:
       args:
         - '--max-line-length=121'
         - '--ignore=C901,W503'
+        - '--per-file-ignores=pypkg/scripts/openblas_support.py:E203'
         - '--exclude=pypkg/tests/*.py'
         - 'pypkg/gl0learn/'
         - 'pypkg/setup.py'

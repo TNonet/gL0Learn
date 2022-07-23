@@ -32,4 +32,3 @@ check_coordinate_matrix_is_valid <- function(coords_ma, for_order = TRUE, for_up
 check_is_valid_coordinate_subset <- function(larger_coord_set, smaller_coord_set) {
     .Call(`_gL0Learn_check_is_valid_coordinate_subset`, larger_coord_set, smaller_coord_set)
 }
-

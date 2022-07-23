@@ -28,7 +28,7 @@
 #'     1. "covariance": [TODO: Add definition]
 #'     2. "precision": [TODO: Add definition]
 #' @param seed Seed provided to random number generation for dataset
-#' @param ... Additional parameters needing to be passed to sub 
+#' @param ... Additional parameters needing to be passed to sub
 #' `gL0Learn.generate_*` functions
 #' @export
 gL0Learn.generate_synthetic <- function(n, p, model, normalize, seed = 1, ...) {

@@ -10,7 +10,7 @@ from utils import (
     random_penalty,
     overlap_covariance_matrix,
     sample_from_cov,
-    numpy_as_fortran
+    numpy_as_fortran,
 )
 
 

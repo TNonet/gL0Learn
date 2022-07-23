@@ -12,8 +12,8 @@ double inline residual_cost(const arma::mat &theta, const arma::mat &R) {
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the residual can be sped up in the active
-   * set calculation.
+   *  If we use a sparse form of TT, the calculation can be sped up in the
+   * active set calculation.
    */
   auto theta_diag = arma::vec(theta.diag());
   double cost = -arma::sum(arma::log(theta_diag));
@@ -35,8 +35,8 @@ double inline objective(const arma::mat &theta, const arma::mat &R,
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the residual can be sped up in the active
-   * set calculation.
+   *  If we use a sparse form of TT, the calculation can be sped up in the
+   * active set calculation.
    */
   auto cost = residual_cost(theta, R);
 
@@ -51,15 +51,14 @@ double inline objective(const arma::mat &theta, const arma::mat &R,
 }
 
 template <class P>
-double inline objective(const arma::mat &theta,
-                        const arma::mat &R,
+double inline objective(const arma::mat &theta, const arma::mat &R,
                         const P &penalty) {
   return residual_cost(theta, R) + penalty_cost(theta, penalty);
 }
 
 template <class P>
 double inline penalty_cost(const arma::mat &theta, const P &penalty) {
-   return arma::accu(penalty.cost(theta));
+  return arma::accu(penalty.cost(theta));
 }
 
 template <class P>
@@ -71,8 +70,8 @@ double inline penalty_cost(const arma::mat &theta,
    *
    *  Notes
    *  -----
-   *  If we use a sparse form of TT, the residual can be sped up in the active
-   * set calculation.
+   *  If we use a sparse form of TT, the calculation can be sped up in the
+   * active set calculation.
    */
   auto cost = 0;
 

@@ -25,7 +25,7 @@ gL0Learn.is.real_matrix <- function(x, dims) {
 #' @description Determine if a value is a vector of scalar values
 #' Source: # https://stackoverflow.com/questions/38088392/how-do-you-check-for-a-scalar-in-r/38088874 # nolint
 #' @param x The value to check for "vector"-ness and element-wise scalar"-ness
-#' 
+#'
 #' @export
 gL0Learn.is.real_vector <- function(x) {
   return(is.atomic(x) &&

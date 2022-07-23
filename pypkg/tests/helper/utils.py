@@ -67,10 +67,10 @@ def top_n_triu_indicies_by_abs_value(x, n):
 
 @composite
 def random_penalty(
-        draw,
-        l0: hypothesis.strategies.SearchStrategy[bool],
-        l1: hypothesis.strategies.SearchStrategy[bool],
-        l2: hypothesis.strategies.SearchStrategy[bool],
+    draw,
+    l0: hypothesis.strategies.SearchStrategy[bool],
+    l1: hypothesis.strategies.SearchStrategy[bool],
+    l2: hypothesis.strategies.SearchStrategy[bool],
 ) -> List[str]:
     penalties = []
 
@@ -88,9 +88,9 @@ def random_penalty(
 
 @composite
 def random_penalty_values(
-        draw,
-        values_strategies: Dict[str, hypothesis.strategies.SearchStrategy[float]],
-        penalty_strategies: hypothesis.strategies.SearchStrategy[Iterable[str]],
+    draw,
+    values_strategies: Dict[str, hypothesis.strategies.SearchStrategy[float]],
+    penalty_strategies: hypothesis.strategies.SearchStrategy[Iterable[str]],
 ) -> Dict[str, float]:
     penalties = draw(penalty_strategies)
     values = {}
@@ -154,7 +154,7 @@ def sample_from_cov(cov: np.ndarray, n: int = 1000, seed: int = 0) -> np.ndarray
     return np.asfortranarray(x)
 
 
-RT = TypeVar('RT')  # return typ
+RT = TypeVar("RT")  # return typ
 T = TypeVar("T")
 
 

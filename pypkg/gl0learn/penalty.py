@@ -16,7 +16,6 @@ from .gl0learn import (
     _PenaltyL0L1L2_double,
     _PenaltyL0L1L2_mat,
     check_coordinate_matrix,
-    residual_cost,
 )
 
 from .utils import ensure_well_behaved, set_post_broadcasting_flags, ClosedInterval
@@ -121,22 +120,28 @@ class Penalty:
             return self.cxx_penalty.objective_(theta, residuals)
         elif isinstance(active_set, np.ndarray):
             if not check_coordinate_matrix(
-                    active_set, for_order=True, for_upper_triangle=True
+                active_set, for_order=True, for_upper_triangle=True
             ):
                 raise ValueError(
                     "expected `active_set` to be a lexicographically sorted coordinate matrix, but isn't."
                 )
-            return self.cxx_penalty.objective_from_active_set_mat(theta, residuals, active_set)
+            return self.cxx_penalty.objective_from_active_set_mat(
+                theta, residuals, active_set
+            )
         elif isinstance(active_set, list):
-            return self.cxx_penalty.objective_from_active_set(theta, residuals, active_set)
+            return self.cxx_penalty.objective_from_active_set(
+                theta, residuals, active_set
+            )
         else:
-            raise ValueError(f"When provided, expected `active_set`, to be a either a 2 by M numpy array "
-                             f"or a list of coordinates, but got {active_set}")
+            raise ValueError(
+                f"When provided, expected `active_set`, to be a either a 2 by M numpy array "
+                f"or a list of coordinates, but got {active_set}"
+            )
 
     def cost(
         self,
-            theta: Union[np.ndarray, float],
-            active_set: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
+        theta: Union[np.ndarray, float],
+        active_set: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
     ) -> Union[np.ndarray, float]:
         """Calculate the regularization/penalty cost of `theta`
 

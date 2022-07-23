@@ -25,8 +25,8 @@ fitmodel fit(const arma::mat &Y, const arma::mat &theta_init, const P &penalty,
              const size_t max_active_set_size, const size_t max_iter,
              const size_t seed, const size_t max_swaps,
              const bool shuffle_feature_order) {
-
-  const Oracle<decltype(unwrapped(penalty)), B> oracle = Oracle<decltype(unwrapped(penalty)), B>(unwrapped(penalty), bounds);
+  const Oracle<decltype(unwrapped(penalty)), B> oracle =
+      Oracle<decltype(unwrapped(penalty)), B>(unwrapped(penalty), bounds);
 
   return gL0LearnFit(Y, theta_init, oracle, algorithm, initial_active_set,
                      super_active_set, tol, max_active_set_size, max_iter, seed,
@@ -59,10 +59,11 @@ template fitmodel fit<WrappedPenalty<PenaltyL0L2<double>>, NoBounds>(
 
 template fitmodel fit<WrappedPenalty<PenaltyL0L1L2<double>>, NoBounds>(
     const arma::mat &Y, const arma::mat &theta_init,
-    const WrappedPenalty<PenaltyL0L1L2<double>> &penalty, const NoBounds &bounds,
-    const std::string &algorithm, const arma::umat &initial_active_set,
-    const arma::umat &super_active_set, const double tol,
-    const size_t max_active_set_size, const size_t max_iter, const size_t seed,
-    const size_t max_swaps, const bool shuffle_feature_order);
+    const WrappedPenalty<PenaltyL0L1L2<double>> &penalty,
+    const NoBounds &bounds, const std::string &algorithm,
+    const arma::umat &initial_active_set, const arma::umat &super_active_set,
+    const double tol, const size_t max_active_set_size, const size_t max_iter,
+    const size_t seed, const size_t max_swaps,
+    const bool shuffle_feature_order);
 
 #endif  // PY_FIT_H_
