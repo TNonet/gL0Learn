@@ -13,4 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
+    - name: Install CXX tools
+      run: brew install llvm uncrustify cppcheck include-what-you-use
     - uses: pre-commit/action@v3.0.0
