@@ -1,0 +1,147 @@
+
+
+# Setting up R packages required for testing
+```{r}
+install.packages("devtools")
+library(devtools)
+install.packages("clime")
+install.packages("GGMncv")
+install.packages("glasso")
+# `bfe9cb15` is master as of Sep 2022
+install_github("TNonet/gL0Learn", ref='bfe9cb15', subdir='rpkg')
+install.packages("pracma")
+install.packages("reticulate")
+```
+
+```{r}
+library("pracma")
+library('glasso')
+library("gL0Learn")
+library("GGMncv")
+library('clime')
+library('reticulate')
+l0bnb2 <- import("l0bnb2")
+test_utils <- import("test_util")
+```
+
+```{r}
+
+validation_loss <- function(theta, p, x, n, method="pseudolikelihood"){
+    theta_sym <- (theta + t(theta))/2
+    if (method == "pseudolikelihood"){
+        theta_sym_diag <- sqrt(diag(theta_sym))
+        R <- (x%*%theta_sym)/theta_sym_diag
+        return(norm(R, "F")^2 - sum(log(diag(theta_sym))))
+    } else if (method =="likelihood"){
+        S <- t(x)%*%x
+        return(trace(S%*%theta_sym) - log(det(theta_sym)))
+    } else {
+        stop("Wrong method for validation_loss")
+    }
+    
+}
+
+```
+
+# Test glasso
+```{r}
+
+model <- "rothman"
+rng <- as.integer(2)
+normalize <- "covariance"
+n <- as.integer(60)
+n_gen <- as.integer(3*n)
+p <- as.integer(150)
+s = 5
+ggmncv_noise_ratio <- 0.1
+
+lambdas <- logspace(log10(1e-4), log10(1000), n=100)
+synthetic_data <- l0bnb2$generate_synthetic(n=n_gen,
+                                            p=p,
+                                            model=model,
+                                            normalize=normalize, 
+                                            rng=rng, 
+                                            p0=s/p, 
+                                            cond=p/20)
+x_full <- synthetic_data[[1]]
+sigma_truth <- synthetic_data[[2]]
+theta_truth <- synthetic_data[[3]]
+noise <- matrix(rnorm(p*p), p, p)
+x_train <- x_full[0:n,]
+x_val <- x_full[n:(2*n),]
+x_test <- x_full[(2*n):(3*n),]
+s <- t(x_train)%*%x_train
+
+
+```
+
+```{r}
+glasso_fit <- glassopath(s, rholist = lambdas)
+```
+
+
+```{r}
+glasso_cv_fit <- apply(glasso_fit$wi, 3, function(wi)(validation_loss(wi, p, x_val, n)))
+plot(log(glasso_cv_fit))
+
+```
+
+```{r}
+if (n<p){
+    s_ggmncv = s + ggmncv_noise_ratio*noise/norm(noise)*norm(s)
+} else {
+    s_ggmncv = s
+}
+
+# NOTE!!!! `ggmncv_noise_ratio` is set much higher than normal for denbugging
+
+
+ggmncv(R=s_ggmncv, n=1, penalty="scad", lambda=lambdas)
+
+```
+
+```{r}
+
+clime_x_train = sqrt(n)*x_train
+clime_fit <- clime(clime_x_train, lambdas)
+
+
+```
+
+
+```{r}
+l0=0.008*250
+l2 = 1*.8
+preprocess2_temp_results <- l0bnb2$preprocess2(x_train, x_val, x_test, assume_centered = FALSE)
+y_train <- preprocess2_temp_results[[3]]
+y_val <- preprocess2_temp_results[[4]]
+y_test <- preprocess2_temp_results[[5]]
+
+heuristic_solve_temp_result <- l0bnb2$heuristic_solve(y_train, l0, l2, 2,
+                                                    solver="L0L2_ASCDPSI",
+                                                    support_type="all",
+                                                    Theta=NULL,
+                                                    z=NULL,
+                                                    S_diag=NULL,
+                                                    rel_tol=1e-6,
+                                                    cd_max_itr=100,
+                                                    verbose=FALSE,
+                                                    kkt_max_itr=100,
+                                                    cd_tol=1e-4)
+
+theta_opt <- heuristic_solve_temp_result[[1]]
+
+# Seems that `BNBTree` is not exported in `l0bnb2` on 012a4ffaed8
+
+# tree = l0bnb2$BNBTree(X_train, cholesky=TRUE)
+# sol = tree$solve(l0, l2, M,
+#                  warm_start=theta_opt,
+#                  upper_surport="rounding",
+#                  verbose=TRUE,
+#                  gap_tol=3e-2,
+#                  time_limit=10)
+# theta_rec = sol$Theta
+# gap = sol$gap
+# timee = sol$sol_time
+
+```
