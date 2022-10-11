@@ -38,7 +38,57 @@ validation_loss <- function(theta, p, x, n, method="pseudolikelihood"){
     } else {
         stop("Wrong method for validation_loss")
     }
+}
+
+solution_summary <- function(n, p, theta_star, theta_hat, y_val, method){
+    estimation_error <- norm(theta_star - theta_hat)/norm(theta_star)
+    check_support_tmp <- test_utils$check_support(theta_star, theta_hat, p)
+    fp <- check_support_tmp[[1]]
+    fn <- check_support_tmp[[2]]
+    nnz_hat <- check_support_tmp[[3]]
+    nnz_true <- check_support_tmp[[4]]
+    mcc <- check_support_tmp[[5]]
+    test_error <- validation_loss(theta=theta_hat, p=p, x=y_val, n=n, method=method)
     
+    return(list(estimation_error=estimation_error,
+                fp=fp,
+                fn=fn,
+                nnz_hat=nnz_hat,
+                nnz_true=nnz_true,
+                mcc=mcc,
+                test_error=test_error))
+}
+
+run_l0lbnb2 <- function(n, p, y_train, theta_star, y_val, l0, l2, method){
+    heuristic_solve_temp_result <- l0bnb2$heuristic_solve(y_train, l0, l2, 2,
+                                                    solver="L0L2_ASCDPSI",
+                                                    support_type="all",
+                                                    Theta=NULL,
+                                                    z=NULL,
+                                                    S_diag=NULL,
+                                                    rel_tol=1e-6,
+                                                    cd_max_itr=100,
+                                                    verbose=FALSE,
+                                                    kkt_max_itr=100,
+                                                    cd_tol=1e-4)
+    # Seems that `BNBTree` is not exported in `l0bnb2` on 012a4ffaed8
+
+    # tree = l0bnb2$BNBTree(X_train, cholesky=TRUE)
+    # sol = tree$solve(l0, l2, M,
+    #                  warm_start=theta_opt,
+    #                  upper_surport="rounding",
+    #                  verbose=TRUE,
+    #                  gap_tol=3e-2,
+    #                  time_limit=10)
+    # theta_rec = sol$Theta
+    # gap = sol$gap
+    # time = sol$sol_time
+    return(solution_summary(n=n,
+                            p=p,
+                            theta_star=theta_star,
+                            theta_hat=heuristic_solve_temp_result[[1]],
+                            y_val=y_val,
+                            method=method))
 }
 
 ```
@@ -49,30 +99,62 @@ validation_loss <- function(theta, p, x, n, method="pseudolikelihood"){
 model <- "rothman"
 rng <- as.integer(2)
 normalize <- "covariance"
-n <- as.integer(60)
-n_gen <- as.integer(3*n)
-p <- as.integer(150)
-s = 5
+N <- as.integer(60)
+N_gen <- as.integer(3*N)
+P <- as.integer(150)
+M <- as.integer(2)
+s <- 5
 ggmncv_noise_ratio <- 0.1
+method <- 'pseudolikelihood'
 
 lambdas <- logspace(log10(1e-4), log10(1000), n=100)
-synthetic_data <- l0bnb2$generate_synthetic(n=n_gen,
-                                            p=p,
+synthetic_data <- l0bnb2$generate_synthetic(n=N_gen,
+                                            p=P,
                                             model=model,
                                             normalize=normalize, 
                                             rng=rng, 
-                                            p0=s/p, 
-                                            cond=p/20)
+                                            p0=s/P, 
+                                            cond=P/20)
 x_full <- synthetic_data[[1]]
 sigma_truth <- synthetic_data[[2]]
 theta_truth <- synthetic_data[[3]]
-noise <- matrix(rnorm(p*p), p, p)
-x_train <- x_full[0:n,]
-x_val <- x_full[n:(2*n),]
-x_test <- x_full[(2*n):(3*n),]
+noise <- matrix(rnorm(P*P), P, P)
+x_train <- x_full[1:N,]
+x_val <- x_full[(N+1):(2*N),]
+x_test <- x_full[((2*N)+1):(3*N),]
 s <- t(x_train)%*%x_train
+```
 
+```{r}
+l0=0.008*250
+l2 = 1*.8
+preprocess2_temp_results <- l0bnb2$preprocess2(x_train, x_val, x_test, assume_centered = FALSE)
+y_train <- preprocess2_temp_results[[3]]
+y_val <- preprocess2_temp_results[[4]]
+y_test <- preprocess2_temp_results[[5]]
 
+validate_lambda_l0l2_temp <- test_utils$validate_lambda_l0l2(y_train,
+                                                             y_val,
+                                                             N,
+                                                             N,
+                                                             P,
+                                                             as.integer(45),
+                                                             M,
+                                                             l0,
+                                                             l2,
+                                                             as.integer(100),
+                                                             method)
+
+l0_validated <- validate_lambda_l0l2_temp[[2]]
+l2_validated <- validate_lambda_l0l2_temp[[3]]
+run_l0lbnb2(n=N,
+            p=P,
+            y_train=y_train,
+            theta_star=theta_truth,
+            y_val=y_val,
+            l0=l0_validated,
+            l2=l2_validated,
+            method=method)
 ```
 
 ```{r}
