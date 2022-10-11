@@ -2,11 +2,13 @@
 #'
 #' @title Generate a regression data set for gL0Learn
 #'
-#' @description Computes the ...
+#' @description Computes the the theta matrix, sigma matrix, and sampled X 
+#' matrix for an regression based graphical data set.
+#' [TODO]: Add generation logic
 #' @param n See `gL0Learn.generate_synthetic` for details
 #' @param p See `gL0Learn.generate_synthetic` for details
-#' @param k [TODO: Add documentation]
-#' @param val [TODO: Add documentation]
+#' @param k The number of non-zero values in the underlying basis vector
+#' @param val The value of the non-zero values in the underlying basis vector
 #' @param normalize See `gL0Learn.generate_synthetic` for details
 #' @param seed See `gL0Learn.generate_synthetic` for details
 #' @export

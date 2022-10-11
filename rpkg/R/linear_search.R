@@ -12,8 +12,8 @@
 #' same time
 #' @param highs upper bound for x. Can be 0 but `lows` must not be 0 at the same time
 #' @param atol Step size between each successive point in linspace
-#' @param return_all boolean flag wheter or not to return L(x, theta) for each
-#' value in linspace or just the arg min.
+#' @param return_all boolean flag whether or not to return L(x, theta) for each
+#' value in the linspace or just the arg min.
 #' @export
 gL0Learn.linear_search <- function(theta_opt, # nolint
                                    l0 = 0,
@@ -45,8 +45,8 @@ gL0Learn.linear_search <- function(theta_opt, # nolint
 #' @importFrom pracma linspace
 #' @importFrom ggplot2 geom_line aes
 #' @title Linear Plot of gL0Learn regularized loss.
-#' @description Plots value of L(theta_opt, x) over a linspace from `lows` to
-#' `highs` to display shape of L for:
+#' @description Plots value of L(theta_opt, x) over a the linspace from `lows` 
+#' to `highs` to display shape of L for:
 #'  L(theta_opt, x) = (|theta_opt - x|)**2 + l0|x|_0 + l1|x|_1 + + l2|x|_2
 #' @param theta_opt See `gL0Learn.linear_search`
 #' @param l0 See `gL0Learn.linear_search`
