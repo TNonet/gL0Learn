@@ -6,6 +6,8 @@ SET(USE_CARMA_VERSION "v0.6.7")
 
 SET(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
+SET(MODNAME _gL0Learn)
+
 
 # -- EXTERNAL
 INCLUDE(GNUInstallDirs)
@@ -69,15 +71,15 @@ ENDIF ()
 ADD_SUBDIRECTORY(extern/carma)
 
 
-pybind11_add_module(_hello MODULE
+pybind11_add_module(${MODNAME} MODULE
     src/hello/hello_py.cpp
 )
 
-TARGET_LINK_LIBRARIES(_hello PRIVATE carma::carma)
-TARGET_LINK_LIBRARIES(_hello PRIVATE armadillo)
+TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
+TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
 
 
-INSTALL(TARGETS _hello DESTINATION .)
+INSTALL(TARGETS ${MODNAME} DESTINATION .)
 
 
 

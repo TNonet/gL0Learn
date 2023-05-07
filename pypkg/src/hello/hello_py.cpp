@@ -26,8 +26,8 @@ class MatrixHolder {
   arma::Mat<double> A;
 };
 
-PYBIND11_MODULE(_hello, m) {
-    m.doc() = "_hello";
+PYBIND11_MODULE(_gL0Learn, m) {
+    m.doc() = "_gL0Learn";
     m.def("hello", &hello, "Prints \"Hello, World!\"");
     m.def("return_two", &return_two, "Returns 2");
 
