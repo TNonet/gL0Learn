@@ -24,8 +24,8 @@ def fit(
     algorithm: str = "CD",
     max_active_set_ratio: float = 0.1,
     tol: float = 1e-6,
-    active_set: Union[Union[npt.ArrayLike, float]] = 0.7,
-    super_active_set: Union[Union[npt.ArrayLike, float]] = 0.5,
+    active_set: Union[npt.ArrayLike, float] = 0.7,
+    super_active_set: Union[npt.ArrayLike, float] = 0.5,
     scale_x: bool = True,
     check: bool = True,
     seed: int = 0,
@@ -35,29 +35,102 @@ def fit(
 
     Parameters
     ----------
-    x
-    theta_init
-    l0
-    l1
-    l2
-    lows
-    highs
-    max_iter
-    algorithm
-    max_active_set_ratio
-    atol
-    rtol
-    active_set:
-        Highly corlelated components of X
-        Coordinates of |YtY/S_diag| >= initial_active_set
-
-    super_active_set
-    swap_iters
-    scale_x
-    check
-
+    x: array like of shape (n, p)
+         The data matrix of shape (n, p) where each row x[i, ] is believed to be drawn from N(0, theta)
+    theta_init: array like of shape (p, p), optional
+        The initial guess of theta. Default is the identity matrix.
+        If provided, must be a symmetric matrix of shape (p, p) such that all non-zero upper triangle values of
+        `theta_init` are included in `active_set`.
+        Recommended that `check` be keep as `True` when providing `theta_init`
+    l0: positive float or array like of shape (p, p), optional
+        The L0 regularization penalty.
+        If provided, must be one of:
+            1. Positive scalar. Applies the same L0 regularization to each coordinate of `theta`
+            2. Symmetric Matrix with only positive values of shape (p, p). Applies L0 regularization coordinate
+                by coordinate to `theta`
+        If not provided, L0 penalty is set to 0
+    l1: positive float or array like of shape (p, p), optional
+        The L1 regularization penalty.
+        If provided, must be one of:
+            1. Positive scalar. Applies the same L1 regularization to each coordinate of `theta`
+            2. Symmetric Matrix with only positive values of shape (p, p). Applies L1 regularization coordinate
+                by coordinate to `theta`
+        If not provided, L1 penalty is set to 0
+    l2: positive float or array like of shape (p, p), optional
+        The L2 regularization penalty.
+        If provided, must be one of:
+            1. Positive scalar. Applies the same L2 regularization to each coordinate of `theta`
+            2. Symmetric Matrix with only positive values of shape (p, p). Applies L2 regularization coordinate
+                by coordinate to `theta`
+        If not provided, L2 penalty is set to 0
+    lows: float or array of floats with shape (P, P), optional
+        If not provided, `lows` will be interpreted as boundless and the optimized values of theta will
+            have no lower bounds.
+        If provided as a float, the value must be non-positive. This will ensure that every value of
+            theta will respect: theta[i , j] >= lows for i, j in 0 to p-1
+        If provided as an `p` by `p` array of non-positive floats. This will ensure that every value of
+            theta will respect: theta[i , j] >= lows[i, j] for i, j in 0 to p-1
+        The same as `highs` but provides a lower bound for the optimized value of theta.
+    highs: float or array of floats with shape (P, P), optional
+        If not provided, `highs` will be interpreted as boundless and the optimized values of theta will
+            have no upper bounds.
+        If provided as a float, the value must be non-negative. This will ensure that every value of
+            theta will respect: theta[i , j] <= highs for i, j in 0 to p-1
+        If provided as an `p` by `p` array of non-negative floats. This will ensure that every value of
+            theta will respect: theta[i , j] <= highs[i, j] for i, j in 0 to p-1
+        The same as `lows` but provides an upper bound for the optimized value of theta.
+    max_iter: int, optional
+        The maximum number of iterations the algorithm can take before exiting.
+        May exit before this number of iterations if convergence is found.
+    max_swaps: int, optional
+        The maximum number of swaps the "CDPSI" algorithm will perform per iteration.
+        Ignored, if `algorithm` is `CD`
+    algorithm: str, optional
+        The type of algorithm used to minimize the objective function.
+        Must be one of:
+            1. "CD" A variant of cyclic coordinate descent and runs very fast.
+            2. "CDPSI" performs local combinatorial search on top of CD and typically
+                achieves higher quality solutions (at the expense of increased running time).
+    max_active_set_ratio: float, optional
+        The maximum number of non-zero values in `theta` expressed in terms of percentage of p**2
+    tol: float, optional
+        The tolerance for determining convergence. Graphical Models have non standard convergence criteria.
+        See [TODO: Convergence Documentation] for more details.
+    active_set: float or integer matrix of shape (m, 2), optional
+        The set of coordinates that the local optimization algorithm quickly iterates
+        as potential support values of theta.
+        Can be one of:
+            1. a scalar value, t, will be used to find the values of x'x that have
+               an absolute value larger than t. The coordinates of these values are the
+               initial active_set.
+           2. Integer Matrix of shape (m, 2) encoding for the coordinates of the active_set.
+              Row k (active_set[k, :]), corresponds to the coordinate in theta,
+                (i.e theta[active_set[k, 1], active_set[k, 2]]) that is in the active_set.
+              *NOTE* All rows of active_set must encode for valid upper triangle coordinates of theta
+                    (i.e. all(x>0) and all(x<p+1)).
+            *NOTE* The rows of active_set must be lexicographically sorted such that
+                active_set[k] < active_set[j] -> k < j.
+    super_active_set: float or integer matrix of shape (m, 2), optional
+        The set of coordinates that the global optimization algorithm can swap in and out of `active_set`.
+        See `active_set` parameter for valid values. When evaluated, all items in `active_set` must be contained
+        in `super_active_set`. This can easily be obtained by setting `active_set` and `super_active_set` to be floats
+        where `active_set` >= `super_active_set`
+    scale_x: bool, optional
+         A boolean flag whether x needs to be scaled by 1/sqrt(n).
+         If scale_x is false (i.e the matrix is already scaled), the solver will not save a local copy of x and thus
+         reduce memory usage.
+    check: bool, optional
+        If set, checks all values for appropriate dimensions and values.
+        Only use this is speed is required and you know what you are doing.
+    seed: int, optional
+        The seed value used to set randomness.
+        The same input values with the same seed run on the same version of `gL0learn` will always result
+            in the same value
+    shuffle: bool, optional
+        A boolean flag whether or not to shuffle the iteration order of `active_set` when optimizing.
     Returns
     -------
+    fitmodel: FitModel
 
     """
 
@@ -134,11 +207,6 @@ def fit(
     active_set = check_make_valid_coordinate_matrix(
         active_set, y, "initial_active_set", check=check
     )
-
-    # if algorithm == "CDPSI":
-    #     super_active_set = check_make_valid_coordinate_matrix(super_active_set, y, 'super_active_set', check=check)
-    # else:
-    #     super_active_set = np.empty(shape=(0, 0), dtype='int', order='F')
 
     super_active_set = check_make_valid_coordinate_matrix(
         super_active_set, y, "super_active_set", check=check

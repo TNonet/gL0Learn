@@ -2,10 +2,12 @@
 #'
 #' @title Generate a constantly correlated data set for gL0Learn
 #'
-#' @description Computes the ...
+#' @description Computes the the theta matrix, sigma matrix, and sampled X 
+#' matrix for an constantly correlated graphical data set.
 #' @param n See `gL0Learn.generate_synthetic` for details
 #' @param p See `gL0Learn.generate_synthetic` for details
-#' @param rho [TODO: Add documentation]
+#' @param rho The correlation between dimensions of multivariate normal samples.
+#' Let u ~ N(0, theta). Then cor(u[i], u[j]) = `rho` for all u != j.
 #' @param normalize See `gL0Learn.generate_synthetic` for details
 #' @param seed See `gL0Learn.generate_synthetic` for details
 #' @export
