@@ -2,7 +2,7 @@ from typing import TypeVar, Union, Optional
 
 import numpy as np
 import numpy.typing as npt
-from .gl0learn import _NoBounds, _Bounds_double, _Bounds_mat
+from ._gl0learn import _NoBounds, _Bounds_double, _Bounds_mat
 from .utils import ensure_well_behaved, ClosedInterval
 
 FLOAT_TYPE = TypeVar("FLOAT_TYPE", bound=npt.NBitBase)

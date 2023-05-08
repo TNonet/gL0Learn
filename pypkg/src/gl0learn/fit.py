@@ -3,7 +3,7 @@ from typing import Optional, Union
 import numpy as np
 import numpy.typing as npt
 
-from .gl0learn import _fit, check_is_coordinate_subset
+from ._gl0learn import _fit, check_is_coordinate_subset
 from .penalty import Penalty
 from .bounds import Bounds
 from .fitmodel import FitModel

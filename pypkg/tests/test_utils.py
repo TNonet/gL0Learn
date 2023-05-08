@@ -1,4 +1,4 @@
-from gl0learn.gl0learn import (
+from gl0learn._gl0learn import (
     check_is_coordinate_subset,
 )
 from hypothesis import given

@@ -284,3 +284,4 @@ _deps
 pypkg/cmake-build-debug/
 
 pypkg/_skbuild/
+pypkg/extern/

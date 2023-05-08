@@ -6,7 +6,7 @@ from typing import Optional, Union
 import numpy as np
 from numpy import typing as npt
 
-from .gl0learn import (
+from ._gl0learn import (
     union_of_correlated_features2,
     upper_triangular_coords,
     check_coordinate_matrix,

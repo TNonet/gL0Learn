@@ -13,12 +13,11 @@ except ImportError:
     )
     raise
 
-from setuptools import find_packages
 import io
 import re
 from os.path import dirname
 from os.path import join
-from distutils.sysconfig import get_python_inc, get_config_var
+
 
 PACKAGE_NAME = "gl0learn"
 
@@ -40,7 +39,7 @@ def read(*names, **kwargs):
         return fh.read()
 
 
-def write_version_py(filename: str = f"{PACKAGE_NAME}/version.py") -> None:
+def write_version_py(filename: str = f"src/{PACKAGE_NAME}/version.py") -> None:
     """Write package version to version.py.
     This will ensure that the version in version.py is in sync with us.
     Parameters
@@ -66,13 +65,15 @@ release = {is_release!s}
             )
         )
 
-
 if __name__ == "__main__":
     write_version_py()
 
     setup(
-        name=PACKAGE_NAME,
+        name="gl0learn",
         version=FULL_VERSION,
+        packages=["gl0learn"],
+        package_dir={"": "src"},
+        cmake_install_dir="src/gl0learn",
         long_description_content_type="text/x-rst",
         long_description="%s\n%s"
         % (
@@ -81,13 +82,4 @@ if __name__ == "__main__":
             ),
             re.sub(":[a-z]+:`~?(.*?)`", r"``\1``", read("CHANGELOG.rst")),
         ),
-        packages=find_packages(),
-        setup_requires=["setuptools", "wheel", "scikit-build", "cmake", "ninja"],
-        cmake_install_dir="gl0learn",
-        cmake_args=[
-            f"-DGL0LEARN_VERSION_INFO:STRING={VERSION}",
-            f"-DPython3_EXECUTABLE:STRING={sys.executable}",
-            f"-DPYTHON3_INCLUDE_DIR:STRING={get_python_inc()}",
-            f"-DPYTHON3_LIBRARY:STRING={get_config_var('LIBDIR')}",
-        ],
     )
