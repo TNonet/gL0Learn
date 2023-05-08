@@ -6,8 +6,7 @@ SET(USE_CARMA_VERSION "v0.6.7")
 
 SET(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
-SET(MODNAME _gL0Learn)
-
+SET(MODNAME _gl0learn)
 
 # -- EXTERNAL
 INCLUDE(GNUInstallDirs)
@@ -71,8 +70,15 @@ ENDIF ()
 ADD_SUBDIRECTORY(extern/carma)
 
 
+INCLUDE_DIRECTORIES(src/gl0learn/src)
+INCLUDE_DIRECTORIES(src/gl0learn/src/include)
+INCLUDE_DIRECTORIES(src/gl0learn/src/src/include)
+
 pybind11_add_module(${MODNAME} MODULE
-    src/hello/hello_py.cpp
+    src/gl0learn/src/pygl0learn.cpp
+    src/gl0learn/src/pyoracle.cpp
+    src/gl0learn/src/pyfitmodel.cpp
+    src/gl0learn/src/pyfit.cpp
 )
 
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)

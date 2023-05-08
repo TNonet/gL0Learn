@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdexcept>
 
-
 #include <pybind11/pybind11.h>
 #include <carma>
 #include <armadillo>
@@ -26,8 +25,8 @@ class MatrixHolder {
   arma::Mat<double> A;
 };
 
-PYBIND11_MODULE(_gL0Learn, m) {
-    m.doc() = "_gL0Learn";
+PYBIND11_MODULE(_gl0learn, m) {
+    m.doc() = "_gl0learn";
     m.def("hello", &hello, "Prints \"Hello, World!\"");
     m.def("return_two", &return_two, "Returns 2");
 

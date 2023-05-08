@@ -1,0 +1,20 @@
+
+
+Ensure:
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
+clang-tidy -format-style=file -header-filter=src/gl0learn/src/include/ -p build/temp.macosx-10.9-x86_64-3.9/ -extra-arg=-std=c++14 src/gl0learn/src/*.cpp
+
+
+For
+```bash
+The output was:
+1
+ld: library not found for -lSystem
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+```
+
+Use:
+https://stackoverflow.com/questions/56156520/gfortran-error-ld-library-not-found-for-lsystem-when-trying-to-compile
+export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib"
