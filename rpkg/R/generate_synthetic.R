@@ -10,18 +10,18 @@
 #' @param model The method for generating datasets.
 #' Currently supported models are:
 #'     1. "KR1": A synthetic Toeplitz correlated data set for gL0Learn
-#'        Must provide additional parameter `rho` through `...`
-#'        See `gL0Learn.generate_synthetic` for details
+#'        Must provide additional parameter `rho`. 
+#'        See `gL0Learn.generate_teoplitz` for details
 #'     2. "independent": An independent correlated data set for gL0Learn
 #'        No additional parameters are needed
 #'     3. "constant": A constantly correlated data set for gL0Learn
-#'        Must provide additional parameter `rho` through `...`
+#'        Must provide additional parameter `rho`.
 #'        See `gL0Learn.generate_constant` for details
 #'     4. "banded": A partial banded correlated data set for gL0Learn
-#'        Must provide additional parameter `rho` through `...`
+#'        Must provide additional parameter `rho`.
 #'        See `gL0Learn.generate_banded` for details
 #'     5. "regression": A regression data set for gL0Learn
-#'        Must provide additional parameters `rho` and `val` through `...`
+#'        Must provide additional parameters `rho` and `val`.
 #'        See `gL0Learn.generate_regression` for details
 #' @param normalize The method for normalizing data
 #' Currently supported normalizaiton methods are:
@@ -29,7 +29,8 @@
 #'     2. "precision": [TODO: Add definition]
 #' @param seed Seed provided to random number generation for dataset
 #' @param ... Additional parameters needing to be passed to sub
-#' `gL0Learn.generate_*` functions
+#' `gL0Learn.generate_*` functions. See `model` parameter documentation for 
+#' which parameters are required for which models.
 #' @export
 gL0Learn.generate_synthetic <- function(n, p, model, normalize, seed = 1, ...) {
   if (!(normalize %in% list("precision", "covariance"))) {
