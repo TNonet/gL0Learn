@@ -11,7 +11,7 @@ arma::umat upper_triangular_coords(const arma::uword p) {
   return coordinate_matrix_from_vector(upper_triangle_coordinate_vector(p));
 }
 
-PYBIND11_MODULE(gl0learn, m) {
+PYBIND11_MODULE(_gl0learn, m) {
   m.def("union_of_correlated_features2", &union_of_correlated_features2,
         R"pbdoc(
           Example function performing OLS.

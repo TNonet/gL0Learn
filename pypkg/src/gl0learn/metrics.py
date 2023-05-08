@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 import numpy.typing as npt
 from .penalty import Penalty
-from .gl0learn import residual_cost
+from ._gl0learn import residual_cost
 
 
 def pseudo_likelihood_loss(
