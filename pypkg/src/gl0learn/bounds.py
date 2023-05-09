@@ -16,8 +16,8 @@ class Bounds:
     """
     def __init__(
         self,
-        lows: Union[float, npt.NDArray[FLOAT_TYPE]] = -float('inf'),
-        highs: Union[float, npt.NDArray[FLOAT_TYPE]] = +float('inf'),
+        lows: Optional[Union[float, npt.NDArray[FLOAT_TYPE]]] = None,
+        highs: Optional[Union[float, npt.NDArray[FLOAT_TYPE]]] = None,
         validate: bool = True,
     ):
         """
@@ -49,10 +49,10 @@ class Bounds:
             If performance is important and the bounds source is trusted, this can be set to False.
         """
 
-        if lows == -float("inf") and highs == float("inf"):
+        if lows is None and highs is None:
             self.cxx_bounds = _NoBounds()
             return
-        elif lows != -float("inf") and highs != float("inf"):
+        elif lows is not None and highs is not None:
             lows = np.asarray(lows)
             highs = np.asarray(highs)
             bounds_shape = np.broadcast_shapes(lows.shape, highs.shape)
@@ -73,7 +73,7 @@ class Bounds:
             else:
                 highs = ensure_well_behaved(highs, name="highs")
 
-        elif lows == -float("inf"):
+        elif lows is None:
             lows = np.inf * np.ones_like(highs, order="F", dtype="float")
         else:
             highs = np.inf * np.ones_like(lows, order="F", dtype="float")
