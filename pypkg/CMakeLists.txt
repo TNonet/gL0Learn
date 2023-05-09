@@ -86,6 +86,14 @@ pybind11_add_module(${MODNAME} MODULE
     src/gl0learn/src/pyfit.cpp
 )
 
+# Add -fPIC for Armadillo (and OpenBLAS if compiled)
+if(NOT MSVC)
+    # clang on Windows does not support -fPIC
+    if(NOT WIN32)
+        target_compile_options(armadillo PRIVATE -fPIC)
+    endif()
+endif()
+
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
 
