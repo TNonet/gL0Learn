@@ -124,6 +124,11 @@ arma::umat inline unravel_ut_indices(const arma::uvec &transposed_indices,
   return coords;
 }
 
+template<class T>
+void print_armadillo(T x) {
+    x.print(COUT);
+}
+
 bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
                                        const arma::umat &smaller_coord_set) {
   /*
@@ -135,9 +140,13 @@ bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
    *   `coordinate_matrix_from_vector`
    */
 
+  COUT << "smaller_coord_set\n";
+  print_armadillo(smaller_coord_set);
   if (smaller_coord_set.is_empty()) {
     return true;
   }
+  COUT << "larger_coord_set\n";
+  print_armadillo(larger_coord_set);
   if (larger_coord_set.is_empty()) {
     STOP("expect larger coordinate set to be non-empty.");
   }
@@ -146,10 +155,21 @@ bool inline check_is_coordinate_subset(const arma::umat &larger_coord_set,
       std::max(larger_coord_set.col(1).max(), smaller_coord_set.col(1).max()) +
       1;
 
+  COUT << "max_col\n";
+  COUT << max_col;
+  COUT << "\n";
+
   const arma::uvec larger_indices =
       larger_coord_set.col(0) * max_col + larger_coord_set.col(1);
+
+  COUT << "larger_indices\n";
+  print_armadillo(larger_indices);
+
   const arma::uvec smaller_indices =
       smaller_coord_set.col(0) * max_col + smaller_coord_set.col(1);
+
+  COUT << "smaller_indices\n";
+  print_armadillo(smaller_indices);
 
   return std::includes(larger_indices.begin(), larger_indices.end(),
                        smaller_indices.begin(), smaller_indices.end());
