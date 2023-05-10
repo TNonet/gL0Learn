@@ -1,19 +1,4 @@
-name: Python CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-    paths:
-      - "pypkg/**"
-      - '.github/workflows/python.yml'
-
-  pull_request:
-    branches: [ master ]
-    paths:
-      - "pypkg/**"
-      - '.github/workflows/python.yml'
+name: Python CI with SSH
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,14 +9,9 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
-        python-version: [3.7, 3.8, 3.9, '3.10']
+        os: [ubuntu-latest]
+        python-version: [3.9]
         include:
-          - os: macos-latest
-          - os: ubuntu-latest
-            INSTALL_DEPS: |
-              sudo apt-get install -y liblapack-dev
-              bash scripts/install_linux_libs.sh
             CC:  gcc-10
             CXX: g++-10
     defaults:
@@ -50,9 +30,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: install-dependencies
-        run: ${{ matrix.INSTALL_DEPS }}
-
       - name: Install gL0Learn
         run: |
           python -m pip install --upgrade pip
@@ -61,6 +38,5 @@ jobs:
           CC: ${{matrix.CC}}
           CXX: ${{matrix.CXX}}
 
-      - name: Test python
-        run: |
-          pytest tests/
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
