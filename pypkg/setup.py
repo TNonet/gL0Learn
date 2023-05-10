@@ -74,6 +74,9 @@ if __name__ == "__main__":
         packages=["gl0learn"],
         package_dir={"": "src"},
         cmake_install_dir="src/gl0learn",
+        cmake_args=[
+            f"-DGL0LEARN_VERSION_INFO:STRING={VERSION}",
+        ],
         long_description_content_type="text/x-rst",
         long_description="%s\n%s"
         % (
