@@ -1,8 +1,24 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.16)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 SET(USE_PYBIND11_VERSION "v2.6.2")
 SET(USE_ARMA_VERSION 10.6.x)
 SET(USE_CARMA_VERSION "v0.6.7")
+
+IF (NOT DEFINED GL0LEARN_VERSION_INFO)
+    SET(GL0LEARN_VERSION_INFO "0.0.0")
+ENDIF ()
+
+PROJECT(
+        gl0learn
+        VERSION ${GL0LEARN_VERSION_INFO}
+        DESCRIPTION "Python bindings for gL0Learn CD and CDPSI optimization."
+        LANGUAGES CXX
+)
 
 SET(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
@@ -80,6 +96,14 @@ pybind11_add_module(${MODNAME} MODULE
     src/gl0learn/src/pyfitmodel.cpp
     src/gl0learn/src/pyfit.cpp
 )
+
+# Add -fPIC for Armadillo (and OpenBLAS if compiled)
+if(NOT MSVC)
+    # clang on Windows does not support -fPIC
+    if(NOT WIN32)
+        target_compile_options(armadillo PRIVATE -fPIC)
+    endif()
+endif()
 
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
