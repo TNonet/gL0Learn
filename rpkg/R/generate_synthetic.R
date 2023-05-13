@@ -10,7 +10,7 @@
 #' @param model The method for generating datasets.
 #' Currently supported models are:
 #'     1. "KR1": A synthetic Toeplitz correlated data set for gL0Learn
-#'        Must provide additional parameter `rho`. 
+#'        Must provide additional parameter `rho`.
 #'        See `gL0Learn.generate_teoplitz` for details
 #'     2. "independent": An independent correlated data set for gL0Learn
 #'        No additional parameters are needed
@@ -29,7 +29,7 @@
 #'     2. "precision": [TODO: Add definition]
 #' @param seed Seed provided to random number generation for dataset
 #' @param ... Additional parameters needing to be passed to sub
-#' `gL0Learn.generate_*` functions. See `model` parameter documentation for 
+#' `gL0Learn.generate_*` functions. See `model` parameter documentation for
 #' which parameters are required for which models.
 #' @export
 gL0Learn.generate_synthetic <- function(n, p, model, normalize, seed = 1, ...) {

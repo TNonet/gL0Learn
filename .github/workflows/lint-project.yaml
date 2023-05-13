@@ -11,6 +11,7 @@ name: lint-project
 jobs:
   lint-r-project:
     runs-on: ubuntu-latest
+    working-directory: ./rpkg
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -27,5 +28,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Lint root directory
-        run: Sys.setenv(NOT_CRAN = 'true'); lintr::expect_lint_free(path='rpkg/R/', linters = lintr::with_defaults(object_length_linter = NULL, object_name_linter=NULL, object_usage_linter=NULL), exclusions = c('rpkg/R/RcppExports.R', list.files('rpkg/tests', recursive=TRUE, full.names=TRUE)))
+        run: |
+          Sys.setenv(NOT_CRAN = 'true'); 
+          lintr::expect_lint_free()
         shell: Rscript {0}

@@ -2,7 +2,7 @@
 #'
 #' @title Generate a regression data set for gL0Learn
 #'
-#' @description Computes the the theta matrix, sigma matrix, and sampled X 
+#' @description Computes the the theta matrix, sigma matrix, and sampled X
 #' matrix for an regression based graphical data set.
 #' [TODO]: Add generation logic
 #' @param n See `gL0Learn.generate_synthetic` for details

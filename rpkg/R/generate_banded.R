@@ -2,12 +2,12 @@
 #'
 #' @title Generate a partial banded correlated data set for gL0Learn
 #'
-#' @description Computes the the theta matrix, sigma matrix, and sampled X 
+#' @description Computes the the theta matrix, sigma matrix, and sampled X
 #' matrix for a partially banded correlated graphical data set.
 #' @param n See `gL0Learn.generate_synthetic` for details
 #' @param p See `gL0Learn.generate_synthetic` for details
-#' @param rho The value of the super and sub diagonals of theta. These value 
-#' must be between -0.5 and 0.5 to keep the matrix diagonally dominate and 
+#' @param rho The value of the super and sub diagonals of theta. These value
+#' must be between -0.5 and 0.5 to keep the matrix diagonally dominate and
 #' thus invertible.
 #' @param normalize See `gL0Learn.generate_synthetic` for details
 #' @param seed See `gL0Learn.generate_synthetic` for details
