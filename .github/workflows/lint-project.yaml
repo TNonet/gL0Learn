@@ -21,7 +21,9 @@ jobs:
           use-public-rspm: true
 
       - name: Install lintr
-        run: install.packages("lintr")
+        run: |
+          install.packages("lintr")
+          install.packages("testthat")
         shell: Rscript {0}
 
       - name: Lint root directory
