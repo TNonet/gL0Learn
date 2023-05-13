@@ -9,7 +9,7 @@ name: pre-commit
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
