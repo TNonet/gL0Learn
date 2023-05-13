@@ -23,7 +23,7 @@ def size_and_subset(draw: st.DrawFn, max_columns: int = 10):
 @given(size_and_subset(max_columns=20))
 def test_check_is_coordinate_subset(x):
     n, subset_indices = x
-    full = ensure_well_behaved(np.asarray(np.triu_indices(n, k=1)).T)
+    full = ensure_well_behaved(np.asarray(np.triu_indices(n, k=1)).T, dtype=np.uint64)
 
     subset = full[subset_indices, :]
 
