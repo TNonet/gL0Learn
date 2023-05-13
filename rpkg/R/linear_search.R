@@ -45,7 +45,7 @@ gL0Learn.linear_search <- function(theta_opt, # nolint
 #' @importFrom pracma linspace
 #' @importFrom ggplot2 geom_line aes
 #' @title Linear Plot of gL0Learn regularized loss.
-#' @description Plots value of L(theta_opt, x) over a the linspace from `lows` 
+#' @description Plots value of L(theta_opt, x) over a the linspace from `lows`
 #' to `highs` to display shape of L for:
 #'  L(theta_opt, x) = (|theta_opt - x|)**2 + l0|x|_0 + l1|x|_1 + + l2|x|_2
 #' @param theta_opt See `gL0Learn.linear_search`

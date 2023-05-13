@@ -6,24 +6,29 @@ on:
   pull_request:
     branches: [main]
 
-name: lint-project
+name: lint-r-project
 
 jobs:
-  lint-project:
+  lint-r-project:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
       - name: Install lintr
-        run: install.packages("lintr")
+        run: |
+          install.packages("lintr")
+          install.packages("testthat")
         shell: Rscript {0}
 
       - name: Lint root directory
-        run: Sys.setenv(NOT_CRAN = 'true'); lintr::expect_lint_free(path='rpkg/R/', linters = lintr::with_defaults(object_length_linter = NULL, object_name_linter=NULL, object_usage_linter=NULL), exclusions = c('rpkg/R/RcppExports.R', list.files('rpkg/tests', recursive=TRUE, full.names=TRUE)))
+        run: |
+          Sys.setenv(NOT_CRAN = 'true'); 
+          lintr::expect_lint_free()
         shell: Rscript {0}
+        working-directory: ./rpkg

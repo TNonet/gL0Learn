@@ -33,22 +33,22 @@
 #' @param highs The maximum value that `theta` can take:
 #' Must be one of:
 #'     1. Non-negative scalar. Applies the same bound to each value of `theta`
-#'        This will ensure that every value of theta will respect: 
+#'        This will ensure that every value of theta will respect:
 #'            theta[i , j] <= highs for i, j in 0 to p-1
 #'     2. Symmetric Matrix with only non-negative values of shape (p, p).
 #'        Applies bounds coordinate by coordinate to `theta`.
-#'        This will ensure that every value of theta will respect: 
+#'        This will ensure that every value of theta will respect:
 #'            theta[i , j] <= highs[i, j] for i, j in 0 to p-1
 #'     **Note** Both `highs` and `lows` cannot limit a value of `theta` to 0
 #'     at the same time.
 #' @param lows The minimum value that `theta` can take:
 #' Must be one of:
 #'     1. Non-positive scalar. Applies the same bound to each value of `theta`
-#'        This will ensure that every value of theta will respect: 
+#'        This will ensure that every value of theta will respect:
 #'            theta[i , j] >= lows for i, j in 0 to p-1
 #'     2. Symmetric Matrix with only non-positive values of shape (p, p).
 #'        Applies bounds coordinate by coordinate to `theta`.
-#'        This will ensure that every value of theta will respect: 
+#'        This will ensure that every value of theta will respect:
 #'            theta[i , j] >= lows[i, j] for i, j in 0 to p-1
 #'     **Note** Both `highs` and `lows` cannot limit a value of `theta` to 0
 #'     at the same time.
