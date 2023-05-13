@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
-name: pre-commit
+name: pre-commit-actions
 
 jobs:
   pre-commit:
