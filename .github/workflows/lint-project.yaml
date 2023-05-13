@@ -6,12 +6,11 @@ on:
   pull_request:
     branches: [main]
 
-name: lint-project
+name: lint-r-project
 
 jobs:
   lint-r-project:
     runs-on: ubuntu-latest
-    working-directory: ./rpkg
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -32,3 +31,4 @@ jobs:
           Sys.setenv(NOT_CRAN = 'true'); 
           lintr::expect_lint_free()
         shell: Rscript {0}
+        working-directory: ./rpkg
