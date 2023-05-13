@@ -15,6 +15,6 @@ jobs:
     - uses: actions/setup-python@v3
     - name: Install CXX tools
       run: |
-        sudo apt-get install llvm uncrustify cppcheck include-what-you-use
+        sudo apt-get install llvm uncrustify cppcheck
         pip install cpplint
     - uses: pre-commit/action@v3.0.0
