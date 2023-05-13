@@ -165,7 +165,7 @@ def fit(
     # TODO: check theta_init
     if theta_init is None:
         theta_init = np.eye(p, order="F")
-        theta_init_support = np.empty(shape=(0, 0), dtype=np.uint32, order="F")
+        theta_init_support = np.empty(shape=(0, 0), dtype="int", order="F")
     else:
         if isinstance(theta_init, np.ndarray):
             theta_init = ensure_well_behaved(theta_init, name="theta_init")
@@ -177,7 +177,7 @@ def fit(
                 f"expected `theta_init` to be a square symmetric matrix of side length {p}, but is not."
             )
 
-        theta_init_support = np.transpose(np.nonzero(theta_init * np.tri(p, k=-1).T), dtype=np.uint32)
+        theta_init_support = np.transpose(np.nonzero(theta_init * np.tri(p, k=-1).T))
 
     if scale_x:
         y = x / np.sqrt(n)

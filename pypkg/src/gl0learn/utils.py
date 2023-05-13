@@ -118,7 +118,7 @@ def check_make_valid_coordinate_matrix(
             f"matrix and is lexicographically sorted, but got {x}"
         )
 
-    return x.astype(np.uint64)
+    return x
 
 
 def triu_nnz_indicies(
