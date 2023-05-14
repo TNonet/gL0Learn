@@ -16,7 +16,7 @@ repos:
     rev: 4.0.1
     hooks:
     - id: flake8
-    - args: ["--config=pypkg/.flake8", "pypkg"]
+      args: ["--config=pypkg/.flake8", "pypkg"]
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
     hooks:
