@@ -16,13 +16,6 @@ repos:
     rev: 4.0.1
     hooks:
     - id: flake8
-      args:
-        - '--max-line-length=121'
-        - '--ignore=C901,W503'
-        - '--per-file-ignores=pypkg/scripts/openblas_support.py:E203'
-        - '--exclude=pypkg/tests/*.py'
-        - 'pypkg/gl0learn/'
-        - 'pypkg/setup.py'
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
     hooks:
