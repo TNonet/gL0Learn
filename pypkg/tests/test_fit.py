@@ -77,7 +77,7 @@ def test_fit_is_reproducible(
         seed=module.seed,
         super_active_set=super_active_set,
         max_active_set_ratio=1.0,
-        tol=tol
+        tol=tol,
     )
 
     fit1 = fit(y, **fit_dict)

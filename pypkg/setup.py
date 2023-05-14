@@ -65,6 +65,7 @@ release = {is_release!s}
             )
         )
 
+
 if __name__ == "__main__":
     write_version_py()
 

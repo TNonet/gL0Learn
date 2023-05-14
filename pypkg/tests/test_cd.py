@@ -69,7 +69,7 @@ def test_cd_example_2(p, module, nnz, algorithm, lXs):
         max_active_set_ratio=1.0,
         active_set=0.0,
         super_active_set=0.0,
-        algorithm=algorithm
+        algorithm=algorithm,
     )
 
     f = make_bisect_func(nnz, Y, **fit_kwargs)
@@ -98,7 +98,7 @@ def test_cd_example_2(p, module, nnz, algorithm, lXs):
         assert cd_indices_set.issuperset(indices_set)
         should_be_zero_indices_set = cd_indices_set - indices_set
 
-        for (i, j) in should_be_zero_indices_set:
+        for i, j in should_be_zero_indices_set:
             assert theta_truth[i, j] == 0
 
     else:
@@ -175,7 +175,7 @@ def test_super_active_set(algorithm, p, module, overlaps, lXs):
         theta_init=theta_init,
         active_set=initial_super_active_set,
         super_active_set=initial_super_active_set,
-        max_active_set_ratio=1.0
+        max_active_set_ratio=1.0,
     )
 
     cd_indices = top_n_triu_indicies_by_abs_value(results.theta, num_selected)
@@ -231,7 +231,7 @@ def test_cd_vs_mosek(n, p, module, overlaps, lXs):
         max_iter=1000,
         super_active_set=0.0,
         max_active_set_ratio=1.0,
-        tol=1e-12
+        tol=1e-12,
     )
 
     MIO_active_set = triu_nnz_indicies(MIO_results.theta_hat)
@@ -296,7 +296,7 @@ def test_cd_keeps_mio_results(max_iter, algorithm, n, p, module, overlaps, lXs):
         algorithm=algorithm,
         active_set=0.0,
         super_active_set=0.0,
-        max_active_set_ratio=1.0
+        max_active_set_ratio=1.0,
     )
 
     try:
@@ -358,7 +358,7 @@ def test_cd_learns_mio_results_from_support(algorithm, n, p, module, overlaps, l
         algorithm=algorithm,
         active_set=active_set,
         super_active_set=active_set,
-        max_active_set_ratio=1.0
+        max_active_set_ratio=1.0,
     )
 
     penalty = Penalty(**lXs)
