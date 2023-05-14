@@ -1,7 +1,7 @@
 import warnings
 import numpy as np
 import pytest
-from hypothesis import given, settings, assume, note
+from hypothesis import given, settings, assume
 from hypothesis.strategies import integers, random_module, just, floats
 
 from gl0learn.synthetic import preprocess

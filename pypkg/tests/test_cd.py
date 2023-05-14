@@ -7,7 +7,7 @@ import pytest
 from gl0learn import fit, synthetic, Penalty
 from gl0learn.metrics import nonzeros, pseudo_likelihood_loss
 from gl0learn.utils import triu_nnz_indicies
-from hypothesis import given, settings, assume, HealthCheck, note
+from hypothesis import given, settings, assume, HealthCheck
 from hypothesis.strategies import just, booleans, floats, integers, random_module
 from conftest import MAX_OVERLAPS
 
