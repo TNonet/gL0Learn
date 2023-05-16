@@ -9,7 +9,7 @@ from hypothesis.strategies import composite
 
 def is_mosek_installed() -> bool:
     try:
-        import mosek
+        import mosek  # noqa: F401
     except ModuleNotFoundError:
         return False
     else:
@@ -18,7 +18,7 @@ def is_mosek_installed() -> bool:
 
 def is_scipy_installed() -> bool:
     try:
-        import scipy
+        import scipy  # noqa: F401
     except ModuleNotFoundError:
         return False
     else:
@@ -39,7 +39,7 @@ def top_n_triu_indicies_by_abs_value(x, n):
 
     p, p1 = x.shape
     if p != p1:
-        raise ValueError(f"x is not a square matrix")
+        raise ValueError("x is not a square matrix")
 
     if n > p * (p - 1) // 2:
         raise ValueError(f"n is to large for a {p} by {p} matrix")

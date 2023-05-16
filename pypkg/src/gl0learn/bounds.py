@@ -14,6 +14,7 @@ class Bounds:
 
     Bounds are used to apply limits on the acceptable value of the learned covariance matrix
     """
+
     def __init__(
         self,
         lows: Optional[Union[float, npt.NDArray[FLOAT_TYPE]]] = None,

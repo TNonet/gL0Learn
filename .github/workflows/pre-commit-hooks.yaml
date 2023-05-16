@@ -9,12 +9,12 @@ name: pre-commit
 
 jobs:
   pre-commit:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
     - name: Install CXX tools
       run: |
-        brew install llvm uncrustify cppcheck include-what-you-use
+        sudo apt-get install llvm uncrustify cppcheck
         pip install cpplint
     - uses: pre-commit/action@v3.0.0

@@ -1,7 +1,7 @@
 import warnings
 import numpy as np
 import pytest
-from hypothesis import given, settings, assume, note
+from hypothesis import given, settings, assume
 from hypothesis.strategies import integers, random_module, just, floats
 
 from gl0learn.synthetic import preprocess
@@ -44,7 +44,6 @@ def test_init_levels(p, module, lXs):
     except mosek.MosekException:
         assume(False)
     else:
-
         theta_tril, z, s, t, lg, residuals = mosek_level_values(
             theta=results.theta_hat, Y=Y, int_tol=int_tol
         )

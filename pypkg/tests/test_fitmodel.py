@@ -5,8 +5,6 @@ from hypothesis import given
 from hypothesis.strategies import lists, floats, integers
 from hypothesis.extra import numpy as npst
 
-from utils import numpy_as_fortran
-
 
 @given(
     theta=npst.arrays(

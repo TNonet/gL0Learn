@@ -90,7 +90,7 @@ def generate_banded_partial_correlation(n, p, rho=0, normalize="precision", rng=
     k = [np.full(p - 1, rho), np.ones(p), np.full(p - 1, rho)]
     offset = [-1, 0, 1]
     Theta = np.zeros([p, p])
-    for (v, diag) in zip(k, offset):
+    for v, diag in zip(k, offset):
         np.fill_diagonal(Theta, v, diag)
 
     Sigma = np.linalg.inv(Theta)

@@ -49,7 +49,6 @@ class Penalty:
         l2: Optional[Union[float, npt.NDArray[FLOAT_TYPE]]] = None,
         validate: bool = True,
     ):
-
         penalty_values = [l0]
         penalty_names = ["l0"]
         if l1 is not None:
