@@ -1,6 +1,21 @@
 name: R CI
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ main ]
+    paths:
+      - "rpkg/**"
+      - '.github/workflows/R.yml'
+
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "rpkg/**"
+      - '.github/workflows/R.yml'
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
