@@ -87,12 +87,13 @@ benchmark(gL0Learn.gfit(Y, theta_init, l0 = 0.14, lows = -100, highs = 100), rep
 
 
 ```{r}
-benchmark(gL0Learn.gfit(Y,
-  theta_init,
-  l0 = 0.14,
-  lows = -100 * matrix(1, p, p),
-  highs = 100 * matrix(1, p, p)
-),
-replications = 100
+benchmark(
+  gL0Learn.gfit(Y,
+    theta_init,
+    l0 = 0.14,
+    lows = -100 * matrix(1, p, p),
+    highs = 100 * matrix(1, p, p)
+  ),
+  replications = 100
 )
 ```
