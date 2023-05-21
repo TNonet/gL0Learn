@@ -274,7 +274,7 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
   static_cast<void>(this->fit());
   const arma::uword p = this->Y.n_cols;
 
-  for (size_t i = 0; i < this->params.max_swaps; i++) {
+  for (std::size_t i = 0; i < this->params.max_swaps; i++) {
     UserInterrupt();
 
     arma::uvec feature_order;

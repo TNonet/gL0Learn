@@ -56,7 +56,7 @@ coordinate_vector inline union_of_correlated_features(
    *
    */
   const arma::vec s_diag = arma::sum(arma::square(x), 0);
-  const auto p = x.n_cols;
+  const arma::uword p = x.n_cols;
   coordinate_vector active_set = coordinate_vector();
   active_set.reserve(p * (p - 1));
 
