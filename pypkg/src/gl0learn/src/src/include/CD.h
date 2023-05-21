@@ -262,7 +262,7 @@ void CD<TY, TR, TT, TP>::inner_fit() {
     this->R.col(j) += (new_theta - old_theta_ij) * this->Y.col(i);
   }
 
-  for (auto i = 0; i < p; i++) {
+  for (std::size_t i = 0; i < p; i++) {
     // Usually at least 1 item per column, so we always update every diagonal
     this->update_diag(i);
   }
@@ -274,7 +274,7 @@ fitmodel CD<TY, TR, TT, TP>::fitpsi() {
   static_cast<void>(this->fit());
   const arma::uword p = this->Y.n_cols;
 
-  for (auto i = 0; i < this->params.max_swaps; i++) {
+  for (size_t i = 0; i < this->params.max_swaps; i++) {
     UserInterrupt();
 
     arma::uvec feature_order;

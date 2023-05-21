@@ -18,9 +18,9 @@ double inline residual_cost(const arma::mat &theta, const arma::mat &R) {
   auto theta_diag = arma::vec(theta.diag());
   double cost = -arma::sum(arma::log(theta_diag));
 
-  const auto p = R.n_cols;
+  const arma::uword p = R.n_cols;
   // TODO(TNonet): Rewrite this as sum(SQUARE(R).sum(columns)/theta_diag);
-  for (auto i = 0; i < p; i++) {
+  for (arma::uword i = 0; i < p; i++) {
     cost += arma::dot(R.col(i), R.col(i)) / theta_diag[i];
   }
 
