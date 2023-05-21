@@ -56,11 +56,11 @@ coordinate_vector inline union_of_correlated_features(
    *
    */
   const arma::vec s_diag = arma::sum(arma::square(x), 0);
-  const auto p = x.n_cols;
+  const arma::uword p = x.n_cols;
   coordinate_vector active_set = coordinate_vector();
   active_set.reserve(p * (p - 1));
 
-  for (auto i = 0; i < p - 1; ++i) {
+  for (arma::uword i = 0; i < p - 1; ++i) {
     const arma::vec xxt_i = x.cols(i + 1, p - 1).t() * x.col(i) / s_diag[i];
     const arma::uvec highly_correlated_xxt_i_indicies =
         arma::find(arma::abs(xxt_i) > correlation_threshold);
