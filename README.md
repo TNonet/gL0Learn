@@ -12,4 +12,4 @@ Let $\btX=\frac1{\sqrt{n}}\bm X$ and $\bm S\in\R^{p\times p}=\frac1n\bm X^\top\b
 
 Let $\bm\theta_i\in\R^p$ be $i$-th column of $\bm\Theta$, and $\theta_{ij}$ be the $(i,j)$-th element of $\bm\Theta$. Let $\btx_i\in\R^n$ be $i$-th column of $\btX$.
 
-![Alt text](/docs/images/symmetric-pseudo-likelihood-loss-function.png)
+![Alt text](/docs/images/symmetric-pseudo-likelihood-loss-function-with-reguralization.png)
