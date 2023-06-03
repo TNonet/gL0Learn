@@ -7,9 +7,9 @@ Efficient Algorithms for L0 Regularized Graphical Learning
 ## Introduction
 gL0Learn is a highly efficient framework for solving L0-regularized graphical learning probelsm. It can (approximately) solve the following problem where the empirical loss is penalized by combinations of the L0, L1, and L2 norms:
 
-Given the data matrix $\boldsymbol{X} \in \mathbb{R}^{n \times p}$ with each row $\bm x^{(i)}\sim N(0,\bm\Theta^{-1})$. 
-Let $\btX=\frac1{\sqrt{n}}\bm X$ and $\bm S\in\R^{p\times p}=\frac1n\bm X^\top\bm X=\btX^\top\btX$ be the sample covariance matrix.
+Given the data matrix $\boldsymbol{X} \in \mathbb{R}^{n \times p}$ with each row $\boldsymbol{x}^{(i)} \sim N(0,\boldsymbol{\Theta^{-1}})$. 
+Let $\boldsymbol{Y} = \frac{1}{\sqrt{n}}\boldsymbol{X}$ and $\boldsymbol{S} \in \mathbb{R}^{p \times p }$ such that $\boldsymbol{S} = \frac{1}{n}\boldsymbol{X}^T\boldsymbol{X} = \boldsymbol{Y}^T\boldsymbol{Y}$ be the sample covariance matrix.
 
-Let $\bm\theta_i\in\R^p$ be $i$-th column of $\bm\Theta$, and $\theta_{ij}$ be the $(i,j)$-th element of $\bm\Theta$. Let $\btx_i\in\R^n$ be $i$-th column of $\btX$.
+Let $\theta_i \in \mathbb{R}^p$ be $i$-th column of $\boldsymbol{\Theta}$, and $\theta_{ij}$ be the $(i,j)$-th element of $\boldsymbol{\Theta}$. Let $\boldsymbol{y}_i$ be $i$-th column of $\boldsymbold{X}$.
 
 ![Alt text](/docs/images/symmetric-pseudo-likelihood-loss-function-with-reguralization.png)
