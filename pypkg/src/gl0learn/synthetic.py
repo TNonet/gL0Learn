@@ -49,7 +49,7 @@ def generate_constant_correlation(n, p, rho=0, normalize="precision", rng=None):
     return X, Sigma, Theta
 
 
-def generate_Toeplitz_correlation(n, p, rho=0, normalize="precision", rng=None):
+def generate_toeplitz_correlation(n, p, rho=0, normalize="precision", rng=None):
     assert normalize in {"covariance", "precision"}
     if rng is None:
         rng = np.random
@@ -200,7 +200,7 @@ def generate_synthetic(
         return generate_constant_correlation(n, p, rho, normalize, rng)
     elif model in {"Toeplitz_correlation", "AR1"}:
         rho = kwargs.get("rho", 0.5)
-        return generate_Toeplitz_correlation(n, p, rho, normalize, rng)
+        return generate_toeplitz_correlation(n, p, rho, normalize, rng)
     elif model == "banded_partial_correlation":
         rho = kwargs.get("rho", -0.5)
         return generate_banded_partial_correlation(n, p, rho, normalize, rng)
